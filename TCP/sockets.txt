@@ -1,0 +1,9 @@
+socket module python tutorial - https://realpython.com/python-sockets/
+----------------------------------------------------------------------
+python on windows - https://docs.python.org/3.6/faq/windows.html
+----------------------------------------------------------------------
+sockets explained - http://www.steves-internet-guide.com/tcpip-ports-sockets/
+----------------------------------------------------------------------
+encoding strings in python - https://www.pythoncentral.io/encoding-and-decoding-strings-in-python-3-x/
+----------------------------------------------------------------------
+str vs repr - https://www.geeksforgeeks.org/str-vs-repr-in-python/
