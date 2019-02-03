@@ -7,3 +7,9 @@ sockets explained - http://www.steves-internet-guide.com/tcpip-ports-sockets/
 encoding strings in python - https://www.pythoncentral.io/encoding-and-decoding-strings-in-python-3-x/
 ----------------------------------------------------------------------
 str vs repr - https://www.geeksforgeeks.org/str-vs-repr-in-python/
+----------------------------------------------------------------------
+asyncio tutorial - https://hackernoon.com/asyncio-for-the-working-python-developer-5c468e6e2e8e
+----------------------------------------------------------------------
+concurrency explained - https://blog.risingstack.com/concurrency-and-parallelism-understanding-i-o/
+----------------------------------------------------------------------
+WTF is thread - https://www.youtube.com/watch?v=WYW_zRF-y-I
