@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DDash_Android_Client</string>
+    <string name="fetch_once">fetch once</string>
 </resources>
