@@ -1,3 +1,4 @@
+#This runs on python 3.6.x
 from __future__ import print_function
 import sys
 
@@ -23,16 +24,12 @@ s = psutil.cpu_times()
 print("CPU Times")
 print(s)
 print("\n")
-"""
-This returns a float representing  the current system-wide CPU utilisation as a percentage
-"""
+"""This returns a float representing  the current system-wide CPU utilisation as a percentage"""
 s = psutil.cpu_percent(interval = 0.1,percpu=True)
 print("CPU usage percentage")
 print(s)
 print("\n")
-"""
-Returns the number pf logical CPUs in the system
-"""
+"""Returns the number pf logical CPUs in the system"""
 s = psutil.cpu_count()
 print("CPU count")
 print(s)
@@ -61,10 +58,7 @@ print(s)
 print("\n")
 #########################################################################################
 #DISK
-"""
-Returns disk partitions as a list of name tuples including device, mountpoint, filetype
-
-"""
+"""Returns disk partitions as a list of name tuples including device, mountpoint, filetype"""
 s = psutil.disk_partitions(all=True)
 print("Disk Stuff")
 print(s)
