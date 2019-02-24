@@ -1,28 +1,15 @@
 package com.ddash.android_client;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.BatteryManager;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import com.ddash.android_client.DataFetcher;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EXTRA_DATA = "com.ddash.android_client.EXTRA_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +17,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void fetch(View view) {
-        String model = DataFetcher.getDeviceModel();
+    public void getData(View view) {
+        String model = DataFetcher.getBuild(this).toString();
+
+        Intent intent = new Intent(this, DisplayDataActivity.class);
+        intent.putExtra(EXTRA_DATA, model);
+        startActivity(intent);
     }
 }
