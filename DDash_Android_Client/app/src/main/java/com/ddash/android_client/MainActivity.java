@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.ddash.android_client.DataFetcher;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_DATA = "com.ddash.android_client.EXTRA_DATA";
@@ -20,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public void getData(View view) {
         String build = DataFetcher.getBuild(this).toString();
         String versions = DataFetcher.getAndroidVersionCodes(this).toString();
-        String data = build + "\n\n" + versions;
+        String memory = Arrays.toString(DataFetcher.getMemory(this));
+        String data = build + "\n\n" + versions + "\n\n" + memory;
 
         Intent intent = new Intent(this, DisplayDataActivity.class);
         intent.putExtra(EXTRA_DATA, data);

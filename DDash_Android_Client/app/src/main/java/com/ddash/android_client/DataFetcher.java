@@ -2,6 +2,8 @@ package com.ddash.android_client;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -57,6 +59,18 @@ public class DataFetcher {
 
     public static HashMap<String, Object> getSystem(Activity activity) {
         return new HashMap<String, Object>();
+    }
+
+    public static long[] getMemory(Context context) {
+        ActivityManager.MemoryInfo meminfo = new ActivityManager.MemoryInfo();
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        manager.getMemoryInfo(meminfo);
+        long[] memorystats = new long[2];
+        memorystats[0] = meminfo.availMem;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            memorystats[1] = meminfo.totalMem;
+        }
+        return memorystats;
     }
 }
 
