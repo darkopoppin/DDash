@@ -18,10 +18,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(View view) {
-        String model = DataFetcher.getBuild(this).toString();
+        String build = DataFetcher.getBuild(this).toString();
+        String versions = DataFetcher.getAndroidVersionCodes(this).toString();
+        String data = build + "\n\n" + versions;
 
         Intent intent = new Intent(this, DisplayDataActivity.class);
-        intent.putExtra(EXTRA_DATA, model);
+        intent.putExtra(EXTRA_DATA, data);
         startActivity(intent);
     }
 }
