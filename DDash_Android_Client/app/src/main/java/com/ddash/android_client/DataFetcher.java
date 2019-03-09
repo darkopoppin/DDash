@@ -61,14 +61,14 @@ public class DataFetcher {
         return new HashMap<String, Object>();
     }
 
-    public static long[] getMemory(Context context) {
+    public static HashMap<String, Object> getMemory(Context context) {
         ActivityManager.MemoryInfo meminfo = new ActivityManager.MemoryInfo();
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         manager.getMemoryInfo(meminfo);
-        long[] memorystats = new long[2];
-        memorystats[0] = meminfo.availMem;
+        HashMap<String, Object> memorystats = new HashMap<>();
+        memorystats.put("available memory", meminfo.availMem);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            memorystats[1] = meminfo.totalMem;
+            memorystats.put("total memory", meminfo.totalMem);
         }
         return memorystats;
     }

@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ddash.android_client.DataFetcher;
-
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,13 +20,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(View view) {
-        String build = DataFetcher.getBuild(this).toString();
-        String versions = DataFetcher.getAndroidVersionCodes(this).toString();
-        String memory = Arrays.toString(DataFetcher.getMemory(this));
-        String data = build + "\n\n" + versions + "\n\n" + memory;
+        Map<String, Object> build = DataFetcher.getBuild(this);
+        Map<String, Object> versions = DataFetcher.getAndroidVersionCodes(this);
+        Map<String, Object> memory = DataFetcher.getMemory(this);
+        Data data = new Data();
+        data.putAll(build);
+        data.putAll(versions);
+        data.putAll(memory);
+        String data_str = data.toString();
 
         Intent intent = new Intent(this, DisplayDataActivity.class);
-        intent.putExtra(EXTRA_DATA, data);
+        intent.putExtra(EXTRA_DATA, data_str);
         startActivity(intent);
     }
 }
