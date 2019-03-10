@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
         data.putAll(build);
         data.putAll(versions);
         data.putAll(memory);
-        String data_str = data.toString();
+//        String data_str = data.toString();
+
+        Gson gson = new Gson();
+        String data_str = gson.toJson(data);
 
         Intent intent = new Intent(this, DisplayDataActivity.class);
         intent.putExtra(EXTRA_DATA, data_str);

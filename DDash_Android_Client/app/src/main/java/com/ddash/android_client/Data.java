@@ -8,8 +8,8 @@ public class Data extends HashMap<String, Object> {
 
     @Override
     public String toString() {
-        String sep = "\n";
-        StringBuilder sb = new StringBuilder();
+        String sep = "\n\n";
+        StringBuffer sb = new StringBuffer();
         Iterator iter = this.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry pair = (Map.Entry) iter.next();
