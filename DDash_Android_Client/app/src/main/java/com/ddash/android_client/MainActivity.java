@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_DATA = "com.ddash.android_client.EXTRA_DATA";
+    public static final String FETCHED_DATA = "com.ddash.android_client.FETCHED_DATA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +22,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(View view) {
-        Map<String, Object> build = DataFetcher.getBuild(this);
-        Map<String, Object> versions = DataFetcher.getAndroidVersionCodes(this);
-        Map<String, Object> memory = DataFetcher.getMemory(this);
-        Data data = new Data();
-        data.putAll(build);
-        data.putAll(versions);
-        data.putAll(memory);
-//        String data_str = data.toString();
-
+        Map<String, Object> data = DataFetcher.get(this);
         Gson gson = new Gson();
-        String data_str = gson.toJson(data);
+        String json_data = gson.toJson(data);
 
         Intent intent = new Intent(this, DisplayDataActivity.class);
-        intent.putExtra(EXTRA_DATA, data_str);
+        intent.putExtra(FETCHED_DATA, json_data);
         startActivity(intent);
     }
 }

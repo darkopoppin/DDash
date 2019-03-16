@@ -12,21 +12,31 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DataFetcher {
 
-    public static String build_name = "android.os.Build";
-    public static String build_version_name = "android.os.Build$VERSION";
-    public static String build_version_codes = "android.os.Build$VERSION_CODES";
 
-    public static HashMap<String, Object> getBuild(Activity activity) {
-        Introspective build_introspective = new Introspective(build_name);
-        HashMap<String, Object> build_fields = build_introspective.getFields();
+    public static Map<String, Object> get(Activity activity) {
+        Map<String, Object> build = getBuild(activity);
+        Map<String, Object> versions = getAndroidVersionCodes(activity);
+        Map<String, Object> memory = getMemory(activity);
 
-        Introspective build_version_introspective = new Introspective(build_version_name);
-        HashMap<String, Object> build_version_fields = build_version_introspective.getFields();
+        Map<String, Object> data = new HashMap<>();
+        data.put("build", build);
+        data.put("versions", versions);
+        data.put("memory", memory);
+        return data;
+    }
 
-        HashMap<String, Object> build_methods = new HashMap<>();
+    public static Map<String, Object> getBuild(Activity activity) {
+        Introspective build_introspective = new Introspective("android.os.Build");
+        Map<String, Object> build_fields = build_introspective.getFields();
+
+        Introspective build_version_introspective = new Introspective("android.os.Build$VERSION");
+        Map<String, Object> build_version_fields = build_version_introspective.getFields();
+
+        Map<String, Object> build_methods = new HashMap<>();
         build_methods.put("getRadioVersion", Build.getRadioVersion());
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -45,31 +55,31 @@ public class DataFetcher {
                 e.printStackTrace();
             }
         }
-
-        HashMap<String, Object> build_info = new HashMap<>(build_fields);
+        Map<String, Object> build_info = new HashMap<>(build_fields);
         build_info.putAll(build_methods);
         build_info.putAll(build_version_fields);
         return build_info;
     }
 
-    public static HashMap<String, Object> getAndroidVersionCodes(Activity activity) {
-        Introspective build_version_codes_introspective = new Introspective(build_version_codes);
+    public static Map<String, Object> getAndroidVersionCodes(Activity activity) {
+        Introspective build_version_codes_introspective = new Introspective("android.os.Build$VERSION_CODES");
         return build_version_codes_introspective.getFields();
     }
 
-    public static HashMap<String, Object> getSystem(Activity activity) {
+    public static Map<String, Object> getSystem(Activity activity) {
         return new HashMap<String, Object>();
     }
 
-    public static HashMap<String, Object> getMemory(Context context) {
+    public static Map<String, Object> getMemory(Context context) {
         ActivityManager.MemoryInfo meminfo = new ActivityManager.MemoryInfo();
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         manager.getMemoryInfo(meminfo);
-        HashMap<String, Object> memorystats = new HashMap<>();
-        memorystats.put("available memory", meminfo.availMem);
+        Map<String, Object> memorystats = new HashMap<>();
+        memorystats.put("availMem", meminfo.availMem);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            memorystats.put("total memory", meminfo.totalMem);
+            memorystats.put("totalMem", meminfo.totalMem);
         }
+        // TODO: Get key for hashmap automatically from the method name (use reflection)
         return memorystats;
     }
 }
