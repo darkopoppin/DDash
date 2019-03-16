@@ -24,11 +24,17 @@ s = psutil.cpu_times()
 print("CPU Times")
 print(s)
 print("\n")
+
+
+
 """This returns a float representing  the current system-wide CPU utilisation as a percentage"""
 s = psutil.cpu_percent(interval = 0.1,percpu=True)
 print("CPU usage percentage")
 print(s)
 print("\n")
+
+
+
 """Returns the number pf logical CPUs in the system"""
 s = psutil.cpu_count()
 print("CPU count")
@@ -56,6 +62,9 @@ s = psutil.virtual_memory()
 print("Memory")
 print(s)
 print("\n")
+
+
+
 #########################################################################################
 #DISK
 """Returns disk partitions as a list of name tuples including device, mountpoint, filetype"""
@@ -63,6 +72,9 @@ s = psutil.disk_partitions(all=True)
 print("Disk Stuff")
 print(s)
 print("\n")
+
+
+
 """
 Returns the disk usage statistics about the partiton which contains the given path as a named tuple
 bytes again btw
@@ -75,6 +87,9 @@ s = psutil.disk_usage('/')
 print("Disk usage")
 print(s)
 print("\n")
+   
+
+
    
 """
 disk io counter
