@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(View view) {
-        Map<String, Object> data = DataFetcher.get(this);
+        GroupMap[] data = DataFetcher.get(this);
         Gson gson = new Gson();
-        String json_data = gson.toJson(data);
+        String jsonData = gson.toJson(data);
 
         Intent intent = new Intent(this, DisplayDataActivity.class);
-        intent.putExtra(FETCHED_DATA, json_data);
+        intent.putExtra(FETCHED_DATA, jsonData);
         startActivity(intent);
     }
 }

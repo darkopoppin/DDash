@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,18 +31,27 @@ public class DisplayDataActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String jsonIn = intent.getStringExtra(MainActivity.FETCHED_DATA);
         Gson gson = new Gson();
-        Type typeOfMap = new TypeToken<TreeMap<String, Object>>(){}.getType();
-        Map<String, Object> data = gson.fromJson(jsonIn, typeOfMap);
+//        Type targetType = new TypeToken<List<?>>(){}.getType();
+//        GroupMapList data = gson.fromJson(jsonIn, GroupMapList.class);
+
 //        String[] dataArr = {"test", "works?", "hello 3"};
-        String[] dataArr = toArray(data, "=");
+//        String[] dataArr = toArray(data, "=");
 //        Arrays.sort(dataArr);
+//        String[] dataArr = data.forEach((k, v) -> {k + "=" + v.toString()});
 
-        ArrayAdapter arrAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dataArr);
-        ListView listView = findViewById(R.id.list_view);
-        listView.setAdapter(arrAdapter);
+//        ArrayAdapter arrAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dataArr);
+//        ListView listView = findViewById(R.id.list_view);
+//        listView.setAdapter(arrAdapter);
 
-//        TextView textView = findViewById(R.id.textView);
-//        textView.setText(data.toString());
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(jsonIn);
+
+//        SimpleExpandableListAdapter groupAdapter = new SimpleExpandableListAdapter(this, groups,
+//                android.R.layout.simple_expandable_list_item_1
+//        );
+
+//        ExpandableListView groupAdapterView = findViewById(R.id.groupView);
+//        groupAdapterView.setAdapter(groupAdapter);
     }
 
     public static String[] toArray(Map<String, Object> map, String sep) {

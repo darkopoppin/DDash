@@ -11,25 +11,24 @@ import android.support.v4.app.ActivityCompat;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.acl.Group;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataFetcher {
 
 
-    public static Map<String, Object> get(Activity activity) {
-        Map<String, Object> build = getBuild(activity);
-        Map<String, Object> versions = getAndroidVersionCodes(activity);
-        Map<String, Object> memory = getMemory(activity);
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("build", build);
-        data.put("versions", versions);
-        data.put("memory", memory);
+    public static GroupMapList get(Activity activity) {
+        GroupMapList data = new GroupMapList();
+        data.add(getBuild(activity));
+        data.add(getAndroidVersionCodes(activity));
+        data.add(getMemory(activity));
         return data;
     }
 
-    public static Map<String, Object> getBuild(Activity activity) {
+    public static GroupMap getBuild(Activity activity) {
+        GroupMap build = new GroupMap("build");
+
         Introspective build_introspective = new Introspective("android.os.Build");
         Map<String, Object> build_fields = build_introspective.getFields();
 
@@ -55,32 +54,37 @@ public class DataFetcher {
                 e.printStackTrace();
             }
         }
-        Map<String, Object> build_info = new HashMap<>(build_fields);
-        build_info.putAll(build_methods);
-        build_info.putAll(build_version_fields);
-        return build_info;
+
+        build.putAll(build_fields);
+        build.putAll(build_methods);
+        build.putAll(build_version_fields);
+        return build;
     }
 
-    public static Map<String, Object> getAndroidVersionCodes(Activity activity) {
+    public static GroupMap getAndroidVersionCodes(Activity activity) {
+        GroupMap versions = new GroupMap("versions");
         Introspective build_version_codes_introspective = new Introspective("android.os.Build$VERSION_CODES");
-        return build_version_codes_introspective.getFields();
+        versions.putAll(build_version_codes_introspective.getFields());
+        return versions;
+    }
+
+    public static GroupMap getMemory(Context context) {
+        GroupMap memory = new GroupMap("memory");
+
+        ActivityManager.MemoryInfo meminfo = new ActivityManager.MemoryInfo();
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        manager.getMemoryInfo(meminfo);
+
+        memory.put("availmemoryMem", meminfo.availMem);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            memory.put("totalMem", meminfo.totalMem);
+        }
+        // TODO: Get key for hashmap automatically from the method name (use reflection)
+        return memory;
     }
 
     public static Map<String, Object> getSystem(Activity activity) {
         return new HashMap<String, Object>();
-    }
-
-    public static Map<String, Object> getMemory(Context context) {
-        ActivityManager.MemoryInfo meminfo = new ActivityManager.MemoryInfo();
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        manager.getMemoryInfo(meminfo);
-        Map<String, Object> memorystats = new HashMap<>();
-        memorystats.put("availMem", meminfo.availMem);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            memorystats.put("totalMem", meminfo.totalMem);
-        }
-        // TODO: Get key for hashmap automatically from the method name (use reflection)
-        return memorystats;
     }
 }
 
