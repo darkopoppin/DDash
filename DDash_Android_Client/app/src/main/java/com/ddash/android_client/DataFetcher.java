@@ -12,8 +12,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.acl.Group;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class DataFetcher {
 
@@ -23,6 +25,7 @@ public class DataFetcher {
         data.add(getBuild(activity));
         data.add(getAndroidVersionCodes(activity));
         data.add(getMemory(activity));
+        data.add(getSystem(activity));
         return data;
     }
 
@@ -83,8 +86,25 @@ public class DataFetcher {
         return memory;
     }
 
-    public static Map<String, Object> getSystem(Activity activity) {
-        return new HashMap<String, Object>();
+    public static GroupMap getSystem(Activity activity) {
+        GroupMap map = new GroupMap("system");
+        map.put("currentTimeMillis", System.currentTimeMillis());
+        map.put("nanoTime", System.nanoTime());
+
+        Properties propsObj = System.getProperties();
+        Enumeration<?> propKeys = propsObj.propertyNames();
+        Map<String, String> properties = new HashMap<>();
+        for (; propKeys.hasMoreElements(); ) {
+            String key = (String) propKeys.nextElement();
+            String val = propsObj.getProperty(key);
+            properties.put(key, val);
+        }
+        map.put("properties", properties);
+
+        Map<String, String> env = System.getenv();
+        map.put("env", env);
+
+        return map;
     }
 }
 

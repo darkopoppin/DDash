@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(View view) {
-        GroupMap[] data = DataFetcher.get(this);
+        GroupMapList data = DataFetcher.get(this);
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
 

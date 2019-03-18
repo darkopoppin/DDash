@@ -31,38 +31,28 @@ public class DisplayDataActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String jsonIn = intent.getStringExtra(MainActivity.FETCHED_DATA);
         Gson gson = new Gson();
+
 //        Type targetType = new TypeToken<List<?>>(){}.getType();
-//        GroupMapList data = gson.fromJson(jsonIn, GroupMapList.class);
-
-//        String[] dataArr = {"test", "works?", "hello 3"};
-//        String[] dataArr = toArray(data, "=");
-//        Arrays.sort(dataArr);
-//        String[] dataArr = data.forEach((k, v) -> {k + "=" + v.toString()});
-
-//        ArrayAdapter arrAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dataArr);
-//        ListView listView = findViewById(R.id.list_view);
-//        listView.setAdapter(arrAdapter);
+        GroupMapList data = gson.fromJson(jsonIn, GroupMapList.class);
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(jsonIn);
 
+
+//        String[] dataArr = {"test", "works?", "hello 3"};
+//        String[] dataArr = toArray(data, "=");
+//        Arrays.sort(dataArr);
+//        String[] dataArr = data.toFlatStringArray(" = ");
+//        ArrayAdapter arrAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dataArr);
+//        ListView listView = findViewById(R.id.list_view);
+//        listView.setAdapter(arrAdapter);
+
+
 //        SimpleExpandableListAdapter groupAdapter = new SimpleExpandableListAdapter(this, groups,
 //                android.R.layout.simple_expandable_list_item_1
 //        );
-
 //        ExpandableListView groupAdapterView = findViewById(R.id.groupView);
 //        groupAdapterView.setAdapter(groupAdapter);
     }
 
-    public static String[] toArray(Map<String, Object> map, String sep) {
-        String[] arr = new String[map.size()];
-        int i = 0;
-        Iterator<Map.Entry<String, Object>> iter = map.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String, Object> entry = iter.next();
-            arr[i] = entry.getKey() + sep + entry.getValue().toString();
-            i += 1;
-        }
-        return arr;
-    }
 }
