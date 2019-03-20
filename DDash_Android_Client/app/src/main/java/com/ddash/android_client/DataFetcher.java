@@ -7,7 +7,14 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOError;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,6 +33,7 @@ public class DataFetcher {
         data.add(getAndroidVersionCodes(activity));
         data.add(getMemory(activity));
         data.add(getSystem(activity));
+        data.add(getCpu());
         return data;
     }
 
@@ -104,6 +112,43 @@ public class DataFetcher {
         Map<String, String> env = System.getenv();
         map.put("env", env);
 
+        return map;
+    }
+
+    public static GroupMap getCpu() {
+        GroupMap map =  new GroupMap("cpu");
+        String filename = "proc/cpuinfo";
+        String sep = "\n";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            StringBuffer sb = new StringBuffer();
+            try {
+                String line = br.readLine();
+                while (line != null) {
+                    try {
+                        sb.append(line);
+                        sb.append(sep);
+                        line = br.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // OR rb.lines (Java 8)
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            TextUtils.join("\n", sb);
+            String cpuinfo = sb.toString();
+            // TODO properly parse the cpuinfo file instead of just getting all its lines in one string
+            map.put(filename, cpuinfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return map;
     }
 }
