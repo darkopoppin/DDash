@@ -31,9 +31,9 @@ public class DataFetcher {
         GroupMapList data = new GroupMapList();
         data.add(getBuild(activity));
         data.add(getAndroidVersionCodes(activity));
-        data.add(getMemory(activity));
         data.add(getSystem(activity));
         data.add(getCpu());
+        data.add(getMemory(activity));
         return data;
     }
 
@@ -86,11 +86,18 @@ public class DataFetcher {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         manager.getMemoryInfo(meminfo);
 
-        memory.put("availmemoryMem", meminfo.availMem);
+        final long BYTES_IN_KB = 0x100000L;
+        long availMemKB = meminfo.availMem / BYTES_IN_KB;
+        memory.put("availMemKB", availMemKB);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            memory.put("totalMem", meminfo.totalMem);
+            long totalMemKB = meminfo.totalMem / BYTES_IN_KB;
+            memory.put("totalMemKB", totalMemKB);
+            // TODO: Do unit conversions on the view side of the app (not here)
         }
         // TODO: Get key for hashmap automatically from the method name (use reflection)
+
+        memory.put("threshold", meminfo.threshold);
+        memory.put("lowMemory", meminfo.lowMemory);
         return memory;
     }
 
