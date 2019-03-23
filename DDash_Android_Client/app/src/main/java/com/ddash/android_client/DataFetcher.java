@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
@@ -34,6 +35,7 @@ public class DataFetcher {
         data.add(getSystem(activity));
         data.add(getCpu());
         data.add(getMemory(activity));
+        data.add(getBattery(activity));
         return data;
     }
 
@@ -155,6 +157,25 @@ public class DataFetcher {
             map.put(filename, cpuinfo);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+        return map;
+    }
+
+    public static GroupMap getBattery(Context context) {
+        GroupMap map = new GroupMap("battery");
+        BatteryManager battery = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            battery = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+            int level = battery.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+            map.put("level", level);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                boolean charging = battery.isCharging();
+                map.put("charging", charging);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                long remainingChargeTime = battery.computeChargeTimeRemaining();
+                map.put("remainingChargeTime", remainingChargeTime);
+            }
         }
         return map;
     }
