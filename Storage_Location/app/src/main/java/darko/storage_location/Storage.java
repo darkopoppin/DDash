@@ -5,18 +5,28 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 //External storage is not always SdCard
 public class Storage {
 
     // contains the path to the internal storage
     private String internal;
+    private File internalFile;
     // contains the path to the SdCard
     private String sdCard;
+    private File sdCardFile;
+
 
     public Storage(File [] dirs){
         internal = getInternalPath(dirs);
+        internalFile = new File(internal);
         sdCard = getSdcardPath(dirs);
+        sdCardFile = new File(sdCard);
+        scanStorage(new File(internal));
         Log.d("myInit", Integer.toString(dirs.length));
     }
 
@@ -24,12 +34,14 @@ public class Storage {
      * Simply gets the free and used space in the Internal storage
      */
     public void getInternalStorage(){
-        StatFs stat = new StatFs(internal);
+        StatFs stat = new StatFs(Environment.getRootDirectory().getAbsolutePath());
+        Log.d("мyInternal", Environment.getRootDirectory().getAbsolutePath());
         long available = stat.getAvailableBytes();
         long total = stat.getTotalBytes();
 
-        Log.d("myInternalFree", Long.toString(available));
-        Log.d("myInternalTotal", Long.toString(total));
+        Log.d("myInternalTotal", Double.toString(convertBytes(total)));
+        Log.d("myInternalFree", Double.toString(convertBytes(available)));
+        Log.d("myInternalUsed", Double.toString(convertBytes(total - available)));
     }
 
     /**
@@ -40,15 +52,16 @@ public class Storage {
         long available = stat.getAvailableBytes();
         long total = stat.getTotalBytes();
 
-        Log.d("myExternalAvailable",Long.toString(available));
-        Log.d("myExternalUsed",Long.toString(total-available));
+        Log.d("mySdCardTotal", Double.toString(convertBytes(total)));
+        Log.d("mySdCardAvailable",Double.toString(convertBytes(available)));
+        Log.d("mySdCardUsed",Double.toString(convertBytes(total-available)));
     }
 
     /**
      * Scans the storage or directory
      * Directory is a File because at line 62 a File object has to be passed again
      */
-    public static void scanStorage(File directory){
+    public void scanStorage(File directory){
         Log.d("myDataPath", directory.getAbsolutePath());
         //lists the subdirectories and files in contents
         File [] contents = directory.listFiles();
@@ -92,10 +105,26 @@ public class Storage {
         File path = dirs[0];
         String [] internal = path.getAbsolutePath().split("/");
         //usually the internal storage is storage/emulated/0. Tested on Pixel, AOSP based ROMs
-        //More to be tested on Samsung, OnePlus, Sony??? ,Huawei???
+        //More to be tested on Samsung, OnePlus, Sony???, Huawei???
         String internalPath = "/" + internal[1] + "/" + internal[2] + "/" + internal[3];
         Log.d("InternalPath", internalPath);
         return internalPath;
+    }
+
+    /**
+     * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
+     * returns double number
+     */
+    public static double convertBytes (long bytes){
+        Log.d("myConvert", Long.toString(bytes));
+        double fBytes = (double) bytes;
+        Log.d("myConvert", Double.toString(fBytes));
+        for(int i = 0; i < 4; i++) {
+            if (fBytes>1000)
+                fBytes = fBytes / 1024;
+            Log.d("myConvert", Double.toString(fBytes));
+        }
+        return fBytes;
     }
 
     /**

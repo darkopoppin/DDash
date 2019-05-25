@@ -30,12 +30,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onStart();
         Storage phoneStorage = new Storage(getApplicationContext().getExternalFilesDirs(null));
 
+        phoneStorage.getInternalStorage();
         //if permission has not been granted, request
         if (checkReadExternalStoragePermission() == -1)
             requestReadExternalStoragePermission();
         //permission is granted
-        else
-            Storage.scanStorage(Environment.getExternalStorageDirectory());
+        //else
+
     }
 
     /**
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             //permission granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Storage.scanStorage(Environment.getExternalStorageDirectory());
+                Files files = new Files()
             }
             //permission denied
             else{
