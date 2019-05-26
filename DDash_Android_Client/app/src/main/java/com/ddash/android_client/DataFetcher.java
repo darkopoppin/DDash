@@ -8,18 +8,14 @@ import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.text.TextUtils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.acl.Group;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +32,9 @@ public class DataFetcher {
         data.add(getCpu());
         data.add(getMemory(activity));
         data.add(getBattery(activity));
+        GroupMap version_info = new GroupMap("_version_info");
+        version_info.put("version_arr", getVersionInfo());
+        data.add(version_info);
         return data;
     }
 
@@ -79,6 +78,37 @@ public class DataFetcher {
         Introspective build_version_codes_introspective = new Introspective("android.os.Build$VERSION_CODES");
         versions.putAll(build_version_codes_introspective.getFields());
         return versions;
+    }
+
+    public static Map<String, Integer> getAndroidVersionCodesMap() {
+        Introspective build_version_codes_introspective = new Introspective("android.os.Build$VERSION_CODES");
+        Map<String, Object> versions = build_version_codes_introspective.getFields();
+        Map<String, Integer> coerced_versions = new HashMap<>();
+        for (Map.Entry<String, Object> entry : versions.entrySet()) {
+            coerced_versions.put(entry.getKey(), (int) entry.getValue());
+        }
+        return coerced_versions;
+    }
+
+    public static String[] getVersionInfo() {
+        // [code name (shortened), release code, SDK version code or the "API level"]
+        // eg: ["O", "8.0.0", "26"]
+        int version_int = Build.VERSION.SDK_INT;
+
+        Map<String, Integer> versionCodes = getAndroidVersionCodesMap();
+        Map<Integer, String> codesToNames = invertMap(versionCodes);
+        String codename = codesToNames.get(version_int);
+
+        String release = Build.VERSION.RELEASE;
+        return new String[]{codename, release, String.valueOf(version_int)};
+    };
+
+    public static <K, V> Map<V, K> invertMap(Map<K, V> m) {
+        Map<V, K> inverted = new HashMap<>();
+        for (Map.Entry<K, V> entry : m.entrySet()) {
+            inverted.put(entry.getValue(), entry.getKey());
+        }
+        return inverted;
     }
 
     public static GroupMap getMemory(Context context) {
