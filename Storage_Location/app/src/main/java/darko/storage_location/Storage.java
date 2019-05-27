@@ -25,8 +25,8 @@ public class Storage {
         internal = getInternalPath(dirs);
         internalFile = new File(internal);
         sdCard = getSdcardPath(dirs);
-        sdCardFile = new File(sdCard);
-        scanStorage(new File(internal));
+        if (sdCard != null)
+            sdCardFile = new File(sdCard);
         Log.d("myInit", Integer.toString(dirs.length));
     }
 
@@ -65,7 +65,7 @@ public class Storage {
         Log.d("myDataPath", directory.getAbsolutePath());
         //lists the subdirectories and files in contents
         File [] contents = directory.listFiles();
-        Log.d("myContents",String.valueOf(contents.length));
+        //Log.d("myContents",String.valueOf(contents.length));
         //open recursively every folder and read every file
         for(File file:contents){
             if(file.isFile())
@@ -130,15 +130,15 @@ public class Storage {
     /**
      * Getter for internal field
      */
-    public String getInternal(){
-        return internal;
+    public File getInternal(){
+        return internalFile;
     }
 
     /**
      *  Getter for sdCard field
      */
-    public String getSdCard(){
-        return sdCard;
+    public File getSdCard(){
+        return sdCardFile;
     }
 
 }
