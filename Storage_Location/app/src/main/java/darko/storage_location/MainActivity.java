@@ -33,14 +33,27 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Storage phoneStorage = new Storage(getApplicationContext().getExternalFilesDirs(null));
 
         phoneStorage.getInternalStorage();
-        Files files;
-        //if permission has not been granted, request
-        if (checkReadExternalStoragePermission() == 0)
-                files = new Files(phoneStorage.getInternal(), phoneStorage.getSdCard());
-        else
-                files = new Files(phoneStorage.getInternal(), null);
-        files.getSdCardFiles();
+        Thread internal = new ScanStorage(phoneStorage.getInternal());
+        Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
+
+
+        //if permission has been granted
+        if (checkReadExternalStoragePermission() == 0) {
+            internal.start();
+            sdCard.start();
+            try {
+                sdCard.join();
+            }
+            catch (InterruptedException e){
+
+            }
+            ((ScanStorage) sdCard).printFiles();
+        }//if permission is not granted
+        else {
+            requestReadExternalStoragePermission();
         }
+    }
+
 
     /**
      * called at the start of mainActivity
