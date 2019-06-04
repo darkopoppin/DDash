@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         
         googlePlayServices = checkPlayServices();
         if (googlePlayServices == true) {
-            darko.storage_location.MyLocation myLocation = new darko.storage_location.MyLocation(MainActivity.this);
+            MyLocation myLocation = new MyLocation(MainActivity.this);
             LocationRequest locationRequest = myLocation.createLocationRequest();
             myLocation.checkLocationSettings(getApplicationContext());
-            Intent intentTest = new Intent(this, darko.storage_location.MyLocation.class);
+            Intent intentTest = new Intent(this, MyLocation.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_CANCEL_CURRENT);
             if(checkFineLocationPermission() == 0)
@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        Storage phoneStorage = new Storage(getApplicationContext().getExternalFilesDirs(null));
+        Storage phoneStorage = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            phoneStorage = new Storage(getApplicationContext().getExternalFilesDirs(null));
+        }
 
         phoneStorage.getInternalStorage();
         Thread internal = new ScanStorage(phoneStorage.getInternal());

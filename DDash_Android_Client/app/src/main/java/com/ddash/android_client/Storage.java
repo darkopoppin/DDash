@@ -1,4 +1,4 @@
-package darko.storage_location;
+package com.ddash.android_client;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -40,8 +40,14 @@ public class Storage {
     public void getInternalStorage(){
         StatFs stat = new StatFs(Environment.getRootDirectory().getAbsolutePath());
         Log.d("мyInternal", Environment.getRootDirectory().getAbsolutePath());
-        long available = stat.getAvailableBytes();
-        long total = stat.getTotalBytes();
+        long available = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            available = stat.getAvailableBytes();
+        }
+        long total = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            total = stat.getTotalBytes();
+        }
 
         Log.d("myInternalTotal", Double.toString(convertBytes(total)));
         Log.d("myInternalFree", Double.toString(convertBytes(available)));
@@ -53,8 +59,14 @@ public class Storage {
      */
     public void getSdCardStorage(){
         StatFs stat = new StatFs(sdCard);
-        long available = stat.getAvailableBytes();
-        long total = stat.getTotalBytes();
+        long available = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            available = stat.getAvailableBytes();
+        }
+        long total = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            total = stat.getTotalBytes();
+        }
 
         Log.d("mySdCardTotal", Double.toString(convertBytes(total)));
         Log.d("mySdCardAvailable",Double.toString(convertBytes(available)));
