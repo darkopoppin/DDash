@@ -30,7 +30,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
     public static final String FETCHED_DATA = "com.ddash.android_client.FETCHED_DATA";
     private final int READ_STORAGE_PERMISSION_REQUEST_CODE = 0;
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             internal.start();
         }
     }
+
 
     public void getData(View view) {
         GroupMapList data = DataFetcher.get(this);
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         // checks if sdk >= 23
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             // determines whether the permission is granted
-            return ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE);
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         //sdk < 23
         else
