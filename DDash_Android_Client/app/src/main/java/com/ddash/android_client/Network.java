@@ -1,4 +1,4 @@
-package com.bien.networkdataminer;
+package com.ddash.android_client;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import java.util.ArrayList;
