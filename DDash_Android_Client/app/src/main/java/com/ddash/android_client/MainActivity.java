@@ -1,8 +1,18 @@
 package com.ddash.android_client;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -36,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         
         googlePlayServices = checkPlayServices();
         if (googlePlayServices == true) {
-            MyLocation myLocation = new MyLocation(MainActivity.this);
+            darko.storage_location.MyLocation myLocation = new darko.storage_location.MyLocation(MainActivity.this);
             LocationRequest locationRequest = myLocation.createLocationRequest();
             myLocation.checkLocationSettings(getApplicationContext());
-            Intent intentTest = new Intent(this, MyLocation.class);
+            Intent intentTest = new Intent(this, darko.storage_location.MyLocation.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_CANCEL_CURRENT);
             if(checkFineLocationPermission() == 0)
@@ -78,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
             internal.start();
         }
     }
-    
-    }
 
     public void getData(View view) {
         GroupMapList data = DataFetcher.get(this);
@@ -106,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
         }
-    };
+    }
 
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
