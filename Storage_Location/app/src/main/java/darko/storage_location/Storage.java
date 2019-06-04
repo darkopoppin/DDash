@@ -1,8 +1,11 @@
 package darko.storage_location;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import java.io.File;
 import java.lang.reflect.Array;
@@ -58,25 +61,6 @@ public class Storage {
     }
 
     /**
-     * Scans the storage or directory
-     * Directory is a File because at line 62 a File object has to be passed again
-     */
-    public void scanStorage(File directory){
-        Log.d("myDataPath", directory.getAbsolutePath());
-        //lists the subdirectories and files in contents
-        File [] contents = directory.listFiles();
-        //Log.d("myContents",String.valueOf(contents.length));
-        //open recursively every folder and read every file
-        for(File file:contents){
-            if(file.isFile())
-                Log.d("myFile",file.getName());
-            else
-                scanStorage(file);
-
-        }
-    }
-
-    /**
      * Gets the path of the sdCard if there is one
      * dirs is a list of mounted external storages
      * returns the path as a string
@@ -112,6 +96,7 @@ public class Storage {
     }
 
     /**
+     * Move to util class
      * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
      * returns double number
      */
@@ -126,7 +111,21 @@ public class Storage {
         }
         return fBytes;
     }
-
+    /**
+     * called at the start of mainActivity
+     * checks for read storage permissions if sdk >= 23
+     * return -1 (denied), 0 (granted), 1(sdk < 23 or marshmallow)
+     */
+    public static int checkReadExternalStoragePermission(){
+        // checks if sdk >= 23
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            // determines whether the permission is granted
+            return ContextCompat.checkSelfPermission(MyApplication.getAppContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        //sdk < 23
+        else
+            return 1;
+    }
     /**
      * Getter for internal field
      */
