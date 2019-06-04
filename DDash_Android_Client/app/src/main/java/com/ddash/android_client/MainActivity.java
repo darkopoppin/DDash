@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         
         googlePlayServices = checkPlayServices();
         if (googlePlayServices == true) {
-            MyLocation myLocation = new MyLocation(MainActivity.this);
+            darko.storage_location.MyLocation myLocation = new darko.storage_location.MyLocation(MainActivity.this);
             LocationRequest locationRequest = myLocation.createLocationRequest();
             myLocation.checkLocationSettings(getApplicationContext());
-            Intent intentTest = new Intent(this, MyLocation.class);
+            Intent intentTest = new Intent(this, darko.storage_location.MyLocation.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_CANCEL_CURRENT);
             if(checkFineLocationPermission() == 0)
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 }
                 break;
         }
-    };
+    }
 
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
