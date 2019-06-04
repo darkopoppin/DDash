@@ -46,7 +46,13 @@
     <last-search-timestamp>1558707045306</last-search-timestamp>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b19191d0-ea51-49de-a3e8-6a53fc993af4" name="Default" comment="" />
+    <list default="true" id="b19191d0-ea51-49de-a3e8-6a53fc993af4" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MyLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MyLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/ScanStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/ScanStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,12 +77,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+            <state relative-caret-position="-1968">
+              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
               <folding>
-                <element signature="e#4830#5298#0" expanded="true" />
-                <element signature="e#5297#5298#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="429">
+              <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -141,7 +155,6 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
@@ -169,6 +182,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -395,6 +409,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1536" height="864" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1738255" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -408,12 +423,12 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936507" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32671958" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.31746033" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.31746033" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936507" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49785176" weight="0.28400597" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.32804233" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49785176" visible="true" weight="0.28306878" />
+      <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" weight="0.32804233" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50201344" side_tool="true" weight="0.3425926" />
       <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.49798658" weight="0.3781764" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32911393" />
@@ -619,13 +634,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/Location.java" />
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="29" column="73" selection-start-line="29" selection-start-column="73" selection-end-line="29" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="android-designer2" />
@@ -718,18 +726,6 @@
       </provider>
       <provider editor-type-id="android-manifest" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/MyApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#343#344#0" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/Storage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
@@ -751,13 +747,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/MyApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#343#344#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        <state relative-caret-position="-1968">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
-            <element signature="e#4830#5298#0" expanded="true" />
-            <element signature="e#5297#5298#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

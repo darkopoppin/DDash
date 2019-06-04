@@ -1,4 +1,4 @@
-package darko.storage_location;
+package com.ddash.android_client;
 
 import android.util.Log;
 
