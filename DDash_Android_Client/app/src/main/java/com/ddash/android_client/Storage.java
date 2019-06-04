@@ -38,8 +38,8 @@ public class Storage {
      * Simply gets the free and used space in the Internal storage
      */
     public void getInternalStorage(){
-        StatFs stat = new StatFs(Environment.getRootDirectory().getAbsolutePath());
-        Log.d("мyInternal", Environment.getRootDirectory().getAbsolutePath());
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
+        Log.d("myInternal", Environment.getExternalStorageDirectory().getAbsolutePath());
         long available = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             available = stat.getAvailableBytes();
