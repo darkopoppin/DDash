@@ -47,10 +47,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b19191d0-ea51-49de-a3e8-6a53fc993af4" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/MyApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MyLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/MyLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/ScanStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/ScanStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DDash_Android_Client/app/src/main/java/com/ddash/android_client/Storage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -142,7 +140,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="140" />
     <option name="y" value="-20" />
     <option name="width" value="1400" />
@@ -408,8 +406,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1536" height="864" extended-state="6" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1738255" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -427,7 +424,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936507" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49785176" visible="true" weight="0.28306878" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49785176" visible="true" weight="0.31988043" />
       <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" weight="0.32804233" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50201344" side_tool="true" weight="0.3425926" />
       <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.49798658" weight="0.3781764" />
