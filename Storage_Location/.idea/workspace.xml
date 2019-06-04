@@ -46,12 +46,7 @@
     <last-search-timestamp>1558707045306</last-search-timestamp>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b19191d0-ea51-49de-a3e8-6a53fc993af4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/darko/storage_location/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/darko/storage_location/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/darko/storage_location/MyLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/darko/storage_location/MyLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/darko/storage_location/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/darko/storage_location/Storage.java" afterDir="false" />
-    </list>
+    <list default="true" id="b19191d0-ea51-49de-a3e8-6a53fc993af4" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="96">
-              <caret line="96" column="13" lean-forward="true" selection-start-line="96" selection-start-column="13" selection-end-line="96" selection-end-column="13" />
+              <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
               <folding>
                 <element signature="e#4830#5298#0" expanded="true" />
                 <element signature="e#5297#5298#0" expanded="true" />
@@ -165,6 +160,10 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="storage_location" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Storage_Location" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
@@ -396,7 +395,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1536" height="864" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1738255" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -756,7 +754,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/darko/storage_location/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
-          <caret line="96" column="13" lean-forward="true" selection-start-line="96" selection-start-column="13" selection-end-line="96" selection-end-column="13" />
+          <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
           <folding>
             <element signature="e#4830#5298#0" expanded="true" />
             <element signature="e#5297#5298#0" expanded="true" />
