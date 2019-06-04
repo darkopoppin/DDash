@@ -58,13 +58,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             Intent intentTest = new Intent(this, MyLocation.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_CANCEL_CURRENT);
-            if(myLocation.checkFineLocationPermission() == PackageManager.PERMISSION_GRANTED)
+            if(checkFineLocationPermission() == 0)
             LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
         }
-        if (Storage.checkReadExternalStoragePermission() == -1)
+        if (checkReadExternalStoragePermission() == -1)
             requestReadExternalStoragePermission();
 
-        if (MyLocation.checkFineLocationPermission() == -1)
+        if (checkFineLocationPermission() == -1)
             requestFineLocationPermission();
     }
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
 
         //if permission has been granted
-        if (Storage.checkReadExternalStoragePermission() == PackageManager.PERMISSION_GRANTED) {
+        if (checkReadExternalStoragePermission() == 0) {
             internal.start();
             sdCard.start();
             try {
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        if(MyLocation.checkFineLocationPermission() == 0) {
+        if(checkFineLocationPermission() == 0) {
             client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
@@ -142,6 +142,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 return false;
         }
         return true;
+    }
+
+    /**
+     * called at the start of mainActivity
+     * checks for read storage permissions if sdk >= 23
+     * return -1 (denied), 0 (granted), 1(sdk < 23 or marshmallow)
+     */
+    public int checkReadExternalStoragePermission(){
+        // checks if sdk >= 23
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            // determines whether the permission is granted
+            return ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        //sdk < 23
+        else
+            return 1;
+    }
+
+    public int checkFineLocationPermission(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        else
+            return 1;
     }
 
     /**
