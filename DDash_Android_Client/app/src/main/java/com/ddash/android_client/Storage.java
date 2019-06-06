@@ -11,7 +11,10 @@ import android.util.Log;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //External storage is not always SdCard
@@ -38,20 +41,24 @@ public class Storage {
      * Simply gets the free and used space in the Internal storage
      */
     public void getInternalStorage(){
-        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
+        StatFs stat = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         Log.d("myInternal", Environment.getExternalStorageDirectory().getAbsolutePath());
         long available = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             available = stat.getAvailableBytes();
         }
-        long total = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            total = stat.getTotalBytes();
-        }
 
-        Log.d("myInternalTotal", Double.toString(convertBytes(total)));
+        double total = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            total = convertBytes(stat.getTotalBytes());
+        }
+        Double [] array = new Double[]{16-total,32-total,64 - total,128 - total};
+        List list = Arrays.asList(array);
+        int indexMin = list.indexOf(Collections.min(list));
+        Log.d("myInternalOS", Double.toString(array[indexMin]));
+        Log.d("myInternalTotal", Double.toString(total+array[indexMin]));
         Log.d("myInternalFree", Double.toString(convertBytes(available)));
-        Log.d("myInternalUsed", Double.toString(convertBytes(total - available)));
+        Log.d("myInternalUsed", Double.toString(total - convertBytes(available)));
     }
 
     /**

@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
 
         phoneStorage.getInternalStorage();
-        phoneStorage.getSdCardStorage();
         Thread internal = new ScanStorage(phoneStorage.getInternal());
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
 
