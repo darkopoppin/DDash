@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,8 +17,13 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -156,39 +162,61 @@ public class DataFetcher {
 
     public static GroupMap getCpu() {
         GroupMap map =  new GroupMap("cpu");
-        String filename = "proc/cpuinfo";
-        String sep = "\n";
+        // in this file we can find information about cores
+        // https://www.thegeekdiary.com/proccpuinfo-file-explained/
+        String cpuinfoFilename = "proc/cpuinfo";
+        List<String> cpuinfoLines = readLines(cpuinfoFilename);
+        map.put(cpuinfoFilename, cpuinfoLines);
+        // parse the file
+        List<String[]> cpuInfo = new ArrayList<>();
+        for (String line : cpuinfoLines) {
+            String[] tokens = line.split(":");
+            String[] pair = new String[2];
+            if (tokens.length == 2) {
+                String key = tokens[0];
+                String value = tokens[1]; // TODO: Change type of value to match what is being parsed
+                // TODO: might want to trim/strip the strings
+                pair[0] = key;
+                pair[1] = value;
+            } else if (tokens.length == 1) {
+                String key = tokens[0];
+                pair[0] = key;
+                pair[1] = null;
+            }
+            cpuInfo.add(pair);
+            // TODO: need to parse each processor separately
+        }
+        map.put("cpuinfo", cpuInfo);
+        return map;
+        // TODO: also parse proc/stat, http://www.linuxhowtos.org/System/procstat.htm
+    }
+
+    public static List<String> readLines(String filename) {
+        List<String> lines = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
-            StringBuffer sb = new StringBuffer();
-            try {
-                String line = br.readLine();
-                while (line != null) {
-                    try {
-                        sb.append(line);
-                        sb.append(sep);
-                        line = br.readLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                try {
+                    String line = br.readLine();
+                    while (line != null) {
+                        try {
+                            lines.add(line);
+                            line = br.readLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // OR rb.lines (Java 8)
             try {
                 br.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-//            TextUtils.join("\n", sb);
-            String cpuinfo = sb.toString();
-            // TODO properly parse the cpuinfo file instead of just getting all its lines in one string
-            map.put(filename, cpuinfo);
+        }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return map;
+        return lines;
     }
 
     public static GroupMap getBattery(Context context) {
