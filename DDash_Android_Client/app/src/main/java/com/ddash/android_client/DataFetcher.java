@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -17,10 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -29,23 +25,8 @@ import java.util.Properties;
 
 public class DataFetcher {
 
-
-    public static GroupMapList get(Activity activity) {
-        GroupMapList data = new GroupMapList();
-        data.add(getBuild(activity));
-        data.add(getAndroidVersionCodes(activity));
-        data.add(getSystem(activity));
-        data.add(getCpu());
-        data.add(getMemory(activity));
-        data.add(getBattery(activity));
-        GroupMap version_info = new GroupMap("_version_info");
-        version_info.put("version_arr", getVersionInfo());
-        data.add(version_info);
-        return data;
-    }
-
-    public static GroupMap getBuild(Activity activity) {
-        GroupMap build = new GroupMap("build");
+    public static Map<String, Object> getBuild(Activity activity) {
+        Map<String, Object> build = new HashMap<>();
 
         Introspective build_introspective = new Introspective("android.os.Build");
         Map<String, Object> build_fields = build_introspective.getFields();
@@ -79,11 +60,27 @@ public class DataFetcher {
         return build;
     }
 
-    public static GroupMap getAndroidVersionCodes(Activity activity) {
-        GroupMap versions = new GroupMap("versions");
-        Introspective build_version_codes_introspective = new Introspective("android.os.Build$VERSION_CODES");
-        versions.putAll(build_version_codes_introspective.getFields());
-        return versions;
+    public static Map<String, Object> getSystem(Activity activity) {
+        Map<String, Object> map = new HashMap<>();
+        long currentTimeMillis = System.currentTimeMillis();
+        map.put("currentTimeMillis", currentTimeMillis);
+        long nanoTime = System.nanoTime();
+        map.put("nanoTime", nanoTime);
+
+        Properties propsObj = System.getProperties();
+        Enumeration<?> propKeys = propsObj.propertyNames();
+        Map<String, String> properties = new HashMap<>();
+        for (; propKeys.hasMoreElements(); ) {
+            String key = (String) propKeys.nextElement();
+            String val = propsObj.getProperty(key);
+            properties.put(key, val);
+        }
+        map.put("properties", properties);
+
+        Map<String, String> env = System.getenv();
+        map.put("env", env);
+
+        return map;
     }
 
     public static Map<String, Integer> getAndroidVersionCodesMap() {
@@ -117,13 +114,13 @@ public class DataFetcher {
         return inverted;
     }
 
-    public static GroupMap getMemory(Context context) {
-        GroupMap memory = new GroupMap("memory");
-
+    public static Map<String, Object> getMemory(Context context) {
+        // FIXME: Should Context or Activity be taken as an argument?
+        Map<String, Object> memory = new HashMap<>();
         ActivityManager.MemoryInfo meminfo = new ActivityManager.MemoryInfo();
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        manager.getMemoryInfo(meminfo);
 
+        manager.getMemoryInfo(meminfo);
         final long BYTES_IN_KB = 0x100000L;
         long availMemKB = meminfo.availMem / BYTES_IN_KB;
         memory.put("availMemKB", availMemKB);
@@ -133,35 +130,15 @@ public class DataFetcher {
             // TODO: Do unit conversions on the view side of the app (not here)
         }
         // TODO: Get key for hashmap automatically from the method name (use reflection)
-
-        memory.put("threshold", meminfo.threshold);
-        memory.put("lowMemory", meminfo.lowMemory);
+        long threshold = meminfo.threshold;
+        memory.put("threshold", threshold);
+        boolean lowMemory = meminfo.lowMemory;
+        memory.put("lowMemory", lowMemory);
         return memory;
     }
 
-    public static GroupMap getSystem(Activity activity) {
-        GroupMap map = new GroupMap("system");
-        map.put("currentTimeMillis", System.currentTimeMillis());
-        map.put("nanoTime", System.nanoTime());
-
-        Properties propsObj = System.getProperties();
-        Enumeration<?> propKeys = propsObj.propertyNames();
-        Map<String, String> properties = new HashMap<>();
-        for (; propKeys.hasMoreElements(); ) {
-            String key = (String) propKeys.nextElement();
-            String val = propsObj.getProperty(key);
-            properties.put(key, val);
-        }
-        map.put("properties", properties);
-
-        Map<String, String> env = System.getenv();
-        map.put("env", env);
-
-        return map;
-    }
-
-    public static GroupMap getCpu() {
-        GroupMap map =  new GroupMap("cpu");
+    public static List<String[]> getCpu() {
+        Map<String, Object> map =  new HashMap<>();
         // in this file we can find information about cores
         // https://www.thegeekdiary.com/proccpuinfo-file-explained/
         String cpuinfoFilename = "proc/cpuinfo";
@@ -186,8 +163,7 @@ public class DataFetcher {
             cpuInfo.add(pair);
             // TODO: need to parse each processor separately
         }
-        map.put("cpuinfo", cpuInfo);
-        return map;
+        return cpuInfo;
         // TODO: also parse proc/stat, http://www.linuxhowtos.org/System/procstat.htm
     }
 
@@ -219,23 +195,22 @@ public class DataFetcher {
         return lines;
     }
 
-    public static GroupMap getBattery(Context context) {
-        GroupMap map = new GroupMap("battery");
-        BatteryManager battery = null;
+    public static Map<String, Object> getBattery(Context context) {
+        Map<String, Object> batteryInfo = new HashMap<>();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            battery = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+            BatteryManager battery = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
             int level = battery.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-            map.put("level", level);
+            batteryInfo.put("level", level);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 boolean charging = battery.isCharging();
-                map.put("charging", charging);
+                batteryInfo.put("charging", charging);
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
                 long remainingChargeTime = battery.computeChargeTimeRemaining();
-                map.put("remainingChargeTime", remainingChargeTime);
+                batteryInfo.put("remainingChargeTime", remainingChargeTime);
             }
         }
-        return map;
+        return batteryInfo;
     }
 }
 

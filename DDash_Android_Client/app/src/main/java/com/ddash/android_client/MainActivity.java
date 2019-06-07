@@ -18,6 +18,8 @@ import android.view.View;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -96,13 +98,21 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
-
     public void getData(View view) {
-        GroupMapList data = DataFetcher.get(this);
-        GroupMap net = new GroupMap("network");
+        List<Object> data = new ArrayList<>();
+
+        data.add(DataFetcher.getBuild(this));
+        data.add(DataFetcher.getVersionInfo());
+        data.add(DataFetcher.getSystem(this));
+        data.add(DataFetcher.getCpu());
+        data.add(DataFetcher.getMemory(this));
+        data.add(DataFetcher.getBattery(this));
+
+
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-        net.put("network info", network.getAllWifiDetails());
-        data.add(net);
+        List<Object> networkInfo = network.getAllWifiDetails();
+        data.add(networkInfo);
+
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
 
