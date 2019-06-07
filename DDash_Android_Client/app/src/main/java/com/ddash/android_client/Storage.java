@@ -11,6 +11,7 @@ import android.util.Log;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,44 +41,72 @@ public class Storage {
     /**
      * Simply gets the free and used space in the Internal storage
      */
-    public void getInternalStorage(){
+    public List<Double> getInternalStorage(){
         StatFs stat = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         Log.d("myInternal", Environment.getExternalStorageDirectory().getAbsolutePath());
         long available = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             available = stat.getAvailableBytes();
         }
+        //if api < 18
+        else{
+            available = stat.getAvailableBlocks() * stat.getBlockSize();
+        }
 
         double total = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            total = convertBytes(stat.getTotalBytes());
+            total = Utils.convertBytes(stat.getTotalBytes());
         }
-        Double [] array = new Double[]{16-total,32-total,64 - total,128 - total};
-        List list = Arrays.asList(array);
-        int indexMin = list.indexOf(Collections.min(list));
-        Log.d("myInternalOS", Double.toString(array[indexMin]));
-        Log.d("myInternalTotal", Double.toString(total+array[indexMin]));
-        Log.d("myInternalFree", Double.toString(convertBytes(available)));
-        Log.d("myInternalUsed", Double.toString(total - convertBytes(available)));
+        else{
+            total = stat.getBlockCount() * stat.getBlockSize();
+        }
+        Double [] osSize = new Double[]{16-total,32-total,64 - total,128 - total};
+        List <Double> osSizeList = Arrays.asList(osSize);
+        int indexMin = osSizeList.indexOf(Collections.min(osSizeList));
+
+        List <Double> internal = new ArrayList<>();
+
+        Log.d("myInternalTotal", Double.toString(total+osSize[indexMin]));
+        internal.add(total + osSize[indexMin]);
+        Log.d("myInternalOS", Double.toString(osSize[indexMin]));
+        internal.add(osSize[indexMin]);
+        Log.d("myInternalFree", Double.toString(Utils.convertBytes(available)));
+        internal.add(Utils.convertBytes(available));
+        Log.d("myInternalUsed", Double.toString(total - Utils.convertBytes(available)));
+        internal.add(total - Utils.convertBytes(available));
+
+        return internal;
     }
 
     /**
      * Simply gets the free and used space in the SdCard
      */
-    public void getSdCardStorage(){
+    public List<Double> getSdCardStorage(){
         StatFs stat = new StatFs(sdCard);
         long available = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             available = stat.getAvailableBytes();
         }
+        else{
+            available = stat.getAvailableBlocks() * stat.getBlockSize();
+        }
         long total = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             total = stat.getTotalBytes();
         }
+        else{
+            total = stat.getBlockCount() * stat.getBlockSize();
+        }
 
-        Log.d("mySdCardTotal", Double.toString(convertBytes(total)));
-        Log.d("mySdCardAvailable",Double.toString(convertBytes(available)));
-        Log.d("mySdCardUsed",Double.toString(convertBytes(total-available)));
+        List <Double> sdCard = new ArrayList<>();
+
+        Log.d("mySdTotal", Double.toString(Utils.convertBytes(total)));
+        sdCard.add(Utils.convertBytes(total));
+        Log.d("mySdAvailable",Double.toString(Utils.convertBytes(available)));
+        sdCard.add(Utils.convertBytes(available));
+        Log.d("mySdUsed",Double.toString(Utils.convertBytes(total-available)));
+        sdCard.add(Utils.convertBytes(total - available));
+        return sdCard;
     }
 
     /**
@@ -116,23 +145,6 @@ public class Storage {
     }
 
     /**
-     * Move to util class
-     * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
-     * returns double number
-     */
-    public static double convertBytes (long bytes){
-        Log.d("myConvert", Long.toString(bytes));
-        double fBytes = (double) bytes;
-        Log.d("myConvert", Double.toString(fBytes));
-        for(int i = 0; i < 4; i++) {
-            if (fBytes>1000)
-                fBytes = fBytes / 1024;
-            Log.d("myConvert", Double.toString(fBytes));
-        }
-        return fBytes;
-    }
-
-    /**
      * Getter for internal field
      */
     public File getInternal(){
@@ -146,4 +158,130 @@ public class Storage {
         return sdCardFile;
     }
 
+}
+
+class ScanStorage extends Thread {
+
+    private File directory;
+    private Map<String,ArrayList> files = new HashMap<>();
+
+    public ScanStorage(File directory){
+        files.put("Documents", new ArrayList<>());
+        files.put("Apks", new ArrayList<>());
+        files.put("Pictures", new ArrayList<>());
+        files.put("Music", new ArrayList<>());
+        files.put("RARs", new ArrayList<>());
+        this.directory = directory;
+    }
+
+    @Override
+    public void run() {
+        try {
+            scanStorage(this.directory, this.files);
+        }
+        catch(NullPointerException e){
+            Log.i("Exception", "noSdCard");
+        }
+    }
+
+    /**
+     * Scans the storage or directory and groups the files by type
+     */
+    public void scanStorage(File directory, Map files){
+        Log.d("mySdcardPath", directory.getAbsolutePath());
+        //lists the subdirectories and files in contents
+        File [] contents = directory.listFiles();
+        Log.d("mySdcardContents",String.valueOf(contents.length));
+        //open recursively every folder and add it to the correct group in files
+        for(File file:contents){
+            if(file.isFile()) {
+                Log.d("mySdCardFile", file.getName());
+                String name = file.getName();
+                //popular documents extensions
+                List<String> docExtensions = Arrays.asList(".doc",".docx",".odt",".ppt",".pptx",".pdf");
+                try {
+                    //This if statement checks if the extension
+                    //of the current file is in the array of documents extensions
+                    if (docExtensions.contains(name.substring(name.lastIndexOf('.')))) {
+                        Log.d("myDoc", name);
+                        addFile(file, files, "doc");
+                    }// if the file is apk
+                    else if (name.endsWith(".apk")) {
+                        Log.d("myApk", name);
+                        addFile(file, files, "apk");
+                    } // if the file is in DCIM, Bluetooth, Pictures and its an image
+                    else if (file.getParent().contains("DCIM")  || file.getParent().contains("Bluetooth") || file.getParent().contains("Pictures") && (name.endsWith(".png") || name.endsWith(".jpg"))) {
+                        Log.d("myPic", name);
+                        addFile(file, files, "pic");
+                    }// if the files is a mp3
+                    else if(name.endsWith("mp3")){
+                        Log.d("myMusic", name + " " + Utils.convertBytes(file.length()));
+                        addFile(file, files, "music");
+                    }//if the file is compressed file
+                    else if(name.endsWith(".zip") || name.endsWith(".rar")){
+                        Log.d("myRar", name);
+                        addFile(file, files, "rar");
+                    }
+                }//in cases when a file doesnt have extension and lastIndexOf() is called in line 50
+                catch (StringIndexOutOfBoundsException e){
+                    Log.d("mySdCardFile", file.getName());
+                }
+            }
+            else
+                scanStorage(file, files);
+
+        }
+    }
+
+    /**
+     * Adds the given file to the given map in the correct ArrayList
+     * @param file
+     * @param map - hashmap of groups of files
+     * @param fileType - doc, apk, pic, music, rar
+     */
+    public void addFile(File file, Map map, String fileType){
+        ArrayList<File> list;
+        switch(fileType){
+            case ("doc"):
+                Log.d("myCheck", "this is a document");
+                list = (ArrayList)map.get("Documents");
+                list.add(file);
+                map.put("Documents", list);
+                break;
+            case ("apk"):
+                list = (ArrayList)map.get("Apks");
+                list.add(file);
+                map.put("Apks", list);
+                break;
+            case ("pic"):
+                list = (ArrayList)map.get("Pictures");
+                list.add(file);
+                map.put("Pictures", list);
+                break;
+            case ("music"):
+                list = (ArrayList)map.get("Music");
+                list.add(file);
+                map.put("Music", list);
+                break;
+            case ("rar"):
+                list = (ArrayList)map.get("RARs");
+                list.add(file);
+                map.put("RARs", list);
+
+        }
+    }
+
+    public Map getFiles(){
+        return this.files;
+    }
+
+    public void printFiles(){
+        for (String key: files.keySet()){
+            ArrayList <File> list = files.get(key);
+            Log.d("myGroupFiles", list.size() + "");
+            /*for(File file:list){
+                Log.d("myDocuments", file.getName());
+            }*/
+        }
+    }
 }

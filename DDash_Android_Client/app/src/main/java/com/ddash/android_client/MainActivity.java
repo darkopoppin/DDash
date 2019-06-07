@@ -17,9 +17,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -45,15 +43,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         
         googlePlayServices = checkPlayServices();
-        if (googlePlayServices == true) {
+        if (googlePlayServices) {
             MyLocation myLocation = new MyLocation(MainActivity.this);
             LocationRequest locationRequest = myLocation.createLocationRequest();
             myLocation.checkLocationSettings(getApplicationContext());
             Intent intentTest = new Intent(this, MyLocation.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_CANCEL_CURRENT);
-            if(checkFineLocationPermission() == 0)
-            LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
+            if(checkFineLocationPermission() == PackageManager.PERMISSION_GRANTED)
+                LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
         }
         
         if (checkReadExternalStoragePermission() == -1)
@@ -68,15 +66,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onStart();
         Storage phoneStorage = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            phoneStorage = new Storage(getApplicationContext().getExternalFilesDirs(null));
+            phoneStorage = new Storage(getExternalFilesDirs(null));
+        }
+        else{
+            File [] array = {getExternalFilesDir(null), null};
+            phoneStorage = new Storage(array);
         }
 
-        phoneStorage.getInternalStorage();
         Thread internal = new ScanStorage(phoneStorage.getInternal());
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
 
         //if permission has been granted
         if (checkReadExternalStoragePermission() == 0) {
+            phoneStorage.getInternalStorage();
+            phoneStorage.getSdCardStorage();
             internal.start();
             sdCard.start();
             try {
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             ((ScanStorage) sdCard).printFiles();
         }//if permission is not granted
         else {
+            phoneStorage.getInternalStorage();
             internal.start();
         }
     }
