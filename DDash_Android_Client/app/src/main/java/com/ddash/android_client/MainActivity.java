@@ -101,13 +101,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void getData(View view) {
         List<Object> data = new ArrayList<>();
 
-        data.add(DataFetcher.getBuild(this));
-        data.add(DataFetcher.getVersionInfo());
-        data.add(DataFetcher.getSystem(this));
-        data.add(DataFetcher.getCpu());
-        data.add(DataFetcher.getMemory(this));
-        data.add(DataFetcher.getBattery(this));
-
+        data.add(SystemData.getSystemData(this));
+        data.add(Cpu.getCpu());
+        data.add(Memory.getMemory(this));
+        data.add(Battery.getBattery(this));
 
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
         List<Object> networkInfo = network.getAllWifiDetails();
