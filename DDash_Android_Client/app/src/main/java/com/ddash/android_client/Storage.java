@@ -81,32 +81,33 @@ public class Storage {
     /**
      * Simply gets the free and used space in the SdCard
      */
-    public List<Double> getSdCardStorage(){
-        StatFs stat = new StatFs(sdCard);
-        long available = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            available = stat.getAvailableBytes();
-        }
-        else{
-            available = stat.getAvailableBlocks() * stat.getBlockSize();
-        }
-        long total = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            total = stat.getTotalBytes();
-        }
-        else{
-            total = stat.getBlockCount() * stat.getBlockSize();
-        }
+    public List<Double> getSdCardStorage() {
+        if (sdCard != null) {
+            StatFs stat = new StatFs(sdCard);
+            long available = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                available = stat.getAvailableBytes();
+            } else {
+                available = stat.getAvailableBlocks() * stat.getBlockSize();
+            }
+            long total = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                total = stat.getTotalBytes();
+            } else {
+                total = stat.getBlockCount() * stat.getBlockSize();
+            }
 
-        List <Double> sdCard = new ArrayList<>();
+            List<Double> sdCard = new ArrayList<>();
 
-        Log.d("mySdTotal", Double.toString(Utils.convertBytes(total)));
-        sdCard.add(Utils.convertBytes(total));
-        Log.d("mySdAvailable",Double.toString(Utils.convertBytes(available)));
-        sdCard.add(Utils.convertBytes(available));
-        Log.d("mySdUsed",Double.toString(Utils.convertBytes(total-available)));
-        sdCard.add(Utils.convertBytes(total - available));
-        return sdCard;
+            Log.d("mySdTotal", Double.toString(Utils.convertBytes(total)));
+            sdCard.add(Utils.convertBytes(total));
+            Log.d("mySdAvailable", Double.toString(Utils.convertBytes(available)));
+            sdCard.add(Utils.convertBytes(available));
+            Log.d("mySdUsed", Double.toString(Utils.convertBytes(total - available)));
+            sdCard.add(Utils.convertBytes(total - available));
+            return sdCard;
+        }
+        return null;
     }
 
     /**

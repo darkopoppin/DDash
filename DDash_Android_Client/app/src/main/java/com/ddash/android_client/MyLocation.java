@@ -3,14 +3,17 @@ package com.ddash.android_client;
 import android.Manifest;
 import android.app.Activity;
 import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.location.Location;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
@@ -23,20 +26,33 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-public class MyLocation extends IntentService {
+import java.util.List;
+
+public class MyLocation extends BroadcastReceiver {
 
     private Activity activity;
     private LocationRequest locationRequest;
     private final int REQUEST_CHECK_SETTINGS = 0;
+    public static final String ACTION_PROCESS_UPDATES = "com.google.android.gms.location.sample.locationupdatespendingintent.action" +
+            ".PROCESS_UPDATES";
 
     public MyLocation(Activity activity){
-        super("LocationThread");
         this.activity = activity;
     }
-
     @Override
-    protected void onHandleIntent(Intent intent){
-        Log.d("myLocation", "insideHandle");
+    public void onReceive(Context context, Intent intent){
+        if (intent != null){
+            final String action = intent.getAction();
+            if (ACTION_PROCESS_UPDATES.equals(action)){
+                LocationResult result = LocationResult.extractResult(intent);
+                if (result != null){
+                    List<Location> locations = result.getLocations();
+                    for (Location l : locations){
+                        Log.d("myLocation", l.toString());
+                    }
+                }
+            }
+        }
     }
     protected LocationRequest createLocationRequest() {
         // LocationRequest stores parameters for requests to the fused location provider
@@ -98,4 +114,25 @@ public class MyLocation extends IntentService {
     }
 
 
+}
+
+class LocationUpdatesBroadcastReceiver extends BroadcastReceiver {
+    private static final String TAG = "LUBroadcastReceiver";
+
+    static final String ACTION_PROCESS_UPDATES =
+            "com.google.android.gms.location.sample.locationupdatespendingintent.action" +
+                    ".PROCESS_UPDATES";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent != null) {
+            final String action = intent.getAction();
+            if (ACTION_PROCESS_UPDATES.equals(action)) {
+                LocationResult result = LocationResult.extractResult(intent);
+                if (result != null) {
+                    List<Location> locations = result.getLocations();
+                }
+            }
+        }
+    }
 }

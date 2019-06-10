@@ -1,6 +1,11 @@
 package com.ddash.android_client;
 
+import android.content.Context;
+import android.location.Location;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import java.util.List;
 
 public class Utils {
     /**
@@ -18,5 +23,13 @@ public class Utils {
         }
         return fBytes;
     }
+
+    /*static void setLocationUpdatesResult(Context context, List<Location> locations) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(KEY_LOCATION_UPDATES_RESULT, getLocationResultTitle(context, locations)
+                        + "\n" + getLocationResultText(context, locations))
+                .apply();
+    }*/
 
 }
