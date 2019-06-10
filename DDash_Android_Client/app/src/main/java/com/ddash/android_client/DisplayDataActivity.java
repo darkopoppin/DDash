@@ -30,10 +30,9 @@ public class DisplayDataActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String jsonIn = intent.getStringExtra(MainActivity.FETCHED_DATA);
-        Gson gson = new Gson();
-
+//        Gson gson = new Gson();
 //        Type targetType = new TypeToken<List<?>>(){}.getType();
-        GroupMapList data = gson.fromJson(jsonIn, GroupMapList.class);
+//        List<Object> data = gson.fromJson(jsonIn, List.class);
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(jsonIn);

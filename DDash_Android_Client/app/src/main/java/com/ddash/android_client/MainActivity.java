@@ -98,13 +98,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
-
     public void getData(View view) {
-        GroupMapList data = DataFetcher.get(this);
-        GroupMap net = new GroupMap("network");
+        List<Object> data = new ArrayList<>();
+
+        data.add(SystemData.getSystemData(this));
+        data.add(Cpu.getCpu());
+        data.add(Memory.getMemory(this));
+        data.add(Battery.getBattery(this));
+
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-        net.put("network info", network.getAllWifiDetails());
-        data.add(net);
+        List<Object> networkInfo = network.getAllWifiDetails();
+        data.add(networkInfo);
+
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
 
