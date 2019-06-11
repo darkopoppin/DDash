@@ -17,9 +17,9 @@ import android.view.View;
 
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -45,15 +45,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         
         googlePlayServices = checkPlayServices();
-        if (googlePlayServices) {
+        if (googlePlayServices == true) {
             MyLocation myLocation = new MyLocation(MainActivity.this);
             LocationRequest locationRequest = myLocation.createLocationRequest();
             myLocation.checkLocationSettings(getApplicationContext());
             Intent intentTest = new Intent(this, MyLocation.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_CANCEL_CURRENT);
-            if(checkFineLocationPermission() == PackageManager.PERMISSION_GRANTED)
-                LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
+            if(checkFineLocationPermission() == 0)
+            LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
         }
         
         if (checkReadExternalStoragePermission() == -1)
@@ -68,20 +68,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onStart();
         Storage phoneStorage = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            phoneStorage = new Storage(getExternalFilesDirs(null));
-        }
-        else{
-            File [] array = {getExternalFilesDir(null), null};
-            phoneStorage = new Storage(array);
+            phoneStorage = new Storage(getApplicationContext().getExternalFilesDirs(null));
         }
 
+        phoneStorage.getInternalStorage();
+        try{
+        phoneStorage.getSdCardStorage();}
+        catch (Exception r){}
         Thread internal = new ScanStorage(phoneStorage.getInternal());
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
 
         //if permission has been granted
         if (checkReadExternalStoragePermission() == 0) {
-            phoneStorage.getInternalStorage();
-            phoneStorage.getSdCardStorage();
             internal.start();
             sdCard.start();
             try {
@@ -93,26 +91,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             ((ScanStorage) sdCard).printFiles();
         }//if permission is not granted
         else {
-            phoneStorage.getInternalStorage();
             internal.start();
         }
     }
 
+
     public void getData(View view) {
-        List<Object> data = new ArrayList<>();
-
-        data.add(DataFetcher.getBuild(this));
-        data.add(DataFetcher.getVersionInfo());
-        data.add(DataFetcher.getSystem(this));
-        data.add(DataFetcher.getCpu());
-        data.add(DataFetcher.getMemory(this));
-        data.add(DataFetcher.getBattery(this));
-
-
+        GroupMapList data = DataFetcher.get(this);
+        GroupMap net = new GroupMap("network");
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-        List<Object> networkInfo = network.getAllWifiDetails();
-        data.add(networkInfo);
-
+        net.put("network info", network.getAllWifiDetails());
+        data.add(net);
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
 
