@@ -1,4 +1,4 @@
-package com.bien.networkdataminer;
+package com.ddash.data;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
