@@ -1,4 +1,4 @@
-package com.ddash.android_client;
+package com.ddash.Data;
 
 import android.content.Context;
 import android.os.BatteryManager;
@@ -6,7 +6,7 @@ import android.os.BatteryManager;
 import java.util.HashMap;
 import java.util.Map;
 
-class Battery {
+public class Battery {
     public static Map<String, Object> getBattery(Context context) {
         Map<String, Object> batteryInfo = new HashMap<>();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {

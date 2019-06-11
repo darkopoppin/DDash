@@ -15,6 +15,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.ddash.Data.Battery;
+import com.ddash.Data.Cpu;
+import com.ddash.Data.Memory;
+import com.ddash.Data.MyLocation;
+import com.ddash.Data.Network;
+import com.ddash.Data.ScanStorage;
+import com.ddash.Data.Storage;
 import com.google.gson.Gson;
 
 import java.io.File;

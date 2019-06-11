@@ -1,11 +1,13 @@
-package com.ddash.android_client;
+package com.ddash.Data;
+
+import com.ddash.android_client.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class Cpu {
+public class Cpu {
     public static List<String[]> getCpu() {
         Map<String, Object> map =  new HashMap<>();
         // in this file we can find information about cores

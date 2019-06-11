@@ -1,4 +1,4 @@
-package com.ddash.android_client;
+package com.ddash.Data;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
-class Memory {
+public class Memory {
     public static Map<String, Object> getMemory(Context context) {
         // FIXME: Should Context or Activity be taken as an argument?
         Map<String, Object> memory = new HashMap<>();
