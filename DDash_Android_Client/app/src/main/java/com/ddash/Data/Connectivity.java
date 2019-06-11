@@ -1,4 +1,4 @@
-package com.ddash.data;
+package com.ddash.Data;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -140,7 +140,7 @@ public class Connectivity {
     }
     public ArrayList getConnectivityStatus(){
         /*
-        Returns a list <String> of the following in order: [isConnected, connection type, network type, speed estimation]
+        Returns a list <String> of the following in order: [isConnected, connection type, speed estimation,network type]
          */
         ArrayList connection = new ArrayList();
         connection.add(isConnected()+"");
@@ -152,12 +152,12 @@ public class Connectivity {
         } else{
             connection.add("Disconnected");
         }
-        connection.add(connectionType);
         if (isConnectedFast()){
             connection.add("Fast");
         } else{
             connection.add("Slow");
         }
+        connection.add(connectionType);
         return connection;
     }
 }

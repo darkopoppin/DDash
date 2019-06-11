@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ddash.Data.Battery;
+import com.ddash.Data.Connectivity;
 import com.ddash.Data.Cpu;
 import com.ddash.Data.Memory;
 import com.ddash.Data.MyLocation;
@@ -116,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
         List<Object> networkInfo = network.getAllWifiDetails();
         data.add(networkInfo);
+
+        Connectivity connection = new Connectivity(getApplicationContext());
+        List<Object> connectionInfo = connection.getConnectivityStatus();
+        data.add(connectionInfo);
 
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
