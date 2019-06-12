@@ -123,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         List<Object> connectionInfo = connection.getConnectivityStatus();
         data.add(connectionInfo);
 
+//        data.add(Cpu.getCpuUtilization());
+//        data.add(Cpu.getCpuUtilizationTop());
+
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
 
