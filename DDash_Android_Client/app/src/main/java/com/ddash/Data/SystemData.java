@@ -1,4 +1,4 @@
-package com.ddash.android_client;
+package com.ddash.Data;
 
 import android.Manifest;
 import android.app.Activity;
@@ -6,12 +6,14 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 
+import com.ddash.android_client.Utils;
+
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-class SystemData {
+public class SystemData {
     public static Map<String, Object> getSystemData(Activity activity) {
         Map<String, Object> systemInfo = new HashMap<>();
 

@@ -82,7 +82,7 @@ public class Utils {
         return lines;
     }
 
-    static class Introspective {
+    public static class Introspective {
 
         public String cls_name;
         public Class cls_obj;
