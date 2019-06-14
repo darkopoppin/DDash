@@ -1,4 +1,4 @@
-package com.ddash.Data;
+package com.ddash.android_client.Data;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.common.api.ApiException;

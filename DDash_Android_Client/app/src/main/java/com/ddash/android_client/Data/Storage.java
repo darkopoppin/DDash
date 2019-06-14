@@ -1,25 +1,16 @@
-package com.ddash.Data;
+package com.ddash.android_client.Data;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.ddash.android_client.Utils;
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //External storage is not always SdCard
 public class Storage {

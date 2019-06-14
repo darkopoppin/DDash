@@ -1,4 +1,4 @@
-package com.ddash.Data;
+package com.ddash.android_client.Data;
 
 import com.ddash.android_client.Utils;
 
