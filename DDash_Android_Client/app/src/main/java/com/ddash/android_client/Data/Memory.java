@@ -28,5 +28,6 @@ public class Memory {
         boolean lowMemory = meminfo.lowMemory;
         memory.put("lowMemory", lowMemory);
         return memory;
+        // TODO: consider parsing /proc/meminfo for extra memory information
     }
 }

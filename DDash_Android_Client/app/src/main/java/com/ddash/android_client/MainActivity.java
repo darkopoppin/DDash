@@ -22,6 +22,15 @@ import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
+import com.ddash.Data.Battery;
+import com.ddash.Data.Connectivity;
+import com.ddash.Data.Cpu;
+import com.ddash.Data.Memory;
+import com.ddash.Data.MyLocation;
+import com.ddash.Data.Network;
+import com.ddash.Data.ScanStorage;
+import com.ddash.Data.Storage;
+import com.ddash.Data.SystemData;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -116,6 +125,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
         List<Object> networkInfo = network.getAllWifiDetails();
         data.add(networkInfo);
+
+        Connectivity connection = new Connectivity(getApplicationContext());
+        List<Object> connectionInfo = connection.getConnectivityStatus();
+        data.add(connectionInfo);
+
+//        data.add(Cpu.getCpuUtilization());
+//        data.add(Cpu.getCpuUtilizationTop());
 
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
