@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Cpu;
@@ -22,20 +23,14 @@ import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
-import com.ddash.Data.Battery;
 import com.ddash.Data.Connectivity;
-import com.ddash.Data.Cpu;
-import com.ddash.Data.Memory;
-import com.ddash.Data.MyLocation;
-import com.ddash.Data.Network;
-import com.ddash.Data.ScanStorage;
-import com.ddash.Data.Storage;
 import com.ddash.Data.SystemData;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -63,7 +58,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkRequestPermissions();
-
+        Map<String,Object> memory = Memory.getMemory(getApplicationContext());
+        TextView testText = findViewById(R.id.textView2);
+        testText.setText("darko");
         googlePlayServices = checkPlayServices();
         if (googlePlayServices) {
             MyLocation myLocation = new MyLocation(MainActivity.this);
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Thread internal = new ScanStorage(phoneStorage.getInternal());
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
 
-        //if permission has been granted
+        //if storage permission has been granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             phoneStorage.getInternalStorage();
             phoneStorage.getSdCardStorage();
@@ -107,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             }
             ((ScanStorage) sdCard).printFiles();
-        }//if permission is not granted
+        }//if storage permission is not granted
         else {
             phoneStorage.getInternalStorage();
             internal.start();
@@ -176,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
     /**
      * Checks if Google Play Services is available, provided that they are not,
-     * it tries to make them available.
+     * it attempts to make them available.
      */
     public boolean checkPlayServices(){
         GoogleApiAvailability googleApi = GoogleApiAvailability.getInstance();
@@ -193,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     /**
      * called at the start of mainActivity
-     * checks for read storage permissions if sdk >= 23
+     * checks and request permissions if sdk >= 23
      * return -1 (denied), 0 (granted), 1(sdk < 23 or marshmallow)
      */
     public void checkRequestPermissions(){
