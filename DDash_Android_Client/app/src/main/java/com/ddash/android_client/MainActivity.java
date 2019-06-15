@@ -58,9 +58,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkRequestPermissions();
+
         Map<String,Object> memory = Memory.getMemory(getApplicationContext());
-        TextView testText = findViewById(R.id.textView2);
-        testText.setText("darko");
+        TextView memoryText = findViewById(R.id.textView2);
+        long availableM = (long) memory.get("availMemKB");
+        memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
+
         googlePlayServices = checkPlayServices();
         if (googlePlayServices) {
             MyLocation myLocation = new MyLocation(MainActivity.this);

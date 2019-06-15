@@ -35,7 +35,7 @@ public class Storage {
     /**
      * Simply gets the free and used space in the Internal storage
      */
-    public List<Double> getInternalStorage(){
+    public List<Long> getInternalStorage(){
         StatFs stat = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         Log.d("myInternal", Environment.getExternalStorageDirectory().getAbsolutePath());
         long available = 0;
@@ -47,27 +47,32 @@ public class Storage {
             available = stat.getAvailableBlocks() * stat.getBlockSize();
         }
 
-        double total = 0;
+        long total = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            total = Utils.convertBytes(stat.getTotalBytes());
+            total = stat.getTotalBytes();
         }
         else{
             total = stat.getBlockCount() * stat.getBlockSize();
         }
-        Double [] osSize = new Double[]{16-total,32-total,64 - total,128 - total};
-        List <Double> osSizeList = Arrays.asList(osSize);
-        int indexMin = osSizeList.indexOf(Collections.min(osSizeList));
+        //internal storages in bytes 16, 32, 64 ,128. Used to find the OS size and the total internal storage
+        Long [] osSizes = new Long[]{17179869184L-total,34359738368L-total,68719476736L - total,137438953472L- total};
+        long osSize = 0;
+        for (long size: osSizes){
+            if (size > 0) {
+                osSize = size;
+                break;}
+        }
 
-        List <Double> internal = new ArrayList<>();
+        List <Long> internal = new ArrayList<>();
 
-        Log.d("myInternalTotal", Double.toString(total+osSize[indexMin]));
-        internal.add(total + osSize[indexMin]);
-        Log.d("myInternalOS", Double.toString(osSize[indexMin]));
-        internal.add(osSize[indexMin]);
+        Log.d("myInternalTotal", Double.toString(Utils.convertBytes(total+osSize)));
+        internal.add(total + osSize);
+        Log.d("myInternalOS", Double.toString(Utils.convertBytes(osSize)));
+        internal.add(osSize);
         Log.d("myInternalFree", Double.toString(Utils.convertBytes(available)));
-        internal.add(Utils.convertBytes(available));
-        Log.d("myInternalUsed", Double.toString(total - Utils.convertBytes(available)));
-        internal.add(total - Utils.convertBytes(available));
+        internal.add((available));
+        Log.d("myInternalUsed", Double.toString(Utils.convertBytes(total - available)));
+        internal.add(total - available);
 
         return internal;
     }
@@ -75,7 +80,7 @@ public class Storage {
     /**
      * Simply gets the free and used space in the SdCard
      */
-    public List<Double> getSdCardStorage() {
+    public List<Long> getSdCardStorage() {
         if (sdCard != null) {
             StatFs stat = new StatFs(sdCard);
             long available = 0;
@@ -91,14 +96,14 @@ public class Storage {
                 total = stat.getBlockCount() * stat.getBlockSize();
             }
 
-            List<Double> sdCard = new ArrayList<>();
+            List<Long> sdCard = new ArrayList<>();
 
             Log.d("mySdTotal", Double.toString(Utils.convertBytes(total)));
-            sdCard.add(Utils.convertBytes(total));
+            sdCard.add(total);
             Log.d("mySdAvailable", Double.toString(Utils.convertBytes(available)));
-            sdCard.add(Utils.convertBytes(available));
+            sdCard.add(available);
             Log.d("mySdUsed", Double.toString(Utils.convertBytes(total - available)));
-            sdCard.add(Utils.convertBytes(total - available));
+            sdCard.add(total - available);
             return sdCard;
         }
         return null;
