@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+
+@Deprecated
 public class DisplayDataActivity extends AppCompatActivity {
 
     @Override

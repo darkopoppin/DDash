@@ -2,6 +2,7 @@ package com.ddash.Data;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import androidx.core.app.ActivityCompat;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class SystemData {
-    public static Map<String, Object> getSystemData(Activity activity) {
+    public static Map<String, Object> getSystemData(Context context) {
         Map<String, Object> systemInfo = new HashMap<>();
 
         // FIXME: if keys are not unique they may override each other in the Map (need to confirm this)
@@ -23,7 +24,7 @@ public class SystemData {
         Map<String, Object> build_fields = build_introspective.getFields();
         Map<String, Object> build_methods = new HashMap<>();
         build_methods.put("getRadioVersion", Build.getRadioVersion());
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding

@@ -82,6 +82,20 @@ public class Utils {
         return lines;
     }
 
+    public static void largeLog(String tag, String content) {
+        /** Log messages have a maximum length.
+         * This is a recursive method for breaking a message up,
+         * taken from here:
+         * https://stackoverflow.com/a/25734136/11555448
+         */
+        if (content.length() > 4000) {
+            Log.d(tag, content.substring(0, 4000));
+            largeLog(tag, content.substring(4000));
+        } else {
+            Log.d(tag, content);
+        }
+    }
+
     public static class Introspective {
 
         public String cls_name;

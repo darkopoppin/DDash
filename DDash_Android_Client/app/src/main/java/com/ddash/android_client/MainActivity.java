@@ -44,6 +44,7 @@ import com.google.android.gms.tasks.Task;
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
     public static final String FETCHED_DATA = "com.ddash.android_client.FETCHED_DATA";
+    public static final String DATA_TAG = "FETCHED_DATA";
     private final int PERMISSION_REQUEST_CODE = 0;
     private final int REQUEST_CHECK_SETTINGS = 0;
     private final int LOCATION_REQUEST_CODE = 0;
@@ -77,6 +78,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
             }
         }
+
+        List<Object> data = getAllData();
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(data);
+        Utils.largeLog(DATA_TAG, jsonData);
     }
 
     @Override
@@ -114,33 +120,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
-    public void getData(View view) {
-        List<Object> data = new ArrayList<>();
-
-        data.add(SystemData.getSystemData(this));
-        data.add(Cpu.getCpu());
-        data.add(Memory.getMemory(this));
-        data.add(Battery.getBattery(this));
-
-        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-        List<Object> networkInfo = network.getAllWifiDetails();
-        data.add(networkInfo);
-
-        Connectivity connection = new Connectivity(getApplicationContext());
-        List<Object> connectionInfo = connection.getConnectivityStatus();
-        data.add(connectionInfo);
-
-//        data.add(Cpu.getCpuUtilization());
-//        data.add(Cpu.getCpuUtilizationTop());
-
-        Gson gson = new Gson();
-        String jsonData = gson.toJson(data);
-
-        Intent intent = new Intent(this, DisplayDataActivity.class);
-        intent.putExtra(FETCHED_DATA, jsonData);
-        startActivity(intent);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         //final LocationSettingsStates states = LocationSettingsStates.fromIntent(intent);
@@ -156,6 +135,24 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 }
                 break;
         }
+    }
+
+    public List<Object> getAllData() {
+        List<Object> data = new ArrayList<>();
+
+        data.add(SystemData.getSystemData(getApplicationContext()));
+        data.add(Cpu.getCpu());
+        data.add(Memory.getMemory(getApplicationContext()));
+        data.add(Battery.getBattery(getApplicationContext()));
+
+        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+        List<Object> networkInfo = network.getAllWifiDetails();
+        data.add(networkInfo);
+
+        Connectivity connection = new Connectivity(getApplicationContext());
+        List<Object> connectionInfo = connection.getConnectivityStatus();
+        data.add(connectionInfo);
+        return data;
     }
 
     public  void getLastKnownLocation(){
