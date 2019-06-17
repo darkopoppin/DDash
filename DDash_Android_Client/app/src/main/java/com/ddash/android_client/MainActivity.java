@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.ddash.android_client.Data.Battery;
@@ -23,8 +22,8 @@ import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
-import com.ddash.Data.Connectivity;
-import com.ddash.Data.SystemData;
+import com.ddash.android_client.Data.Connectivity;
+import com.ddash.android_client.Data.SystemData;
 import com.google.gson.Gson;
 
 import java.io.File;
