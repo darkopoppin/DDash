@@ -59,11 +59,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         checkRequestPermissions();
 
-        Map<String,Object> memory = Memory.getMemory(getApplicationContext());
-        TextView memoryText = findViewById(R.id.textView2);
-        long availableM = (long) memory.get("availMemKB");
-        memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
-
         googlePlayServices = checkPlayServices();
         if (googlePlayServices) {
             MyLocation myLocation = new MyLocation(MainActivity.this);
@@ -77,6 +72,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
             }
         }
+
+        Map<String,Object> memory = Memory.getMemory(getApplicationContext());
+        TextView memoryText = findViewById(R.id.textView2);
+        long availableM = (long) memory.get("availMemKB");
+        memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
+
+        /* TODO: Display network data:
+            IP, MAC, Network ID (?), not SSID (known)
+            Connectivity status
+            Speed (provisional);
+
+            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
+        */
+
+        /* TODO: Display CPU data */
+
+
+        /* consider dynamic (changing, real-time) vs static (constant, once-off) data
+            Different UI views for each type?
+        */
 
         List<Object> data = getAllData();
         Gson gson = new Gson();

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 Class for retrieving the network information
 */
 
+/* TODO: (tomas comment) Simplify usage of this class.
+   Expose simple methods that can be called multiple times for updated data.
+* */
+
 public class Network {
     // Initialising variables
     private int speed, networkId;
