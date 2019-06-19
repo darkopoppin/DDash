@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         TextView memoryText = findViewById(R.id.textView2);
         long availableM = (long) memory.get("availMemKB");
         memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
+
+        ThreadManager threadPool = ThreadManager.getManagerInstance();
+        threadPool.runTasks(getApplicationContext());
 
         googlePlayServices = checkPlayServices();
         if (googlePlayServices) {

@@ -1,12 +1,16 @@
 package com.ddash.android_client.Data;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.util.Log;
+
+import com.ddash.MyApplication;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Memory {
+public class Memory implements Runnable{
     public static Map<String, Object> getMemory(Context context) {
         // FIXME: Should Context or Activity be taken as an argument?
         Map<String, Object> memory = new HashMap<>();
@@ -14,12 +18,12 @@ public class Memory {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
         manager.getMemoryInfo(meminfo);
-        final long BYTES_IN_KB = 0x100000L;
-        long availMemKB = meminfo.availMem / BYTES_IN_KB;
-        memory.put("availMemKB", availMemKB);
+        //final long BYTES_IN_KB = 0x100000L;
+        long availMemBytes = meminfo.availMem;
+        memory.put("availMemKB", availMemBytes);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            long totalMemKB = meminfo.totalMem / BYTES_IN_KB;
-            memory.put("totalMemKB", totalMemKB);
+            long totalMemBytes = meminfo.totalMem;
+            memory.put("totalMemKB", totalMemBytes);
             // TODO: Do unit conversions on the view side of the app (not here)
         }
         // TODO: Get key for hashmap automatically from the method name (use reflection)
@@ -29,5 +33,19 @@ public class Memory {
         memory.put("lowMemory", lowMemory);
         return memory;
         // TODO: consider parsing /proc/meminfo for extra memory information
+    }
+
+    @Override
+    public void run(){
+        Log.d("MyTask", "is running");
+        Context context = MyApplication.getAppContext();
+        Map<String, Object> map = getMemory(context);
+
+        ((Activity) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 }
