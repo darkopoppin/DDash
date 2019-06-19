@@ -1,4 +1,4 @@
-package com.ddash.Data;
+package com.ddash.android_client.Data;
 
 import android.Manifest;
 import android.app.Activity;

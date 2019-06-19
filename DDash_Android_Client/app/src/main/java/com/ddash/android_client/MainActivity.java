@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.ddash.android_client.Data.Battery;
@@ -23,8 +22,8 @@ import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
-import com.ddash.Data.Connectivity;
-import com.ddash.Data.SystemData;
+import com.ddash.android_client.Data.Connectivity;
+import com.ddash.android_client.Data.SystemData;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -82,6 +81,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
             }
         }
+
+        Map<String,Object> memory = Memory.getMemory(getApplicationContext());
+        TextView memoryText = findViewById(R.id.textView2);
+        long availableM = (long) memory.get("availMemKB");
+        memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
+
+        /* TODO: Display network data:
+            IP, MAC, Network ID (?), not SSID (known)
+            Connectivity status
+            Speed (provisional);
+
+            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
+        */
+
+        /* TODO: Display CPU data */
+
+
+        /* consider dynamic (changing, real-time) vs static (constant, once-off) data
+            Different UI views for each type?
+        */
 
         List<Object> data = getAllData();
         Gson gson = new Gson();

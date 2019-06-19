@@ -1,4 +1,4 @@
-package com.ddash.Data;
+package com.ddash.android_client.Data;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,6 +7,13 @@ import android.telephony.TelephonyManager;
 
 import java.util.ArrayList;
 
+
+/* TODO: (tomas comment) callbacks with data update
+    for when network status changes?
+*/
+
+/* TODO: (tomas comment) Simplify class to only expose methods
+*  (see comment for Network.java as well ) */
 
 /*
 To create an instance of the Connectivity class, it must be passed the application context via getApplicationContext()
@@ -143,7 +150,7 @@ public class Connectivity {
         Returns a list <String> of the following in order: [isConnected, connection type, speed estimation,network type]
          */
         ArrayList connection = new ArrayList();
-        connection.add(isConnected()+"");
+        connection.add(isConnected()+""); // FIXME: use a method to convert to string
         if (isConnectedWifi() == true) {
             connection.add("Wifi");
         }
