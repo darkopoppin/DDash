@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Cpu;
+import com.ddash.android_client.Data.InternetSpeedTest;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Double downloadSpeed = null;
         try {
             downloadSpeed = InternetSpeedTest.run();
-            data.add(downloadSpeed + "")
+            data.add(downloadSpeed + "");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

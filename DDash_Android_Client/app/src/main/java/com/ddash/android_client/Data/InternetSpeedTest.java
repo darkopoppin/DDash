@@ -1,4 +1,4 @@
-package com.bien.networkdataminer;
+package com.ddash.android_client.Data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
