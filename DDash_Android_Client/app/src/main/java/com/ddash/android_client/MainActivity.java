@@ -83,11 +83,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         }
 
-        Map<String,Object> memory = Memory.getMemory(getApplicationContext());
-        TextView memoryText = findViewById(R.id.textView2);
-        long availableM = (long) memory.get("availMemKB");
-        memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
-
         /* TODO: Display network data:
             IP, MAC, Network ID (?), not SSID (known)
             Connectivity status
