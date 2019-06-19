@@ -175,6 +175,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Connectivity connection = new Connectivity(getApplicationContext());
         List<Object> connectionInfo = connection.getConnectivityStatus();
         data.add(connectionInfo);
+        
+        Double downloadSpeed = null;
+        try {
+            downloadSpeed = InternetSpeedTest.run();
+            data.add(downloadSpeed + "")
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
