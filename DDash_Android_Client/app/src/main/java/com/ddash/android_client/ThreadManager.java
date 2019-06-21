@@ -23,7 +23,7 @@ public class ThreadManager {
     private static ThreadManager managerInstance;
     private final ScheduledThreadPoolExecutor EXECUTOR;
     Handler handler;
-    private TextView memoryView;
+    private Activity mainActivity;
 
     //this is static block, it gets called only once, when the class is initialised
     //no matter how many object are created
@@ -41,14 +41,15 @@ public class ThreadManager {
                 Log.d("myHandler", "inside");
                 MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
                 Map memoryData = memoryTask.getDataMap();
-                TextView memoryText = findViewById(R.id.textView2);
+                TextView memoryText = mainActivity.findViewById(R.id.textView2);
                 long availableM = (long) memoryData.get("availMemKB");
                 memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
             }
         };
     }
 
-    public void runTasks(){
+    public void runTasks(Activity activity){
+        mainActivity = activity;
         EXECUTOR.scheduleWithFixedDelay(new Memory(), 3, 3, TimeUnit.SECONDS);
     }
     public void handleData(MemoryTask memoryTask, int task){

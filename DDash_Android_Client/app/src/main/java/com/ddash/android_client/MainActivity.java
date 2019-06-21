@@ -61,13 +61,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         checkRequestPermissions();
 
+        /*
         Map<String,Object> memory = Memory.getMemory(getApplicationContext());
         TextView memoryText = findViewById(R.id.textView2);
         long availableM = (long) memory.get("availMemKB");
         memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
-
+        */
         ThreadManager threadPool = ThreadManager.getManagerInstance();
-        threadPool.runTasks();
+        threadPool.runTasks(this);
 
         googlePlayServices = checkPlayServices();
         if (googlePlayServices) {
