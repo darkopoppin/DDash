@@ -6,11 +6,18 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ddash.MyApplication;
+import com.ddash.android_client.MemoryTask;
+import com.ddash.android_client.ThreadManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Memory implements Runnable{
+        MemoryTask memoryTask;
+    public Memory(){
+        memoryTask = new MemoryTask();
+    }
+
     public static Map<String, Object> getMemory(Context context) {
         // FIXME: Should Context or Activity be taken as an argument?
         Map<String, Object> memory = new HashMap<>();
@@ -39,13 +46,7 @@ public class Memory implements Runnable{
     public void run(){
         Log.d("MyTask", "is running");
         Context context = MyApplication.getAppContext();
-        Map<String, Object> map = getMemory(context);
-
-        ((Activity) context).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
+        memoryTask.setDataMap(getMemory(context));
+        memoryTask.handleData();
     }
 }
