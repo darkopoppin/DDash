@@ -12,8 +12,10 @@ import com.ddash.android_client.ThreadManager;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Memory implements Runnable{
-        private MemoryTask memoryTask;
+
+    private MemoryTask memoryTask;
 
     public Memory(){
         memoryTask = new MemoryTask();

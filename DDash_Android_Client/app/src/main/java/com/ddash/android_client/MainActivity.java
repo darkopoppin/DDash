@@ -31,8 +31,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -101,8 +99,24 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             Different UI views for each type?
         */
 
-        List<Object> data = getAllData();
         Gson gson = new Gson();
+
+        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+//        List<Object> networkInfo = network.getAllWifiDetails();
+        String ssid = network.getSsid();
+        String ip = network.getIp();
+        String mac = network.getmacAddress();
+
+        TextView networkText = findViewById(R.id.main_text_net);
+//        String netData = gson.toJson(networkInfo);
+//        String text = "NET INFO:\n" + netData;
+        String text = "SSID: "+ ssid + "\n" +
+                      "IP: " + ip + "\n" +
+                      "MAC: " + mac;
+        networkText.setText(text);
+
+
+        List<Object> data = getAllData();
         String jsonData = gson.toJson(data);
         Utils.largeLog(DATA_TAG, jsonData);
     }
@@ -184,9 +198,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //        }
         return data;
     }
+
     public void getDownloadSpeed(View view){
         Log.d(TAG,"Commencing Internet download speed ");
-        TextView test = findViewById(R.id.textView6);
+        TextView test = findViewById(R.id.main_text_netspeed);
         Double downloadSpeed = null;
         try {
             downloadSpeed = InternetSpeedTest.run();
@@ -195,8 +210,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             e.printStackTrace();
             test.setText("Something went wrong!");
         }
-
     }
+
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
