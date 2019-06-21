@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ddash.android_client.Data.Battery;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     String [] appPermissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION};
+    private String TAG =  "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,16 +175,28 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         List<Object> connectionInfo = connection.getConnectivityStatus();
         data.add(connectionInfo);
         
+//        Double downloadSpeed = null;
+//        try {
+//            downloadSpeed = InternetSpeedTest.run();
+//            data.add(downloadSpeed + "");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        return data;
+    }
+    public void getDownloadSpeed(View view){
+        Log.d(TAG,"Commencing Internet download speed ");
+        TextView test = findViewById(R.id.textView6);
         Double downloadSpeed = null;
         try {
             downloadSpeed = InternetSpeedTest.run();
-            data.add(downloadSpeed + "");
+            test.setText(String.format("%.2f Mbps",downloadSpeed));
         } catch (InterruptedException e) {
             e.printStackTrace();
+            test.setText("Something went wrong!");
         }
-        return data;
-    }
 
+    }
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
