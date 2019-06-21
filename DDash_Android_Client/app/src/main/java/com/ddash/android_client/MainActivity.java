@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Cpu;
+import com.ddash.android_client.Data.InternetSpeedTest;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
             }
         }
-
 
         /* TODO: Display network data:
             IP, MAC, Network ID (?), not SSID (known)
@@ -171,6 +171,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Connectivity connection = new Connectivity(getApplicationContext());
         List<Object> connectionInfo = connection.getConnectivityStatus();
         data.add(connectionInfo);
+        
+        Double downloadSpeed = null;
+        try {
+            downloadSpeed = InternetSpeedTest.run();
+            data.add(downloadSpeed + "");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
