@@ -1,23 +1,19 @@
-package com.ddash.android_client;
+package com.ddash.android_client.Threading;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.os.Handler;
 import android.widget.TextView;
 
-import com.ddash.MyApplication;
 import com.ddash.android_client.Data.Memory;
+import com.ddash.android_client.R;
+import com.ddash.android_client.Utils;
 
 import java.util.Map;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.LogRecord;
 
 public class ThreadManager {
     private static ThreadManager managerInstance;
@@ -60,6 +56,6 @@ public class ThreadManager {
     public static ThreadManager getManagerInstance(){
         return managerInstance;
     }
-
+    
 }
 

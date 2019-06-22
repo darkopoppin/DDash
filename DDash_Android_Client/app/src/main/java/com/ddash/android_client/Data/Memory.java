@@ -1,13 +1,11 @@
 package com.ddash.android_client.Data;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.util.Log;
 
 import com.ddash.MyApplication;
-import com.ddash.android_client.MemoryTask;
-import com.ddash.android_client.ThreadManager;
+import com.ddash.android_client.Threading.MemoryTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +44,7 @@ public class Memory implements Runnable{
     @Override
     public void run(){
         Log.d("MyTask", "is running");
-        Context context = MyApplication.getAppContext();
-        memoryTask.setDataMap(getMemory(context));
+        memoryTask.setDataMap(getMemory(MyApplication.getAppContext()));
         memoryTask.handleData();
     }
 }
