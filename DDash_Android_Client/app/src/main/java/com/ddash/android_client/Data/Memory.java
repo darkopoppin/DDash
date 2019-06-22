@@ -30,8 +30,8 @@ public class Memory implements Runnable{
         long availMemBytes = meminfo.availMem;
         memory.put("availMemKB", availMemBytes);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            long totalMemBytes = meminfo.totalMem;
-            memory.put("totalMemKB", totalMemBytes);
+            long totalMemKb = meminfo.totalMem;
+            memory.put("totalMemKB", totalMemKb);
             // TODO: Do unit conversions on the view side of the app (not here)
         }
         // TODO: Get key for hashmap automatically from the method name (use reflection)

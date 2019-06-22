@@ -21,6 +21,8 @@ public class ThreadManager {
     Handler handler;
     private Activity mainActivity;
 
+    private final int MEMORY = 1;
+
     //this is static block, it gets called only once, when the class is initialised
     //no matter how many object are created
     //therefore there is only one instance of the thread pool
@@ -35,21 +37,34 @@ public class ThreadManager {
             @Override
             public void handleMessage(Message inputMessage){
                 Log.d("myHandler", "inside");
-                MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
-                Map memoryData = memoryTask.getDataMap();
-                TextView memoryText = mainActivity.findViewById(R.id.textView2);
-                long availableM = (long) memoryData.get("availMemKB");
-                memoryText.setText(Double.toString(Utils.convertBytes(availableM)));
+                switch (inputMessage.what){
+                    case(MEMORY):
+                        MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
+                        Map memoryData = memoryTask.getDataMap();
+                        TextView memoryText = mainActivity.findViewById(R.id.textView2);
+
+                        double totalM = memoryTask.getTotalMemory();
+                        Log.d("myMemoryTotal", Double.toString(totalM));
+                        double usedM = totalM - Utils.convertKB((long) memoryData.get("availMemKB"));
+                        Log.d("myMemoryA", Double.toString(usedM));
+
+                        int percentage = (int)Math.round((usedM*100)/totalM);
+                        memoryText.setText(String.format("Used Memory %d%% ", percentage));
+                }
+
             }
         };
     }
 
     public void runTasks(Activity activity){
         mainActivity = activity;
+        //runnable object, initial delay, delay, time unit
         EXECUTOR.scheduleWithFixedDelay(new Memory(), 3, 3, TimeUnit.SECONDS);
     }
-    public void handleData(MemoryTask memoryTask, int task){
-        Message message = handler.obtainMessage(task, memoryTask);
+
+    //the task object containing all the data (see MemoryTask), taskID (memory - 1, CPU - 2)
+    public void handleData(Object task, int taskID){
+        Message message = handler.obtainMessage(taskID, task);
         message.sendToTarget();
     }
 

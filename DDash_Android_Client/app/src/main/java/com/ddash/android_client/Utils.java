@@ -38,6 +38,16 @@ public class Utils {
         return fBytes;
     }
 
+    public static double convertKB(long bytes){
+        double fBytes = (double) bytes;
+        Log.d("myConvert", Double.toString(fBytes));
+        for(int i = 0; i < 3; i++) {
+            fBytes = fBytes / 1024;
+            Log.d("myConvert", Double.toString(fBytes));
+        }
+        return fBytes;
+    }
+
     /*static void setLocationUpdatesResult(Context context, List<Location> locations) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
