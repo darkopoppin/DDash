@@ -14,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+
+import android.view.View;
+import android.widget.TextView;
+
+
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Cpu;
 import com.ddash.android_client.Data.InternetSpeedTest;
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     String [] appPermissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION};
+    private String TAG =  "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +97,24 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             Different UI views for each type?
         */
 
-        List<Object> data = getAllData();
         Gson gson = new Gson();
+
+        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+//        List<Object> networkInfo = network.getAllWifiDetails();
+        String ssid = network.getSsid();
+        String ip = network.getIp();
+        String mac = network.getmacAddress();
+
+        TextView networkText = findViewById(R.id.main_text_net);
+//        String netData = gson.toJson(networkInfo);
+//        String text = "NET INFO:\n" + netData;
+        String text = "SSID: "+ ssid + "\n" +
+                      "IP: " + ip + "\n" +
+                      "MAC: " + mac;
+        networkText.setText(text);
+
+
+        List<Object> data = getAllData();
         String jsonData = gson.toJson(data);
         Utils.largeLog(DATA_TAG, jsonData);
     }
@@ -165,14 +187,27 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         List<Object> connectionInfo = connection.getConnectivityStatus();
         data.add(connectionInfo);
         
+//        Double downloadSpeed = null;
+//        try {
+//            downloadSpeed = InternetSpeedTest.run();
+//            data.add(downloadSpeed + "");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        return data;
+    }
+
+    public void getDownloadSpeed(View view){
+        Log.d(TAG,"Commencing Internet download speed ");
+        TextView test = findViewById(R.id.main_text_netspeed);
         Double downloadSpeed = null;
         try {
             downloadSpeed = InternetSpeedTest.run();
-            data.add(downloadSpeed + "");
+            test.setText(String.format("%.2f Mbps",downloadSpeed));
         } catch (InterruptedException e) {
             e.printStackTrace();
+            test.setText("Something went wrong!");
         }
-        return data;
     }
 
     public  void getLastKnownLocation(){

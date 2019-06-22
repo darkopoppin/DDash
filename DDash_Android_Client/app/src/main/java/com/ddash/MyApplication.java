@@ -3,7 +3,6 @@ package com.ddash;
 import android.app.Application;
 import android.content.Context;
 
-    public class MyApplication extends Application {
 
         private static Context applicationContext;
         private static Context context;
@@ -19,4 +18,18 @@ import android.content.Context;
         }
 
         public static Context getContext() { return  context; }
+
+public class MyApplication extends Application {
+
+    public static Context context;
+
+    public void onCreate(){
+        super.onCreate();
+        MyApplication.context = getApplicationContext();
+
     }
+
+    public static Context getAppContext(){
+        return MyApplication.context;
+    }
+}
