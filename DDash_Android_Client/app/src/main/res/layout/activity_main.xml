@@ -56,7 +56,71 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cardView1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/main_label_storage_sdcard"
+                android:layout_width="111dp"
+                android:layout_height="29dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="External Storage :"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/main_label_storage_internal" />
+
+            <TextView
+                android:id="@+id/main_label_storage_internal"
+                android:layout_width="111dp"
+                android:layout_height="29dp"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="Internal Storage :"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/main_button_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="TAP TO REFRESH"
+                android:onClick="refreshStorage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/main_text_internal_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:text="LOADING..."
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/main_label_storage_internal"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/main_text_external_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="LOADING..."
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/main_label_storage_sdcard"
+                app:layout_constraintTop_toBottomOf="@+id/main_text_internal_storage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/main_card_cpu"

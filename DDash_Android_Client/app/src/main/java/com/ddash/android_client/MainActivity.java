@@ -121,6 +121,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onStart(){
         super.onStart();
+        getStorage();
+    }
+
+
+    public void refreshStorage(View view){
+        getStorage();
+    }
+
+    public void getStorage(){
         Storage phoneStorage = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             phoneStorage = new Storage(getExternalFilesDirs(null));
@@ -135,8 +144,23 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         //if storage permission has been granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            phoneStorage.getInternalStorage();
-            phoneStorage.getSdCardStorage();
+
+            //ArrayLists containing the general info of the storage internal[total, os total, free, used] | external[total, free, used]
+            List<Long> intStorage = phoneStorage.getInternalStorage();
+            List<Long> extStorage = phoneStorage.getSdCardStorage();
+
+            //Display the respective storage in UI
+            TextView internalText = findViewById(R.id.main_text_internal_storage);
+            internalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(intStorage.get(2)), Utils.convertBytes(intStorage.get(0))));
+            TextView externalText = findViewById(R.id.main_text_external_storage);
+
+            if (extStorage == null){
+                externalText.setText("No sd card.");
+            } else {
+                internalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
+            }
+
+
             internal.start();
             sdCard.start();
             try {
@@ -152,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             internal.start();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         //final LocationSettingsStates states = LocationSettingsStates.fromIntent(intent);
@@ -197,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     public void getDownloadSpeed(View view){
-        Log.d(TAG,"Commencing Internet download speed ");
+        Log.d(TAG,"getDownloadSpeed : Commencing Internet download speed ");
         TextView test = findViewById(R.id.main_text_netspeed);
         Double downloadSpeed = null;
         try {
@@ -266,6 +289,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         else
             lessThan23SDK = true;
     }
+
+
 
     /**
      *  Callback received when a permission request is completed
