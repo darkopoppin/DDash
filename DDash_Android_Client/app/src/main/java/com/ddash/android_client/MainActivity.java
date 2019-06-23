@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -81,7 +82,28 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
         }
 
-        /* TODO: Display network data:
+
+        /* Display CPU data */
+
+        TextView cpuCoresText = findViewById(R.id.main_text_cpucores);
+        int cores = Cpu.getCoresNumber();
+        String cpuData = String.valueOf(cores);
+        cpuCoresText.setText(cpuData);
+
+
+        /* Display NETWORK data */
+
+//        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+//        String ssid = network.getSsid();
+//        String ip = network.getIp();
+//        String mac = network.getmacAddress();
+//        TextView networkText = findViewById(R.id.main_text_net);
+//        String text = "SSID: "+ ssid + "\n" +
+//                      "IP: " + ip + "\n" +
+//                      "MAC: " + mac;
+//        networkText.setText(text);
+
+        /* Some other ideas:
             IP, MAC, Network ID (?), not SSID (known)
             Connectivity status
             Speed (provisional);
@@ -89,33 +111,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             Consider icons indicating approximate speed, kind (mobile, wifi), etc.
         */
 
-        /* TODO: Display CPU data */
 
+        /* Log all data for debugging */
+//        Gson gson = new Gson();
+//        List<Object> data = getAllData();
+//        String jsonData = gson.toJson(data);
+//        Utils.largeLog(DATA_TAG, jsonData);
 
         /* consider dynamic (changing, real-time) vs static (constant, once-off) data
             Different UI views for each type?
         */
-
-        Gson gson = new Gson();
-
-        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-//        List<Object> networkInfo = network.getAllWifiDetails();
-        String ssid = network.getSsid();
-        String ip = network.getIp();
-        String mac = network.getmacAddress();
-
-        TextView networkText = findViewById(R.id.main_text_net);
-//        String netData = gson.toJson(networkInfo);
-//        String text = "NET INFO:\n" + netData;
-        String text = "SSID: "+ ssid + "\n" +
-                      "IP: " + ip + "\n" +
-                      "MAC: " + mac;
-        networkText.setText(text);
-
-
-        List<Object> data = getAllData();
-        String jsonData = gson.toJson(data);
-        Utils.largeLog(DATA_TAG, jsonData);
     }
 
     @Override
@@ -225,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Double downloadSpeed = null;
         try {
             downloadSpeed = InternetSpeedTest.run();
-            test.setText(String.format("%.2f Mbps",downloadSpeed));
+            test.setText(String.format("Download: %.2f Mbps", downloadSpeed));
         } catch (InterruptedException e) {
             e.printStackTrace();
             test.setText("Something went wrong!");
