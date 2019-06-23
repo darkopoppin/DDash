@@ -11,14 +11,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class Cpu {
-    public static List<String[]> getCpu() {
-        Map<String, Object> map =  new HashMap<>();
+
+    public static Map<String, Object> getCpu() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("about", getCpuAbout());
+        map.put("use", getCpuUse());
+        map.put("usetop", getCpuUseTop());
+        map.put("useproc", getCpuUseProc());
+        map.put("cores", getCoresNumber());
+        return map;
+    }
+
+    public static List<String[]> getCpuAbout() {
+        String cpuinfoFilename = "/proc/cpuinfo";
         // in this file we can find information about cores
         // https://www.thegeekdiary.com/proccpuinfo-file-explained/
-        String cpuinfoFilename = "proc/cpuinfo";
         List<String> cpuinfoLines = Utils.readLines(cpuinfoFilename);
-        map.put(cpuinfoFilename, cpuinfoLines);
         // parse the file
         List<String[]> cpuInfo = new ArrayList<>();
         for (String line : cpuinfoLines) {
@@ -42,17 +52,23 @@ public class Cpu {
         // TODO: also parse proc/stat, http://www.linuxhowtos.org/System/procstat.htm
     }
 
-    public static List<String> getCpuUtilization() {
+    public static List<String> getCpuUse() {
         /** Also check https://github.com/AntonioRedondo/AnotherMonitor
+         *  and https://github.com/souch/AndroidCPU/blob/master/app/src/main/java/souch/androidcpu/CpuInfo.java
          *
          * **/
+        /* This is no longer accessible
+            https://issuetracker.google.com/issues/37140047
+            https://github.com/Manabu-GT/DebugOverlay-Android/issues/11
+            https://stackoverflow.com/questions/52782894/error-reading-cpu-usage-proc-stat-permission-denied
+         */
         String cpustatFilename = "/proc/stat";
         List<String> cpustatLines = Utils.readLines(cpustatFilename);
         return cpustatLines;
         // FIXME: this returns an empty list
     }
 
-    public static String getCpuUtilizationTop() {
+    public static String getCpuUseTop() {
         /** Idea from http://notesbyanerd.com/2014/12/05/how-to-check-android-applications-cpu-usage/
          *
          * **/
@@ -76,6 +92,20 @@ public class Cpu {
             output = null;
         }
         return output;
-        // FIXME: this returns null
+        // FIXME: this might return null
+    }
+
+    public static List<String> getCpuUseProc() {
+        int pid = android.os.Process.myPid();
+        String filename = "/proc/" + String.valueOf(pid) + "/stat";
+        List<String> lines = Utils.readLines(filename);
+        return lines;
+    }
+
+    public static int getCoresNumber() {
+        /* See
+            https://stackoverflow.com/questions/30119604/how-to-get-the-number-of-cores-of-an-android-device
+         */
+        return Runtime.getRuntime().availableProcessors();
     }
 }

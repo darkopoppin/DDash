@@ -41,6 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.882"
                 tools:text="@tools:sample/cities" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -61,7 +62,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/main_card_cpu"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -71,13 +72,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView1">
 
-        <TextView
-            android:id="@+id/main_text_cpu"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="CPU HERE"
-            android:textSize="36sp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/main_text_cpu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
+                android:text="Number of Cores"
+                android:textAllCaps="true"
+                android:textColor="#EB27D3"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                app:fontFamily="monospace"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/main_text_cpucores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="&lt;unknown&gt;"
+                android:textAllCaps="true"
+                android:textColor="#4AFF17"
+                android:textSize="18sp"
+                app:fontFamily="cursive"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/main_text_cpu"
+                app:layout_constraintStart_toStartOf="@+id/main_text_cpu"
+                app:layout_constraintTop_toBottomOf="@+id/main_text_cpu" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -97,28 +134,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/main_text_net"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="NET HERE"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="parent" />
+            <!--<TextView-->
+            <!--android:id="@+id/main_text_net"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="NET HERE"-->
+            <!--android:textSize="14sp"-->
+            <!--app:layout_constraintTop_toTopOf="parent" />-->
             <!-- TODO: good idea to make textSize relative, i.e. fill the whole box
                 based on screensize,
                 instead of setting predefined measurements. -->
 
             <TextView
                 android:id="@+id/main_text_netspeed"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center"
-                android:text="Net Speed"
+                android:text="Internet Speed"
                 android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@+id/main_text_net"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/main_button_netspeed"
