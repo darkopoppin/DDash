@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void onStart(){
         super.onStart();
         getStorage();
+        displaySystemData();
     }
 
 
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (extStorage == null){
                 externalText.setText("No sd card.");
             } else {
-                externalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
+//                externalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
             }
 
 
@@ -223,9 +224,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //        }
         return data;
     }
-    public void getSystemData(){
+    public void displaySystemData(){
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
         Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
+        TextView systemView = findViewById(R.id.main_text_system);
+        systemView.setText("Summary Build:\n" +
+                systemData.get("version_int")+ "\n" +
+                systemData.get("version_release")+ "\n" +
+                systemData.get("version_codename")+ "\n" +
+                systemData.get("getSerial"));
 
     }
     public void getDownloadSpeed(View view){
