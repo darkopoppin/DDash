@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (extStorage == null){
                 externalText.setText("No sd card.");
             } else {
-                internalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
+                externalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
             }
 
 
@@ -223,7 +223,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //        }
         return data;
     }
+    public void getSystemData(){
+        Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
+        Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
 
+    }
     public void getDownloadSpeed(View view){
         Log.d(TAG,"getDownloadSpeed : Commencing Internet download speed ");
         TextView test = findViewById(R.id.main_text_netspeed);
