@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -121,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         /* consider dynamic (changing, real-time) vs static (constant, once-off) data
             Different UI views for each type?
         */
+
+//        CardView systemCard = (CardView) findViewById(R.id.main_card_system);
+//        systemCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openSystemActivity();
+//            }
+//        });
     }
 
     @Override
@@ -246,7 +256,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             test.setText("Something went wrong!");
         }
     }
-
+    public void openSystemActivity(View view){
+        Intent intent = new Intent(this, SystemActivity.class);
+        startActivity(intent);
+    }
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

@@ -244,6 +244,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/main_card_system"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -268,6 +269,7 @@
                 android:gravity="center"
                 android:text="SYSTEM INFO HERE"
                 android:textSize="15sp"
+                android:onClick="openSystemActivity"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="118dp" />
