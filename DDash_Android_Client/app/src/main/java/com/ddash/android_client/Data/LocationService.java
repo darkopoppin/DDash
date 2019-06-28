@@ -23,7 +23,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
-public class MyLocation extends BroadcastReceiver {
+public class LocationService extends BroadcastReceiver {
 
     private Activity activity;
     private LocationRequest locationRequest;
@@ -31,9 +31,10 @@ public class MyLocation extends BroadcastReceiver {
     public static final String ACTION_PROCESS_UPDATES = "com.google.android.gms.location.sample.locationupdatespendingintent.action" +
             ".PROCESS_UPDATES";
 
-    public MyLocation(Activity activity){
+    public LocationService(Activity activity){
         this.activity = activity;
     }
+
     @Override
     public void onReceive(Context context, Intent intent){
         if (intent != null){

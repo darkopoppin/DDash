@@ -21,15 +21,15 @@ import android.widget.TextView;
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Cpu;
 import com.ddash.android_client.Data.InternetSpeedTest;
+import com.ddash.android_client.Data.LocationService;
 import com.ddash.android_client.Data.Memory;
-import com.ddash.android_client.Data.MyLocation;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
 import com.ddash.android_client.Data.Connectivity;
 import com.ddash.android_client.Data.SystemData;
 import com.ddash.android_client.Threading.ThreadManager;
-import com.google.gson.Gson;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private final int PERMISSION_REQUEST_CODE = 0;
     private final int REQUEST_CHECK_SETTINGS = 0;
     private final int LOCATION_REQUEST_CODE = 0;
+
     private boolean googlePlayServices = false;
+    private GoogleApiClient googleApiClient;
+    private GoogleApiCallback googleApiCallback = new GoogleApiCallback(this);
     private boolean lessThan23SDK = false;
     String [] appPermissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -69,18 +72,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         threadPool.runTasks(this);
 
         googlePlayServices = checkPlayServices();
-        if (googlePlayServices) {
-            MyLocation myLocation = new MyLocation(MainActivity.this);
+        /*if (googlePlayServices) {
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(googleApiCallback)
+                    .addOnConnectionFailedListener(googleApiCallback)
+                    .build();
+
+        googleApiClient.connect();*/
+            LocationService myLocation = new LocationService(MainActivity.this);
             LocationRequest locationRequest = myLocation.createLocationRequest();
             myLocation.checkLocationSettings(getApplicationContext());
-            Intent intentTest = new Intent(this, MyLocation.class);
+            Intent intentTest = new Intent(this, LocationService.class);
             intentTest.setAction(LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
                     LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_UPDATE_CURRENT);
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                LocationServices.getFusedLocationProviderClient(getApplicationContext()).requestLocationUpdates(locationRequest, pendingIntent);
+                FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, pendingIntent);
             }
-        }
+
 
 
         /* Display CPU data */
@@ -181,6 +192,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             phoneStorage.getInternalStorage();
             internal.start();
         }
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        googleApiClient.disconnect();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
