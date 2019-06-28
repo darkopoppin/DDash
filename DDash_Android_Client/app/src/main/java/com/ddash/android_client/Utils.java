@@ -38,6 +38,9 @@ public class Utils {
         return fBytes;
     }
 
+    /**
+     * Converts KB to GB
+     */
     public static double convertKB(long bytes){
         double fBytes = (double) bytes;
         Log.d("myConvert", Double.toString(fBytes));
@@ -46,6 +49,13 @@ public class Utils {
             Log.d("myConvert", Double.toString(fBytes));
         }
         return fBytes;
+    }
+
+    /**
+     * Returns the percentage of number1 in number2
+     */
+    public static int convertToPercentage(double number1, double number2){
+        return (int)Math.round((number1*100)/number2);
     }
 
     /*static void setLocationUpdatesResult(Context context, List<Location> locations) {

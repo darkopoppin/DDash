@@ -46,7 +46,7 @@ public class Memory implements Runnable{
     @Override
     public void run(){
         Log.d("MyTask", "is running");
-        memoryTask.setDataMap(getMemory(MyApplication.getAppContext()));
+        memoryTask.extractData(getMemory(MyApplication.getAppContext()));
         memoryTask.handleData();
     }
 }

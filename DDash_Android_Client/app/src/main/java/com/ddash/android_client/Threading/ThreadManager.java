@@ -40,15 +40,14 @@ public class ThreadManager {
                 switch (inputMessage.what){
                     case(MEMORY):
                         MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
-                        Map memoryData = memoryTask.getDataMap();
                         TextView memoryText = mainActivity.findViewById(R.id.textView2);
 
                         double totalM = memoryTask.getTotalMemory();
                         Log.d("myMemoryTotal", Double.toString(totalM));
-                        double usedM = totalM - Utils.convertKB((long) memoryData.get("availMemKB"));
+                        double usedM = memoryTask.getUsedMemory();
                         Log.d("myMemoryA", Double.toString(usedM));
 
-                        int percentage = (int)Math.round((usedM*100)/totalM);
+                        int percentage = Utils.convertToPercentage(usedM, totalM);
                         memoryText.setText(String.format("Used Memory %d%% ", percentage));
                 }
 
