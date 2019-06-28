@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -132,6 +134,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         /* consider dynamic (changing, real-time) vs static (constant, once-off) data
             Different UI views for each type?
         */
+
+//        CardView systemCard = (CardView) findViewById(R.id.main_card_system);
+//        systemCard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openSystemActivity();
+//            }
+//        });
     }
 
     @Override
@@ -245,11 +255,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
         Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
         TextView systemView = findViewById(R.id.main_text_system);
-        systemView.setText("Summary Build:\n" +
-                systemData.get("version_int")+ "\n" +
-                systemData.get("version_release")+ "\n" +
-                systemData.get("version_codename")+ "\n" +
-                systemData.get("getSerial"));
+        systemView.setText("Summary:\n" +
+                "API Level "+systemData.get("version_int")+ "\n" +
+                "Version Number "+ systemData.get("version_release")+ "\n" +
+                "Version Codename "+systemData.get("version_codename"));
 
     }
     public void getDownloadSpeed(View view){
@@ -264,7 +273,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             test.setText("Something went wrong!");
         }
     }
-
+    public void openSystemActivity(View view){
+        Intent intent = new Intent(this, SystemActivity.class);
+        startActivity(intent);
+    }
     public  void getLastKnownLocation(){
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
