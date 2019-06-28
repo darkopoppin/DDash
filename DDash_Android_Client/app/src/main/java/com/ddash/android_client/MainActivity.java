@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (extStorage == null){
                 externalText.setText("No sd card.");
             } else {
-//                externalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
+                externalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
             }
 
 
