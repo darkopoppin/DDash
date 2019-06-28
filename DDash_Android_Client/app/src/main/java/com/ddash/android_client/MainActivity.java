@@ -228,11 +228,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
         Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
         TextView systemView = findViewById(R.id.main_text_system);
-        systemView.setText("Summary Build:\n" +
-                systemData.get("version_int")+ "\n" +
-                systemData.get("version_release")+ "\n" +
-                systemData.get("version_codename")+ "\n" +
-                systemData.get("getSerial"));
+        systemView.setText("Summary:\n" +
+                "API Level "+systemData.get("version_int")+ "\n" +
+                "Version Number "+ systemData.get("version_release")+ "\n" +
+                "Version Codename "+systemData.get("version_codename"));
 
     }
     public void getDownloadSpeed(View view){
