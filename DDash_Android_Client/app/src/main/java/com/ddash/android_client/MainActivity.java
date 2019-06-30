@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -45,6 +46,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
@@ -95,13 +97,41 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             }
 
 
+        Gson gson = new Gson();
 
         /* Display CPU data */
 
-        TextView cpuCoresText = findViewById(R.id.main_text_cpucores);
+        List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
+        List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
+        List<String> features = new ArrayList<>(cpuSummary.get(0));
+        List<String> implementers = new ArrayList<>(cpuSummary.get(1));
+        StringBuffer sb = new StringBuffer();
+        for (String feature : features.subList(0, features.size()-1)) {
+            sb.append(feature);
+            sb.append(", ");
+        }
+        sb.append(features.get(features.size()-1));
+        String displayFeatures = sb.toString();
+
+        StringBuffer sb_impl = new StringBuffer();
+        for (String implementer : implementers.subList(0, implementers.size()-1)) {
+            sb_impl.append(implementer);
+            sb_impl.append(", ");
+        }
+        sb_impl.append(implementers.get(implementers.size()-1));
+        String displayImplementers = sb_impl.toString();
+
         int cores = Cpu.getCoresNumber();
-        String cpuData = String.valueOf(cores);
-        cpuCoresText.setText(cpuData);
+
+//        String cpuData = gson.toJson(cpuSummary);
+//        Utils.largeLog("CPU_ABOUT", displayFeatures);
+//        Utils.largeLog("CPU_ABOUT", displayImplementers);
+
+        TextView cpuText = findViewById(R.id.main_text_cpuabout);
+        String cpuData = "Number of Cores: " + cores + "\n" +
+                         "Available Features: " + displayFeatures + "\n" +
+                         "Implementers: " + displayImplementers + "\n";
+        cpuText.setText(cpuData);
 
 
         /* Display NETWORK data */
@@ -126,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
         /* Log all data for debugging */
-//        Gson gson = new Gson();
 //        List<Object> data = getAllData();
 //        String jsonData = gson.toJson(data);
 //        Utils.largeLog(DATA_TAG, jsonData);

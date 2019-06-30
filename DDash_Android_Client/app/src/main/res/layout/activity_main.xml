@@ -140,7 +140,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/main_text_cpu"
+                android:id="@+id/main_text_cpuabout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -148,34 +148,15 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="Number of Cores"
-                android:textAllCaps="true"
-                android:textColor="#EB27D3"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
-                app:fontFamily="monospace"
+                android:text="About CPU"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/main_text_cpucores"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="&lt;unknown&gt;"
-                android:textAllCaps="true"
-                android:textColor="#4AFF17"
-                android:textSize="18sp"
-                app:fontFamily="cursive"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/main_text_cpu"
-                app:layout_constraintStart_toStartOf="@+id/main_text_cpu"
-                app:layout_constraintTop_toBottomOf="@+id/main_text_cpu" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
