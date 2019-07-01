@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onStop(){
         super.onStop();
-        googleApiClient.disconnect();
+//        googleApiClient.disconnect();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
