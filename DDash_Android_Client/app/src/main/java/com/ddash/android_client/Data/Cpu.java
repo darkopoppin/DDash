@@ -1,5 +1,12 @@
 package com.ddash.android_client.Data;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.Log;
+
 import com.ddash.android_client.Utils;
 
 import java.io.BufferedReader;
@@ -8,8 +15,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Cpu {
@@ -24,33 +33,80 @@ public class Cpu {
         return map;
     }
 
-    public static List<String[]> getCpuAbout() {
-        String cpuinfoFilename = "/proc/cpuinfo";
-        // in this file we can find information about cores
-        // https://www.thegeekdiary.com/proccpuinfo-file-explained/
-        List<String> cpuinfoLines = Utils.readLines(cpuinfoFilename);
-        // parse the file
-        List<String[]> cpuInfo = new ArrayList<>();
-        for (String line : cpuinfoLines) {
-            String[] tokens = line.split(":");
-            String[] pair = new String[2];
-            if (tokens.length == 2) {
-                String key = tokens[0];
-                String value = tokens[1]; // TODO: Change type of value to match what is being parsed
-                // TODO: might want to trim/strip the strings
-                pair[0] = key;
-                pair[1] = value;
-            } else if (tokens.length == 1) {
-                String key = tokens[0];
-                pair[0] = key;
-                pair[1] = null;
+    public static List<Map<String, Object>> getCpuAbout() {
+        /*
+             in this file we can find information about cores
+             https://www.thegeekdiary.com/proccpuinfo-file-explained/
+         */
+        String file = "/proc/cpuinfo";
+        List<String> lines = Utils.readLines(file);
+        // parsing step
+        // 1. separate lines by processors
+        List<Integer> processorIndices = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            String contents = lines.get(i);
+            if (contents.contains("processor")) {
+                processorIndices.add(i);
             }
-            cpuInfo.add(pair);
-            // TODO: need to parse each processor separately
+        }
+
+        List<List<String>> processors = new ArrayList<>();
+        for (int i = 1; i < processorIndices.size(); i++) {
+            int start_index = processorIndices.get(i-1);
+            int end_index = processorIndices.get(i);
+            List<String> processor = lines.subList(start_index, end_index);
+            processors.add(processor);
+        }
+        List<String> tail = lines.subList(processorIndices.get(processorIndices.size()-1), lines.size());
+        processors.add(tail);
+
+        // 2. parse each processor's lines
+        List<Map<String, Object>> cpuInfo = new ArrayList<>();
+        for (List<String> processor : processors) {
+            // go through each processor
+            Map<String, Object> procInfo = new HashMap<>();
+            for (String line : processor) {
+                // parse each line
+                String[] tokens = line.split(":");
+                if (0 < tokens.length) {
+                    String key = tokens[0].trim().toLowerCase();
+                    Object value = null;
+                    if (tokens.length == 2) {
+                        value = String.valueOf(tokens[1]).trim(); // TODO: Change type of value to match what is being parsed
+                    }
+                    // add info to map
+                    procInfo.put(key, value);
+                }
+            }
+            // add to proc list
+            cpuInfo.add(procInfo);
         }
         return cpuInfo;
-        // TODO: also parse proc/stat, http://www.linuxhowtos.org/System/procstat.htm
     }
+
+    public static List<Set<String>> getCpuAboutSummary(List<Map<String, Object>> cpuInfo) {
+        // list of all implementers of any core
+        Set<String> implementersUnion = new HashSet<>();
+        // list of all features on any core
+        Set<String> featuresUnion = new HashSet<>();
+        for (Map<String, Object> procInfo : cpuInfo) {
+            // implementers
+            String implementer = (String) procInfo.get("cpu implementer");
+            implementersUnion.add(implementer);
+            // features
+            String features = (String) procInfo.get("features");
+            String[] featuresList = features.split(" ");
+            for (String feature : featuresList) {
+                featuresUnion.add(features);
+            }
+        }
+        List<Set<String>> summaryList = new ArrayList<>();
+        summaryList.add(featuresUnion);
+        summaryList.add(implementersUnion);
+        return summaryList;
+    }
+
+
 
     public static List<String> getCpuUse() {
         /** Also check https://github.com/AntonioRedondo/AnotherMonitor
@@ -107,5 +163,62 @@ public class Cpu {
             https://stackoverflow.com/questions/30119604/how-to-get-the-number-of-cores-of-an-android-device
          */
         return Runtime.getRuntime().availableProcessors();
+    }
+
+    public static List<String> getFrequency() {
+        String filename = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
+        List<String> lines = Utils.readLines(filename);
+        return lines;
+    }
+
+    public static int getCpuTemperature(Context context) {
+        SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        Sensor TempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+
+        SensorEventListener temperatureSensor = new SensorEventListener(){
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                // TODO Auto-generated method stub
+                float temp = event.values[0];
+                Log.i("sensor", "sensor temp = " + temp);
+            }
+        };
+
+        sensorManager.registerListener(temperatureSensor, TempSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        for (int i = 0; i < 100000; i++) {
+            try {
+                Thread.sleep(5000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
+    public static double getCpuTemperatureFile() {
+        /* Attempted files (n=not found, p=no permission)
+            n    "/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp"
+            n    "/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp"
+            p    "/sys/class/thermal/thermal_zone1/temp"
+            n    "/sys/class/i2c-adapter/i2c-4/4-004c/temperature"
+            n    "/sys/devices/platform/tegra-i2c.3/i2c-4/4-004c/temperature"
+            n    "/sys/devices/platform/omap/omap_temp_sensor.0/temperature"
+            n    "/sys/devices/platform/tegra_tmon/temp1_input"
+            n    "/sys/kernel/debug/tegra_thermal/temp_tj"
+            n    "/sys/devices/platform/s5p-tmu/temperature"
+            p    "/sys/class/thermal/thermal_zone0/temp"
+            p    "/sys/devices/virtual/thermal/thermal_zone0/temp"
+            n    "/sys/class/hwmon/hwmon0/device/temp1_input"
+            p    "/sys/devices/virtual/thermal/thermal_zone1/temp"
+            n    "/sys/devices/platform/s5p-tmu/curr_temp"
+         */
+        return -1.0;
     }
 }

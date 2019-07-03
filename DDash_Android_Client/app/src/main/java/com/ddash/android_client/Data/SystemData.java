@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
+
 import androidx.core.app.ActivityCompat;
 
 import com.ddash.android_client.Utils;
@@ -13,6 +15,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import static android.content.ContentValues.TAG;
 
 public class SystemData {
     public static Map<String, Object> getSystemData(Context context) {
@@ -42,6 +46,7 @@ public class SystemData {
             }
         }
         systemInfo.putAll(build_fields);
+        Log.d(TAG, "getSystemData: " + build_fields.toString());
         systemInfo.putAll(build_methods);
 
         // version
