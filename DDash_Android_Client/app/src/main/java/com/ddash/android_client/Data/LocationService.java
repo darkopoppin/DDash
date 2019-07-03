@@ -23,33 +23,18 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
-public class LocationService extends BroadcastReceiver {
+public class LocationService {
 
     private Activity activity;
     private LocationRequest locationRequest;
     private final int REQUEST_CHECK_SETTINGS = 0;
-    public static final String ACTION_PROCESS_UPDATES = "com.google.android.gms.location.sample.locationupdatespendingintent.action" +
-            ".PROCESS_UPDATES";
+
 
     public LocationService(Activity activity){
         this.activity = activity;
     }
 
-    @Override
-    public void onReceive(Context context, Intent intent){
-        if (intent != null){
-            final String action = intent.getAction();
-            if (ACTION_PROCESS_UPDATES.equals(action)){
-                LocationResult result = LocationResult.extractResult(intent);
-                if (result != null){
-                    List<Location> locations = result.getLocations();
-                    for (Location l : locations){
-                        Log.d("myLocation", l.toString());
-                    }
-                }
-            }
-        }
-    }
+
     public LocationRequest createLocationRequest() {
         // LocationRequest stores parameters for requests to the fused location provider
         this.locationRequest = LocationRequest.create();

@@ -11,7 +11,6 @@ import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.R;
 import com.ddash.android_client.Utils;
 
-import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -41,11 +40,11 @@ public class ThreadManager {
                     case(MEMORY):
                         MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
                         TextView memoryText = mainActivity.findViewById(R.id.textView2);
-
                         double totalM = memoryTask.getTotalMemory();
                         Log.d("myMemoryTotal", Double.toString(totalM));
                         double usedM = memoryTask.getUsedMemory();
                         Log.d("myMemoryA", Double.toString(usedM));
+
 
                         int percentage = Utils.convertToPercentage(usedM, totalM);
                         memoryText.setText(String.format("Used Memory %d%% ", percentage));

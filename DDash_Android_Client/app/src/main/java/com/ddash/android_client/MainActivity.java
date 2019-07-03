@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public static final String DATA_TAG = "FETCHED_DATA";
     private final int PERMISSION_REQUEST_CODE = 0;
     private final int REQUEST_CHECK_SETTINGS = 0;
-    private final int LOCATION_REQUEST_CODE = 0;
 
     private boolean googlePlayServices = false;
     private GoogleApiClient googleApiClient;
@@ -74,27 +73,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         threadPool.runTasks(this);
 
         googlePlayServices = checkPlayServices();
-        /*if (googlePlayServices) {
-            googleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(LocationServices.API)
-                    .addConnectionCallbacks(googleApiCallback)
-                    .addOnConnectionFailedListener(googleApiCallback)
-                    .build();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(googleApiCallback)
+                .addOnConnectionFailedListener(googleApiCallback)
+                .build();
 
-        googleApiClient.connect();*/
-            LocationService myLocation = new LocationService(MainActivity.this);
-            LocationRequest locationRequest = myLocation.createLocationRequest();
-            myLocation.checkLocationSettings(getApplicationContext());
-            Intent intentTest = new Intent(this, LocationService.class);
-            intentTest.setAction(LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
-                    LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_UPDATE_CURRENT);
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-                fusedLocationProviderClient.requestLocationUpdates(locationRequest, pendingIntent);
-            }
-
-
+        googleApiClient.connect();
 
         /* Display CPU data */
 
@@ -205,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
+    public void onDestroy(){
+        super.onDestroy();
         googleApiClient.disconnect();
     }
     @Override
