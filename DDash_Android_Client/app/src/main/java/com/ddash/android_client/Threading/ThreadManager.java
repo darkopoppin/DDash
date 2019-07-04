@@ -1,15 +1,22 @@
 package com.ddash.android_client.Threading;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.os.Handler;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ddash.MyApplication;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.R;
 import com.ddash.android_client.Utils;
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
+import com.sdsmdg.harjot.vectormaster.VectorMasterView;
+import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -45,9 +52,15 @@ public class ThreadManager {
                         double usedM = memoryTask.getUsedMemory();
                         Log.d("myMemoryA", Double.toString(usedM));
 
-
                         int percentage = Utils.convertToPercentage(usedM, totalM);
                         memoryText.setText(String.format("Used Memory %d%% ", percentage));
+
+                        VectorMasterView ramVector = mainActivity.findViewById(R.id.ram_image);
+                        PathModel path = ramVector.getPathModelByName("path");
+                        float trimEnd = (float) percentage / 100;
+                        path.setTrimPathEnd(trimEnd);
+                        ramVector.update();
+
                 }
 
             }
