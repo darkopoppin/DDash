@@ -94,10 +94,15 @@ public class Cpu {
             String implementer = (String) procInfo.get("cpu implementer");
             implementersUnion.add(implementer);
             // features
-            String features = (String) procInfo.get("features");
-            String[] featuresList = features.split(" ");
-            for (String feature : featuresList) {
-                featuresUnion.add(features);
+            try {
+                String features = (String) procInfo.get("features");
+                String[] featuresList = features.split(" ");
+                for (String feature : featuresList) {
+                    featuresUnion.add(features);
+                }
+            }
+            catch(NullPointerException e){
+
             }
         }
         List<Set<String>> summaryList = new ArrayList<>();
