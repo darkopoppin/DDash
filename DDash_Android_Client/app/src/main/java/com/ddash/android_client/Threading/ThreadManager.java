@@ -3,18 +3,18 @@ package com.ddash.android_client.Threading;
 import android.app.Activity;
 import android.os.Looper;
 import android.os.Message;
-import android.text.SpannableString;
 import android.util.Log;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.R;
 import com.ddash.android_client.Utils;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
-import java.util.Locale;
+
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -43,16 +43,16 @@ public class ThreadManager {
                 switch (inputMessage.what){
                     case(MEMORY):
                         MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
-                        TextView memoryText = mainActivity.findViewById(R.id.ramText);
+                        TextView memoryText = mainActivity.findViewById(R.id.main_text_ram);
                         double totalM = memoryTask.getTotalMemory();
                         Log.d("myMemoryTotal", Double.toString(totalM));
                         double usedM = memoryTask.getUsedMemory();
-                        Log.d("myMemoryA", Double.toString(usedM));
+                        Log.d("myMemoryUsed", Double.toString(usedM));
                         int percentage = Utils.convertToPercentage(usedM, totalM);
                         //setting the text
                         memoryText.setText(String.format("RAM\n%d%%", percentage));
                         //changing the size of the vector to match the used memory
-                        VectorMasterView ramVector = mainActivity.findViewById(R.id.ram_image);
+                        VectorMasterView ramVector = mainActivity.findViewById(R.id.main_vector_ram);
                         PathModel path = ramVector.getPathModelByName("path");
                         float trimEnd = (float) percentage / 100;
                         path.setTrimPathEnd(trimEnd);
@@ -68,6 +68,7 @@ public class ThreadManager {
         mainActivity = activity;
         //runnable object, initial delay, delay, time unit
         EXECUTOR.scheduleWithFixedDelay(new Memory(), 3, 3, TimeUnit.SECONDS);
+        EXECUTOR.scheduleAtFixedRate(new Battery(), 3, 120, TimeUnit.SECONDS);
     }
 
     //the task object containing all the data (see MemoryTask), taskID (memory - 1, CPU - 2)

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Gson gson = new Gson();
 
 
-        /* Display CPU data */
+        /* Display CPU data
 
         List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
         List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                          "Available Features: " + displayFeatures + "\n" +
                          "Implementers: " + displayImplementers + "\n";
         cpuText.setText(cpuData);
-
+        */
 
         /* Display NETWORK data */
 

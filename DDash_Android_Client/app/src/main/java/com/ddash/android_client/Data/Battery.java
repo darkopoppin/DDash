@@ -3,10 +3,19 @@ package com.ddash.android_client.Data;
 import android.content.Context;
 import android.os.BatteryManager;
 
+import com.ddash.android_client.Threading.BatteryTask;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class Battery {
+public class Battery implements Runnable{
+
+    private BatteryTask batteryTask;
+
+    public Battery(){
+        batteryTask = new BatteryTask();
+    }
+
     public static Map<String, Object> getBattery(Context context) {
         Map<String, Object> batteryInfo = new HashMap<>();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -23,5 +32,9 @@ public class Battery {
             }
         }
         return batteryInfo;
+    }
+
+    public void run(){
+
     }
 }

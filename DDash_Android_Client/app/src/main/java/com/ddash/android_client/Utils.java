@@ -27,13 +27,10 @@ public class Utils {
          * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
          * returns double number
          */
-        Log.d("myConvert", Long.toString(bytes));
         double fBytes = (double) bytes;
-        Log.d("myConvert", Double.toString(fBytes));
         for(int i = 0; i < 4; i++) {
             if (fBytes>1000)
                 fBytes = fBytes / 1024;
-            Log.d("myConvert", Double.toString(fBytes));
         }
         return fBytes;
     }
@@ -43,16 +40,14 @@ public class Utils {
      */
     public static double convertKB(long bytes){
         double fBytes = (double) bytes;
-        Log.d("myConvert", Double.toString(fBytes));
         for(int i = 0; i < 3; i++) {
             fBytes = fBytes / 1024;
-            Log.d("myConvert", Double.toString(fBytes));
         }
         return fBytes;
     }
 
     /**
-     * Returns the percentage of number1 in number2
+     * Returns the percentage of number1 of number2
      */
     public static int convertToPercentage(double number1, double number2){
         return (int)Math.round((number1*100)/number2);

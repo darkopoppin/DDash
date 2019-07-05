@@ -11,13 +11,14 @@
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/RAM"
+        android:id="@+id/main_card_ram"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="2dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardView2"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/main_card_storage"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,18 +28,19 @@
             android:layout_height="match_parent">
 
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
-                android:id="@+id/ram_image"
+                android:id="@+id/main_vector_ram"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/ram_100" />
+                app:vector_src="@drawable/ram" />
 
             <TextView
-                android:id="@+id/ramText"
+                android:id="@+id/main_text_ram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -52,17 +54,18 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/main_card_storage"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/RAM"
+        app:layout_constraintStart_toEndOf="@+id/main_card_ram"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -130,7 +133,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/main_card_cpu"
+        android:id="@+id/main_card_battery"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -138,31 +141,29 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardView2"
+        app:layout_constraintEnd_toStartOf="@+id/main_card_storage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RAM">
+        app:layout_constraintTop_toBottomOf="@+id/main_card_ram">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/main_text_cpuabout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_battery"
+                android:layout_width="48dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="About CPU"
-                android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/battery">
+
+            </com.sdsmdg.harjot.vectormaster.VectorMasterView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -178,8 +179,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/main_card_cpu"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+        app:layout_constraintStart_toEndOf="@+id/main_card_battery"
+        app:layout_constraintTop_toBottomOf="@+id/main_card_storage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -242,7 +243,7 @@
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_card_cpu">
+        app:layout_constraintTop_toBottomOf="@+id/main_card_battery">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

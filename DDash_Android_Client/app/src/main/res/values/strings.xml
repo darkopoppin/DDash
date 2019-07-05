@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DDash_Android_Client</string>
-    <string name="get_data_once">get data once</string>
     <string name="sample_data_text">Failed to replace sample text with actual data</string>
     <string name="ram">RAM\n</string>
 </resources>
