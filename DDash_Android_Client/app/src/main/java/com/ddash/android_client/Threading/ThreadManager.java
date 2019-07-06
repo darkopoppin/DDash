@@ -27,7 +27,7 @@ public class ThreadManager {
     private final int MEMORY = 1;
 
     //this is static block, it gets called only once, when the class is initialised
-    //no matter how many object are created
+    //no matter how many objects are created
     //therefore there is only one instance of the thread pool
     static{
         managerInstance = new ThreadManager();
@@ -68,7 +68,6 @@ public class ThreadManager {
         mainActivity = activity;
         //runnable object, initial delay, delay, time unit
         EXECUTOR.scheduleWithFixedDelay(new Memory(), 3, 3, TimeUnit.SECONDS);
-        EXECUTOR.scheduleAtFixedRate(new Battery(), 3, 120, TimeUnit.SECONDS);
     }
 
     //the task object containing all the data (see MemoryTask), taskID (memory - 1, CPU - 2)

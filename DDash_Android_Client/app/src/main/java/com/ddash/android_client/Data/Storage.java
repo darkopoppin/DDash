@@ -38,22 +38,9 @@ public class Storage {
     public List<Long> getInternalStorage(){
         StatFs stat = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         Log.d("myInternal", Environment.getExternalStorageDirectory().getAbsolutePath());
-        long available = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            available = stat.getAvailableBytes();
-        }
-        //if api < 18
-        else{
-            available = stat.getAvailableBlocks() * stat.getBlockSize();
-        }
+        long available = stat.getAvailableBytes();
+        long total = stat.getTotalBytes();
 
-        long total = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            total = stat.getTotalBytes();
-        }
-        else{
-            total = stat.getBlockCount() * stat.getBlockSize();
-        }
         //internal storages in bytes 16, 32, 64 ,128. Used to find the OS size and the total internal storage
         Long [] osSizes = new Long[]{17179869184L-total,34359738368L-total,68719476736L - total,137438953472L- total};
         long osSize = 0;
@@ -83,18 +70,8 @@ public class Storage {
     public List<Long> getSdCardStorage() {
         if (sdCard != null) {
             StatFs stat = new StatFs(sdCard);
-            long available = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                available = stat.getAvailableBytes();
-            } else {
-                available = stat.getAvailableBlocks() * stat.getBlockSize();
-            }
-            long total = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                total = stat.getTotalBytes();
-            } else {
-                total = stat.getBlockCount() * stat.getBlockSize();
-            }
+            long available = stat.getAvailableBytes();
+            long total = stat.getTotalBytes();
 
             List<Long> sdCard = new ArrayList<>();
 

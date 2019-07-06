@@ -38,6 +38,12 @@
                 </action>
             </intent-filter>
         </receiver>
+        <receiver android:name=".Data.BatteryBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"></action>
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>
