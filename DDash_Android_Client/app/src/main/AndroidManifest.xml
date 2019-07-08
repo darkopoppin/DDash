@@ -41,6 +41,8 @@
         <receiver android:name=".Data.BatteryBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED"></action>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"></action>
+                <action android:name="android.intent.action.BATTERY_CHANGED"></action>
             </intent-filter>
 
         </receiver>

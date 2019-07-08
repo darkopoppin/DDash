@@ -46,6 +46,6 @@ public class Memory implements Runnable{
         Log.d("MyTask", "is running");
 
         memoryTask.extractData(getMemory(MyApplication.getAppContext()));
-        memoryTask.handleData();
+        memoryTask.passData();
     }
 }

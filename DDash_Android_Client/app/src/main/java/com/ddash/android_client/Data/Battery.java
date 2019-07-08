@@ -3,27 +3,26 @@ package com.ddash.android_client.Data;
 import android.content.Context;
 import android.os.BatteryManager;
 
-import com.ddash.android_client.Threading.BatteryTask;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class Battery implements Runnable{
+public class Battery{
 
-    private BatteryTask batteryTask;
     private HashMap oldBatteryInfo;
 
     public Battery(){
-        batteryTask = new BatteryTask();
     }
 
-    public static Map<String, Object> getBattery(Context context) {
+    public static int getBatteryLevel(Context context) {
         Map<String, Object> batteryInfo = new HashMap<>();
         BatteryManager battery = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
         int level = battery.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
         batteryInfo.put("level", level);
+        return level;
+    }
+        /*
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            boolean charging = battery.isCharging();
+            int charging = battery.getIntProperty(BatteryManager.BATTERY_PROPERTY_STATUS);
             batteryInfo.put("charging", charging);
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
@@ -31,9 +30,7 @@ public class Battery implements Runnable{
             batteryInfo.put("remainingChargeTime", remainingChargeTime);
         }
         return batteryInfo;
-    }
+    }*/
 
-    public void run(){
 
-    }
 }

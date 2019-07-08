@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 
 import com.ddash.android_client.Data.Battery;
+import com.ddash.android_client.Data.BatteryBroadcastReceiver;
 import com.ddash.android_client.Data.Cpu;
 import com.ddash.android_client.Data.InternetSpeedTest;
 import com.ddash.android_client.Data.LocationService;
@@ -165,6 +167,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onStart();
         getStorage();
         displaySystemData();
+        /*BatteryBroadcastReceiver batteryBroadcastReceiver = new BatteryBroadcastReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+        intentFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryBroadcastReceiver, intentFilter);*/
     }
 
 
@@ -248,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         data.add(SystemData.getSystemData(getApplicationContext()));
         data.add(Cpu.getCpu());
         data.add(Memory.getMemory(getApplicationContext()));
-        data.add(Battery.getBattery(getApplicationContext()));
 
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
         List<Object> networkInfo = network.getAllWifiDetails();

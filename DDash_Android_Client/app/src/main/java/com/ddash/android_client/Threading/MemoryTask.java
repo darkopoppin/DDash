@@ -7,14 +7,9 @@ import com.ddash.android_client.Utils;
 import java.util.Map;
 
 public class MemoryTask{
-    private ThreadManager threadManager = ThreadManager.getManagerInstance();
     private double totalMemory;
     private double usedMemory;
     private boolean lowMemory;
-
-    public void handleData(){
-        threadManager.handleData(this, 1);
-    }
 
     public void extractData(Map memoryData){
         totalMemory = Math.round(Utils.convertKB((long) memoryData.get("totalMemKB")));
@@ -22,6 +17,10 @@ public class MemoryTask{
         lowMemory = (boolean) memoryData.get("lowMemory");
         Log.d("MemoryTaskThreshold", Long.toString((long)memoryData.get("threshold")));
 
+    }
+
+    public void passData(){
+        ThreadManager.getManagerInstance().handleData(this, 1);
     }
 
     public double getTotalMemory() { return totalMemory; }

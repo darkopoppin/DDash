@@ -149,6 +149,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/main_text_charging_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
                 android:id="@+id/main_vector_battery"
                 android:layout_width="48dp"

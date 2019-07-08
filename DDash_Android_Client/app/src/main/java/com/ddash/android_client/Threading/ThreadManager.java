@@ -1,6 +1,7 @@
 package com.ddash.android_client.Threading;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class ThreadManager {
     private Activity mainActivity;
 
     private final int MEMORY = 1;
+    private final int BATTERY_IS_CHARGING = 2;
 
     //this is static block, it gets called only once, when the class is initialised
     //no matter how many objects are created
@@ -39,7 +41,6 @@ public class ThreadManager {
         handler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message inputMessage){
-                Log.d("myHandler", "inside");
                 switch (inputMessage.what){
                     case(MEMORY):
                         MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
@@ -57,7 +58,7 @@ public class ThreadManager {
                         float trimEnd = (float) percentage / 100;
                         path.setTrimPathEnd(trimEnd);
                         ramVector.update();
-
+                        break;
                 }
 
             }
