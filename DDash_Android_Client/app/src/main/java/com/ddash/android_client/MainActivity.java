@@ -3,7 +3,9 @@ package com.ddash.android_client;
 import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 
 
 import com.ddash.android_client.Data.Battery;
+import com.ddash.android_client.Data.BatteryBroadcastReceiver;
 import com.ddash.android_client.Data.Cpu;
 import com.ddash.android_client.Data.InternetSpeedTest;
 import com.ddash.android_client.Data.LocationService;
@@ -164,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void onStart(){
         super.onStart();
         getStorage();
+        BroadcastReceiver batteryBR = new BatteryBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        this.registerReceiver(batteryBR, filter);
         displaySystemData();
     }
 
