@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         BroadcastReceiver batteryBR = new BatteryBroadcastReceiver(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         this.registerReceiver(batteryBR, filter);
         displaySystemData();
     }
