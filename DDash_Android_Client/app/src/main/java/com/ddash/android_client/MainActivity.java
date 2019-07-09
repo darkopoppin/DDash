@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         this.registerReceiver(batteryBR, filter);
         displaySystemData();
     }

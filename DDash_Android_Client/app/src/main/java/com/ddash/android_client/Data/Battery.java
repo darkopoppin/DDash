@@ -8,14 +8,7 @@ import com.ddash.android_client.Threading.BatteryTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Battery implements Runnable{
-
-    private BatteryTask batteryTask;
-    private HashMap oldBatteryInfo;
-
-    public Battery(){
-        batteryTask = new BatteryTask();
-    }
+public class Battery{
 
     public static Map<String, Object> getBattery(Context context) {
         Map<String, Object> batteryInfo = new HashMap<>();
@@ -31,9 +24,5 @@ public class Battery implements Runnable{
             batteryInfo.put("remainingChargeTime", remainingChargeTime);
         }
         return batteryInfo;
-    }
-
-    public void run(){
-
     }
 }

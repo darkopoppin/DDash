@@ -10,7 +10,7 @@
         android:fillAlpha="0"
         android:strokeColor="@color/colorPrimaryDark"
         android:strokeWidth="0.5"
-        android:pathData="M 3,1 L 11,1 L 11,5 L 3,5 Z">
+        android:pathData="M 5,1 L 11,1 L 11,5 L 3,5">
     </path>
     <path
         android:name="secondary_path"
@@ -19,4 +19,11 @@
         android:strokeColor="@color/colorPrimaryDark"
         android:pathData="M 11,2.75 L 11.25,2.75 L 11.25,3.25 L 11,3.25">
     </path>
-    </vector>
+    <path
+        android:name="charging"
+        android:fillAlpha="0"
+        android:strokeWidth="0.4"
+        android:strokeColor="@color/colorPrimaryDark"
+        android:pathData="M 3,5.25 L 3,2.5 C 3.3,2.4 3.7,2 3.7,1.5 L 3.7,1">
+    </path>
+</vector>
