@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void onStart(){
         super.onStart();
         getStorage();
-        BroadcastReceiver batteryBR = new BatteryBroadcastReceiver();
+        BroadcastReceiver batteryBR = new BatteryBroadcastReceiver(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         this.registerReceiver(batteryBR, filter);
