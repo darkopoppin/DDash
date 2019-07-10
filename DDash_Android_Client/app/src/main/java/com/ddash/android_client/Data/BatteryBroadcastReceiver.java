@@ -32,10 +32,10 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
             switch (action){
                 case(BATTERY_CHARGING):
                     batteryVector.update();
-                    batteryCharging.setText("true");
+                    batteryCharging.setText("charging");
                     break;
                 case(BATTERY_DISCHARGING):
-                    batteryCharging.setText("false");
+                    batteryCharging.setText("discharging");
                     break;
                 case(BATTERY_CHANGED):
                     TextView batteryLevel = activity.findViewById(R.id.main_text_batteryLevel);
