@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.ddash.android_client.R;
+import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 
 import java.util.Map;
 
@@ -26,9 +27,11 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
         if (intent!=null){
             String action  = intent.getAction();
             TextView batteryCharging = activity.findViewById(R.id.main_text_batteryCharging);
+            VectorMasterView batteryVector = activity.findViewById(R.id.main_vector_battery);
             Map batteryData = Battery.getBattery(context);
             switch (action){
                 case(BATTERY_CHARGING):
+                    batteryVector.update();
                     batteryCharging.setText("true");
                     break;
                 case(BATTERY_DISCHARGING):
@@ -37,9 +40,13 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
                 case(BATTERY_CHANGED):
                     TextView batteryLevel = activity.findViewById(R.id.main_text_batteryLevel);
                     int level = (int) batteryData.get("level");
-                    Log.d("BroadcastReceiver", Integer.toString(level));
-
                     batteryLevel.setText(String.format("level %d",level));
+                    if((boolean)batteryData.get("charging")){
+                        batteryCharging.setText("true");
+                    }
+                    else{
+                        batteryCharging.setText("false");
+                    }
                 }
             }
         }
