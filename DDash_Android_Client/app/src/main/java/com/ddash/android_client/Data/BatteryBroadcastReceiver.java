@@ -42,10 +42,10 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
                     int level = (int) batteryData.get("level");
                     batteryLevel.setText(String.format("level %d",level));
                     if((boolean)batteryData.get("charging")){
-                        batteryCharging.setText("true");
+                        batteryCharging.setText("charging");
                     }
                     else{
-                        batteryCharging.setText("false");
+                        batteryCharging.setText("discharging");
                     }
                 }
             }
