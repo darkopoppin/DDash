@@ -151,14 +151,13 @@
 
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
                 android:id="@+id/main_vector_battery"
-                android:layout_width="51dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/battery_charging">
-            </com.sdsmdg.harjot.vectormaster.VectorMasterView>
+                app:vector_src="@drawable/test"/>
 
             <TextView
                 android:id="@+id/main_text_batteryCharging"
