@@ -72,11 +72,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_internal"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/internal_storage" />
+
+
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_external"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="84dp"
+
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/internal_storage" />
+
             <TextView
                 android:id="@+id/main_label_storage_sdcard"
                 android:layout_width="111dp"
                 android:layout_height="29dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="28dp"
                 android:gravity="center"
                 android:text="External Storage :"
                 android:textSize="14sp"
@@ -87,7 +114,6 @@
                 android:id="@+id/main_label_storage_internal"
                 android:layout_width="111dp"
                 android:layout_height="29dp"
-                android:layout_marginTop="28dp"
                 android:gravity="center"
                 android:text="Internal Storage :"
                 android:textSize="14sp"
@@ -96,13 +122,11 @@
 
             <Button
                 android:id="@+id/main_button_storage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="140dp"
+                android:layout_height="43dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:onClick="refreshStorage"
                 android:text="TAP TO REFRESH"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -113,20 +137,26 @@
                 android:id="@+id/main_text_internal_storage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="34dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
                 android:text="LOADING..."
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/main_label_storage_internal"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/main_text_external_storage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="41dp"
+                android:layout_marginEnd="40dp"
                 android:text="LOADING..."
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/main_label_storage_sdcard"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_text_internal_storage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

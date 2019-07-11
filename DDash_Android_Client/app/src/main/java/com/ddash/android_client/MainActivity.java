@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 
@@ -50,6 +51,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+import com.sdsmdg.harjot.vectormaster.VectorMasterView;
+import com.sdsmdg.harjot.vectormaster.models.PathModel;
+
+import static android.graphics.Color.rgb;
 
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
@@ -203,13 +208,34 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             //Display the respective storage in UI
             TextView internalText = findViewById(R.id.main_text_internal_storage);
-            internalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(intStorage.get(2)), Utils.convertBytes(intStorage.get(0))));
+            double internal_used = Utils.convertBytes(intStorage.get(2));
+            double internal_total = Utils.convertBytes(intStorage.get(0));
+            internalText.setText(String.format("%.2f of %.2f free", internal_used, internal_total));
+
+            //Vector UI thingy majigga
+            int percentage = Utils.convertToPercentage(internal_used,internal_total);
+
+
+            VectorMasterView internal_ui = findViewById(R.id.main_vector_internal);
+            PathModel internal_path = internal_ui.getPathModelByName("internal");
+            float trimEnd = (float) percentage/100;
+            internal_path.setTrimPathEnd(trimEnd);
+//            internal_ui.update();
             TextView externalText = findViewById(R.id.main_text_external_storage);
 
             if (extStorage == null){
                 externalText.setText("No sd card.");
             } else {
-                externalText.setText(String.format("%.1f of %.1f free", Utils.convertBytes(extStorage.get(1)), Utils.convertBytes(extStorage.get(0))));
+
+                double external_used = Utils.convertBytes(extStorage.get(1));
+                double external_total = Utils.convertBytes(extStorage.get(0));
+                VectorMasterView external_ui = findViewById(R.id.main_vector_external);
+                PathModel external_path = external_ui.getPathModelByName("internal");
+                float trimEndExternal = (float) percentage/100;
+                external_path.setTrimPathEnd(trimEndExternal);
+
+
+                externalText.setText(String.format("%.2f of %.2f free",external_used ,external_total ));
             }
 
 
