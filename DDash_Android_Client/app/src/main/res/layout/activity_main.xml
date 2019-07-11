@@ -71,7 +71,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_internal_filler"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
 
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/filler" />
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
                 android:id="@+id/main_vector_internal"
                 android:layout_width="180dp"
@@ -86,6 +97,18 @@
                 app:vector_src="@drawable/internal_storage" />
 
 
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_external_filler"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="84dp"
+
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/filler" />
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
                 android:id="@+id/main_vector_external"
                 android:layout_width="180dp"
@@ -126,7 +149,7 @@
                 android:layout_height="43dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="4dp"
                 android:onClick="refreshStorage"
                 android:text="TAP TO REFRESH"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -158,6 +181,46 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_text_internal_storage" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external"
+                app:srcCompat="@color/test" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external"
+                app:srcCompat="@color/filler" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Used"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Free"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
