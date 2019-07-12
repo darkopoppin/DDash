@@ -187,7 +187,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/test"/>
+                app:vector_src="@drawable/battery_charging"/>
 
             <TextView
                 android:id="@+id/main_text_batteryCharging"
