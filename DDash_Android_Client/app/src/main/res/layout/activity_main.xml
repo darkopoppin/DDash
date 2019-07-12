@@ -71,10 +71,21 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_internal_filler"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
 
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/filler" />
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
                 android:id="@+id/main_vector_internal"
-                android:layout_width="180dp"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
@@ -87,8 +98,21 @@
 
 
             <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_external_filler"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="84dp"
+
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/filler" />
+
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
                 android:id="@+id/main_vector_external"
-                android:layout_width="180dp"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="84dp"
@@ -122,42 +146,99 @@
 
             <Button
                 android:id="@+id/main_button_storage"
-                android:layout_width="140dp"
-                android:layout_height="43dp"
+                android:layout_width="64dp"
+                android:layout_height="53dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@android:drawable/ic_menu_rotate"
                 android:onClick="refreshStorage"
-                android:text="TAP TO REFRESH"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />
 
             <TextView
                 android:id="@+id/main_text_internal_storage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="40dp"
-                android:text="LOADING..."
+                android:layout_marginEnd="24dp"
                 android:gravity="center"
+                android:text="LOADING..."
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/main_text_external_storage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="41dp"
-                android:layout_marginEnd="40dp"
-                android:text="LOADING..."
+                android:layout_marginEnd="24dp"
                 android:gravity="center"
+                android:text="LOADING..."
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/main_text_internal_storage" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="main_storage_identifier_used"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/main_button_storage"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:srcCompat="@color/test" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="main_storage_identifier_free"
+                app:layout_constraintStart_toEndOf="@+id/main_button_storage"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external"
+                app:srcCompat="@color/filler"
+                tools:srcCompat="#C0C0C0" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Free"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Used"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
