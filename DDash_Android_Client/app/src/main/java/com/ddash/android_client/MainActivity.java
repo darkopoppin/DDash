@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.BatteryManager;
 import android.os.Build;
 
 import androidx.cardview.widget.CardView;
@@ -54,6 +55,7 @@ import com.google.gson.Gson;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
+import static android.graphics.Color.MAGENTA;
 import static android.graphics.Color.rgb;
 
 
@@ -177,7 +179,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        this.registerReceiver(batteryBR, filter);
+        Intent batteryReceiver = this.registerReceiver(batteryBR, filter);
+        int status = batteryReceiver.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        if(status == BatteryManager.BATTERY_STATUS_CHARGING){
+            TextView textView = this.findViewById(R.id.main_text_batteryCharging);
+            textView.setText("Charging");
+        }
+        else
+            Log.d("myBattery", Boolean.toString(status==BatteryManager.BATTERY_STATUS_CHARGING));
         displaySystemData();
     }
 

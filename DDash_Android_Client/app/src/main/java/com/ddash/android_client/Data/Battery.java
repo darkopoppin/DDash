@@ -1,6 +1,7 @@
 package com.ddash.android_client.Data;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.BatteryManager;
 
 import com.ddash.android_client.Threading.BatteryTask;

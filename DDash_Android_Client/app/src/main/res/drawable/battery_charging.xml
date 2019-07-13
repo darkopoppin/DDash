@@ -5,6 +5,8 @@
     android:width="12dp"
     android:viewportHeight="6"
     android:viewportWidth="12">
+    <group
+        android:name="main_group">
     <path
         android:name="main_battery"
         android:fillAlpha="0"
@@ -39,6 +41,6 @@
         android:strokeWidth="0.3"
         android:strokeColor="#2A6979"
         android:pathData="M 3.35,0.4 L 3.35,1 L 2.65,1 L 2.65,0.4">
-
     </path>
+    </group>
 </vector>
