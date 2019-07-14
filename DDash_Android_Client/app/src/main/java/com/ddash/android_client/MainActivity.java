@@ -89,75 +89,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .addOnConnectionFailedListener(googleApiCallback)
                 .build();
 
-
         googleApiClient.connect();
-        Gson gson = new Gson();
 
+//        TextView cpuText = findViewById(R.id.main_text_cpuabout);
+//        displayCpuData(cpuText);
 
-        /* Display CPU data
-
-        List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
-        List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
-        List<String> features = new ArrayList<>(cpuSummary.get(0));
-        List<String> implementers = new ArrayList<>(cpuSummary.get(1));
-        StringBuffer sb = new StringBuffer();
-        for (String feature : features.subList(0, features.size()-1)) {
-            sb.append(feature);
-            sb.append(", ");
-        }
-        sb.append(features.get(features.size()-1));
-        String displayFeatures = sb.toString();
-
-        StringBuffer sb_impl = new StringBuffer();
-        for (String implementer : implementers.subList(0, implementers.size()-1)) {
-            sb_impl.append(implementer);
-            sb_impl.append(", ");
-        }
-        sb_impl.append(implementers.get(implementers.size()-1));
-        String displayImplementers = sb_impl.toString();
-
-        int cores = Cpu.getCoresNumber();
-
-//        String cpuData = gson.toJson(cpuSummary);
-//        Utils.largeLog("CPU_ABOUT", displayFeatures);
-//        Utils.largeLog("CPU_ABOUT", displayImplementers);
-
-        TextView cpuText = findViewById(R.id.main_text_cpuabout);
-        String cpuData = "Number of Cores: " + cores + "\n" +
-                         "Available Features: " + displayFeatures + "\n" +
-                         "Implementers: " + displayImplementers + "\n";
-        cpuText.setText(cpuData);
-        */
-
-        /* Display NETWORK data */
-
-//        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-//        String ssid = network.getSsid();
-//        String ip = network.getIp();
-//        String mac = network.getmacAddress();
 //        TextView networkText = findViewById(R.id.main_text_net);
-//        String text = "SSID: "+ ssid + "\n" +
-//                      "IP: " + ip + "\n" +
-//                      "MAC: " + mac;
-//        networkText.setText(text);
-
-        /* Some other ideas:
-            IP, MAC, Network ID (?), not SSID (known)
-            Connectivity status
-            Speed (provisional);
-
-            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
-        */
-
-
-        /* Log all data for debugging */
-//        List<Object> data = getAllData();
-//        String jsonData = gson.toJson(data);
-//        Utils.largeLog(DATA_TAG, jsonData);
-
-        /* consider dynamic (changing, real-time) vs static (constant, once-off) data
-            Different UI views for each type?
-        */
+//        displayNetworkData(networkText);
 
 //        CardView systemCard = (CardView) findViewById(R.id.main_card_system);
 //        systemCard.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +104,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //                openSystemActivity();
 //            }
 //        });
+
+        /* Log all data for debugging */
+//        Gson gson = new Gson();
+//        List<Object> data = getAllData();
+//        String jsonData = gson.toJson(data);
+//        Utils.largeLog(DATA_TAG, jsonData);
     }
 
     @Override
@@ -180,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         this.registerReceiver(batteryBR, filter);
         displaySystemData();
     }
-
 
     public void refreshStorage(View view){
         getStorage();
@@ -305,6 +248,60 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //        }
         return data;
     }
+
+    public void displayNetworkData(TextView networkText) {
+        /* Display network fields */
+        /*
+            TODO: Some ideas for fields:
+            IP, MAC, Network ID (?), not SSID (known)
+            Connectivity status
+            Speed (provisional);
+        */
+        /* TODO:
+            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
+        */
+
+        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+        String ssid = network.getSsid();
+        String ip = network.getIp();
+        String mac = network.getmacAddress();
+        String text = "SSID: "+ ssid + "\n" +
+                      "IP: " + ip + "\n" +
+                      "MAC: " + mac;
+        networkText.setText(text);
+    }
+
+    public void displayCpuData(TextView cpuText) {
+        /* Display facts about CPU */
+
+        List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
+        List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
+        List<String> features = new ArrayList<>(cpuSummary.get(0));
+        List<String> implementers = new ArrayList<>(cpuSummary.get(1));
+        StringBuffer sb = new StringBuffer();
+        for (String feature : features.subList(0, features.size()-1)) {
+            sb.append(feature);
+            sb.append(", ");
+        }
+        sb.append(features.get(features.size()-1));
+        String displayFeatures = sb.toString();
+
+        StringBuffer sb_impl = new StringBuffer();
+        for (String implementer : implementers.subList(0, implementers.size()-1)) {
+            sb_impl.append(implementer);
+            sb_impl.append(", ");
+        }
+        sb_impl.append(implementers.get(implementers.size()-1));
+        String displayImplementers = sb_impl.toString();
+
+        int cores = Cpu.getCoresNumber();
+
+        String cpuData = "Number of Cores: " + cores + "\n" +
+                         "Available Features: " + displayFeatures + "\n" +
+                         "Implementers: " + displayImplementers + "\n";
+        cpuText.setText(cpuData);
+    }
+
     public void displaySystemData(){
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
         Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
