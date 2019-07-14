@@ -5,7 +5,8 @@
     android:height="100dp"
     android:width="100dp"
     android:viewportHeight="100"
-    android:viewportWidth="100">
+    android:viewportWidth="100"
+    >
     <group
         android:rotation="270" android:pivotX="0" android:pivotY="0">
         <group android:translateY="-209" android:translateX="-7">

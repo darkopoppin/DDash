@@ -54,6 +54,7 @@ import com.google.gson.Gson;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
+import static android.graphics.Color.red;
 import static android.graphics.Color.rgb;
 
 
@@ -208,34 +209,40 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             //Display the respective storage in UI
             TextView internalText = findViewById(R.id.main_text_internal_storage);
-            double internal_used = Utils.convertBytes(intStorage.get(2));
-            double internal_total = Utils.convertBytes(intStorage.get(0));
-            internalText.setText(String.format("%.2f of %.2f free", internal_used, internal_total));
+            double internalUsed = Utils.convertBytes(intStorage.get(2));
+            double internalTotal = Utils.convertBytes(intStorage.get(0));
+            internalText.setText(String.format("%.2f of %.2f free", internalUsed, internalTotal));
 
-            //Vector UI thingy majigga
-            int percentage = Utils.convertToPercentage(internal_used,internal_total);
+            //Vector UI bars
+            int percentage = Utils.convertToPercentage(internalTotal-internalUsed,internalTotal);
 
 
             VectorMasterView internal_ui = findViewById(R.id.main_vector_internal);
-            PathModel internal_path = internal_ui.getPathModelByName("internal");
+            PathModel internalPath = internal_ui.getPathModelByName("internal");
             float trimEnd = (float) percentage/100;
-            internal_path.setTrimPathEnd(trimEnd);
-//            internal_ui.update();
+            internalPath.setTrimPathEnd(trimEnd);
             TextView externalText = findViewById(R.id.main_text_external_storage);
 
+
+            VectorMasterView externalUi = findViewById(R.id.main_vector_external);
+            PathModel externalPath = externalUi.getPathModelByName("internal");
+
+
             if (extStorage == null){
+                externalPath.setStrokeColor(Color.RED);
                 externalText.setText("No sd card.");
             } else {
 
-                double external_used = Utils.convertBytes(extStorage.get(1));
-                double external_total = Utils.convertBytes(extStorage.get(0));
-                VectorMasterView external_ui = findViewById(R.id.main_vector_external);
-                PathModel external_path = external_ui.getPathModelByName("internal");
-                float trimEndExternal = (float) percentage/100;
-                external_path.setTrimPathEnd(trimEndExternal);
+                double externalUsed = Utils.convertBytes(extStorage.get(1));
+                double externalTotal = Utils.convertBytes(extStorage.get(0));
+
+                int externalPercentage = Utils.convertToPercentage(externalTotal-externalUsed,externalTotal);
+
+                float trimEndExternal = (float) externalPercentage/100;
+                externalPath.setTrimPathEnd(trimEndExternal);
 
 
-                externalText.setText(String.format("%.2f of %.2f free",external_used ,external_total ));
+                externalText.setText(String.format("%.2f of %.2f free",externalUsed ,externalTotal ));
             }
 
 

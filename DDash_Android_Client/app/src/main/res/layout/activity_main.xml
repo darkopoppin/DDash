@@ -67,180 +67,29 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/main_card_ram"
         app:layout_constraintTop_toTopOf="parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.sdsmdg.harjot.vectormaster.VectorMasterView
-                android:id="@+id/main_vector_internal_filler"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/filler" />
-            <com.sdsmdg.harjot.vectormaster.VectorMasterView
-                android:id="@+id/main_vector_internal"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/internal_storage" />
-
-
-            <com.sdsmdg.harjot.vectormaster.VectorMasterView
-                android:id="@+id/main_vector_external_filler"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="84dp"
-
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/filler" />
-
-            <com.sdsmdg.harjot.vectormaster.VectorMasterView
-                android:id="@+id/main_vector_external"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="84dp"
-
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:vector_src="@drawable/internal_storage" />
 
             <TextView
-                android:id="@+id/main_label_storage_sdcard"
-                android:layout_width="111dp"
-                android:layout_height="29dp"
-                android:layout_marginTop="28dp"
-                android:gravity="center"
-                android:text="External Storage :"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_label_storage_internal" />
-
-            <TextView
-                android:id="@+id/main_label_storage_internal"
-                android:layout_width="111dp"
-                android:layout_height="29dp"
-                android:gravity="center"
-                android:text="Internal Storage :"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/main_button_storage"
-                android:layout_width="64dp"
-                android:layout_height="53dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="12dp"
-                android:background="@android:drawable/ic_menu_rotate"
-                android:onClick="refreshStorage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />
-
-            <TextView
-                android:id="@+id/main_text_internal_storage"
-                android:layout_width="wrap_content"
+                android:id="@+id/main_text_system"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="LOADING..."
+                android:onClick="openSystemActivity"
+                android:text="SYSTEM INFO HERE"
                 android:textSize="15sp"
-                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/main_text_external_storage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="41dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center"
-                android:text="LOADING..."
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_text_internal_storage" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="main_storage_identifier_used"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/main_button_storage"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                app:srcCompat="@color/test" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:contentDescription="main_storage_identifier_free"
-                app:layout_constraintStart_toEndOf="@+id/main_button_storage"
-                app:layout_constraintTop_toBottomOf="@+id/main_vector_external"
-                app:srcCompat="@color/filler"
-                tools:srcCompat="#C0C0C0" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Free"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Used"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -359,7 +208,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/main_card_system"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="170dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="10dp"
@@ -373,23 +222,182 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/main_text_system"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_internal_filler"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/filler" />
+
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_internal"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/internal_storage" />
+
+
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_external_filler"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="68dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/filler" />
+
+            <com.sdsmdg.harjot.vectormaster.VectorMasterView
+                android:id="@+id/main_vector_external"
+                android:layout_width="180dp"
+                android:layout_height="35dp"
+
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="68dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vector_src="@drawable/internal_storage" />
+
+            <TextView
+                android:id="@+id/main_label_storage_sdcard"
+                android:layout_width="111dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="External Storage"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/main_vector_external"
+                app:layout_constraintEnd_toEndOf="@+id/main_vector_external"
+                app:layout_constraintHorizontal_bias="0.459"
+                app:layout_constraintStart_toStartOf="@+id/main_vector_external"
+                app:layout_constraintTop_toTopOf="@+id/main_vector_external"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/main_label_storage_internal"
+                android:layout_width="111dp"
+                android:layout_height="29dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:onClick="openSystemActivity"
-                android:text="SYSTEM INFO HERE"
+                android:text="Internal Storage"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/main_vector_internal"
+                app:layout_constraintEnd_toEndOf="@+id/main_vector_internal"
+                app:layout_constraintHorizontal_bias="0.573"
+                app:layout_constraintStart_toStartOf="@+id/main_vector_internal"
+                app:layout_constraintTop_toTopOf="@+id/main_vector_internal"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <!--<Button-->
+            <!--android:id="@+id/main_button_storage"-->
+            <!--android:layout_width="64dp"-->
+            <!--android:layout_height="53dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginBottom="12dp"-->
+            <!--android:background="@android:drawable/ic_menu_rotate"-->
+            <!--android:onClick="refreshStorage"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.0"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/main_vector_external" />-->
+
+            <TextView
+                android:id="@+id/main_text_internal_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="LOADING..."
                 android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/main_vector_internal"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/main_text_external_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="LOADING..."
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/main_vector_external"
+                app:layout_constraintTop_toBottomOf="@+id/main_text_internal_storage" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginBottom="30dp"
+                android:contentDescription="main_storage_identifier_used"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView3"
+                app:srcCompat="@color/test" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="30dp"
+                android:contentDescription="main_storage_identifier_free"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@color/filler"
+                tools:srcCompat="#C0C0C0" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="30dp"
+                android:text="Used"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="30dp"
+                android:text="Free"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintHorizontal_bias="0.032"
+                app:layout_constraintStart_toEndOf="@+id/imageView2" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 
