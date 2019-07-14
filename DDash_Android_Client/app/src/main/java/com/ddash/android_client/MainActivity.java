@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             TextView internalText = findViewById(R.id.main_text_internal_storage);
             double internalUsed = Utils.convertBytes(intStorage.get(2));
             double internalTotal = Utils.convertBytes(intStorage.get(0));
-            internalText.setText(String.format("%.2f of %.2f free", internalUsed, internalTotal));
+            internalText.setText(String.format("%.2fGB used of %.2fGB", internalTotal-internalUsed, internalTotal));
 
             //Vector UI thingy majigga
             int percentage = Utils.convertToPercentage(internalTotal-internalUsed,internalTotal);
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 externalPath.setTrimPathEnd(trimEndExternal);
 
 
-                externalText.setText(String.format("%.2f of %.2f free",externalUsed ,externalTotal ));
+                externalText.setText(String.format("%.2fGB used of %.2fGB",externalTotal-externalUsed ,externalTotal ));
             }
 
 
