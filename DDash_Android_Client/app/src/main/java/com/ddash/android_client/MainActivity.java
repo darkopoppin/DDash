@@ -223,14 +223,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //            internal_ui.update();
             TextView externalText = findViewById(R.id.main_text_external_storage);
 
+
+            VectorMasterView external_ui = findViewById(R.id.main_vector_external);
+            PathModel external_path = external_ui.getPathModelByName("internal");
+
             if (extStorage == null){
+                external_path.setStrokeColor(Color.RED);
                 externalText.setText("No sd card.");
             } else {
 
                 double external_used = Utils.convertBytes(extStorage.get(1));
                 double external_total = Utils.convertBytes(extStorage.get(0));
-                VectorMasterView external_ui = findViewById(R.id.main_vector_external);
-                PathModel external_path = external_ui.getPathModelByName("internal");
+
                 float trimEndExternal = (float) percentage/100;
                 external_path.setTrimPathEnd(trimEndExternal);
 
