@@ -5,40 +5,42 @@
     android:width="12dp"
     android:viewportHeight="6"
     android:viewportWidth="12">
+    <group
+        android:name="main_group">
     <path
         android:name="main_battery"
         android:fillAlpha="0"
-        android:strokeColor="@color/colorPrimaryDark"
         android:strokeWidth="0.5"
+        android:strokeColor="#2A6979"
         android:pathData="M 4.3,1 L 11,1 L 11,5 L 3.9,5 L 3.9,2.9 C 4.7,2.4 4.5,1.5 4.6,1">
     </path>
     <path
         android:name="end_battery"
         android:fillAlpha="0"
         android:strokeWidth="1"
-        android:strokeColor="@color/colorPrimaryDark"
+        android:strokeColor="#2A6979"
         android:pathData="M 11,2.75 L 11.25,2.75 L 11.25,3.25 L 11,3.25">
     </path>
     <path
         android:name="inside_battery"
-        android:fillColor="@color/colorPrimaryDark"
+        android:fillColor="#2A6979"
         android:strokeWidth="0.5"
-        android:strokeColor="@color/colorPrimaryDark"
+        android:strokeColor="#2A6979"
         android:pathData="M 5.1,1.8 L 10.2,1.8 L 10.2,4.2 L 4.7,4.2 L 4.7,3.3 C 5.1,2.9 5.3,2.5 5.35,1.8">
     </path>
     <path
         android:name="plug"
-        android:fillColor="@color/colorPrimaryDark"
+        android:fillColor="#2A6979"
         android:strokeWidth="0.4"
-        android:strokeColor="@color/colorPrimaryDark"
+        android:strokeColor="#2A6979"
         android:pathData="M 3,5.25 L 3,2.5 C 3.3,2.4 3.7,2 3.7,1.5 L 3.7,1 L 2.3,1 L 2.3,1.5 C 2.3,1.7 2.4,2.3 3.1,2.5">
     </path>
     <path
         android:name="forks"
         android:fillAlpha="0"
         android:strokeWidth="0.3"
-        android:strokeColor="@color/colorPrimaryDark"
+        android:strokeColor="#2A6979"
         android:pathData="M 3.35,0.4 L 3.35,1 L 2.65,1 L 2.65,0.4">
-
     </path>
+    </group>
 </vector>
