@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /* TODO: (tomas comment) callbacks with data update
@@ -145,26 +147,24 @@ public class Connectivity {
         return connectionType;
 
     }
-    public ArrayList getConnectivityStatus(){
-        /*
-        Returns a list <String> of the following in order: [isConnected, connection type, speed estimation,network type]
-         */
-        ArrayList connection = new ArrayList();
-        connection.add(isConnected()+""); // FIXME: use a method to convert to string
+    public Map<String,Object> getConnectivityStatus(){
+
+        Map<String,Object> connection = new HashMap<>();
+        connection.put("Connected To Network",isConnected());
         if (isConnectedWifi() == true) {
-            connection.add("Wifi");
+            connection.put("Connection Type","Wifi");
         }
         else if(isConnectedMobile()){
-            connection.add("Mobile-Data");
+            connection.put("Connection Type","Mobile-Data");
         } else{
-            connection.add("Disconnected");
+            connection.put("Connection Type","Disconnected");
         }
         if (isConnectedFast()){
-            connection.add("Fast");
+            connection.put("Connection Speed","Fast");
         } else{
-            connection.add("Slow");
+            connection.put("Connection Speed","Slow");
         }
-        connection.add(connectionType);
+        connection.put("Network Type",connectionType);
         return connection;
     }
 }

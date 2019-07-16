@@ -5,9 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SystemActivity">
+    tools:context=".NetworkActivity">
     <LinearLayout
-        android:id="@+id/system_activity"
+        android:id="@+id/network_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-        <include layout="@layout/label"></include>
+            <include layout="@layout/label"></include>
 
 
         </LinearLayout>
