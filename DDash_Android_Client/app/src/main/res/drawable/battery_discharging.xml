@@ -9,7 +9,7 @@
         android:fillAlpha="0"
         android:strokeWidth="0.5"
         android:strokeColor="#2A6979"
-        android:pathData="M 1,1 L 9,1 L 9,5 L 1,5 Z M 9.2,2.50 L 9.50,2.50 L 9.50,3.55 L 9.2,3.55 Z">
+        android:pathData="M 2.3,1 L 10.3,1 L 10.3,5 L 2.3,5 Z M 10.3,2.50 L 10.8,2.50 L 10.8,3.55 L 10.3,3.55 Z">
     </path>
     <path
         android:name="inside_battery"
@@ -17,6 +17,6 @@
         android:fillColor="#2A6979"
         android:strokeWidth="0.5"
         android:strokeColor="#2A6979"
-        android:pathData="M 1.8,1.8 L 8.2,1.8 L 8.2,4.2 L 1.8,4.2 Z">
+        android:pathData="M 3.1,1.8 L 9.5,1.8 L 9.5,4.2 L 3.1,4.2 Z">
     </path>
 </vector>

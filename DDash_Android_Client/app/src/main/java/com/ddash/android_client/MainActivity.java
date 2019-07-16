@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.BatteryManager;
 import android.os.Build;
 
 import androidx.cardview.widget.CardView;
@@ -20,6 +21,7 @@ import android.util.Log;
 
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -117,15 +119,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onStart();
         getStorage();
         BroadcastReceiver batteryBR = new BatteryBroadcastReceiver(this);
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         this.registerReceiver(batteryBR, filter);
-
+        Battery.getBatteryStatus(this);
         displaySystemData();
-        displayNetworkData();
     }
 
     public void refreshStorage(View view){
@@ -234,16 +234,36 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         data.add(Memory.getMemory(getApplicationContext()));
         data.add(Battery.getBattery(getApplicationContext()));
 
+        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+        List<Object> networkInfo = network.getAllWifiDetails();
+        data.add(networkInfo);
 
+        Connectivity connection = new Connectivity(getApplicationContext());
+        List<Object> connectionInfo = connection.getConnectivityStatus();
+        data.add(connectionInfo);
         
-
+//        Double downloadSpeed = null;
+//        try {
+//            downloadSpeed = InternetSpeedTest.run();
+//            data.add(downloadSpeed + "");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return data;
     }
 
-    public void displayNetworkData() {
+    public void displayNetworkData(TextView networkText) {
         /* Display network fields */
+        /*
+            TODO: Some ideas for fields:
+            IP, MAC, Network ID (?), not SSID (known)
+            Connectivity status
+            Speed (provisional);
+        */
+        /* TODO:
+            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
+        */
 
-        TextView networkText = findViewById(R.id.main_text_networkStats);
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
         String ssid = network.getSsid();
         String ip = network.getIp();
@@ -298,6 +318,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     /*
 
     ########################Disabled indefinitely, unstable#################################################
+
+
+
+
     public void getDownloadSpeed(View view){
         Log.d(TAG,"getDownloadSpeed : Commencing Internet download speed ");
         TextView test = findViewById(R.id.main_text_netspeed);
@@ -311,14 +335,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
     */
-
     public void openSystemActivity(View view){
         Intent intent = new Intent(this, SystemActivity.class);
-        startActivity(intent);
-    }
-
-    public void openNetworkActivity(View view){
-        Intent intent = new Intent(this,NetworkActivity.class);
         startActivity(intent);
     }
     public  void getLastKnownLocation(){
