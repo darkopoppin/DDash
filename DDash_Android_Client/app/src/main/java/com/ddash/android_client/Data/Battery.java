@@ -1,9 +1,16 @@
 package com.ddash.android_client.Data;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.ddash.MyApplication;
+import com.ddash.android_client.R;
 import com.ddash.android_client.Threading.BatteryTask;
 
 import java.util.HashMap;
@@ -25,5 +32,25 @@ public class Battery{
             batteryInfo.put("remainingChargeTime", remainingChargeTime);
         }
         return batteryInfo;
+    }
+
+    public static void getBatteryStatus(Activity activity){
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = MyApplication.getAppContext().registerReceiver(null, intentFilter);
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
+        TextView batteryText = activity.findViewById(R.id.main_text_batteryCharging);
+        ImageView batteryIcon = activity.findViewById(R.id.main_vector_battery);
+        if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL){
+            batteryText.setText("Charging");
+            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P){
+                TextView batteryTime = activity.findViewById(R.id.main_text_time);
+                long time = (long)Battery.getBattery(MyApplication.getAppContext()).get("remainingChargeTime");
+                batteryTime.setText(Long.toString(time));
+            }
+        }
+        else {
+            batteryText.setText("Discharging");
+            batteryIcon.setImageResource(R.drawable.battery_discharging);
+        }
     }
 }

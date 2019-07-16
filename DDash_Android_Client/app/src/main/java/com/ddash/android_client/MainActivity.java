@@ -21,6 +21,7 @@ import android.util.Log;
 
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -179,15 +180,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         this.registerReceiver(batteryBR, filter);
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Intent batteryStatus = getApplicationContext().registerReceiver(null, intentFilter);
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
-        if (status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL){
-            TextView batteryText = this.findViewById(R.id.main_text_batteryCharging);
-            batteryText.setText("charging");
-            batteryText.invalidate();
-            batteryText.requestLayout();
-        }
+        Battery.getBatteryStatus(this);
         displaySystemData();
     }
 
