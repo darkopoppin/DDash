@@ -91,75 +91,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 .addOnConnectionFailedListener(googleApiCallback)
                 .build();
 
-
         googleApiClient.connect();
-        Gson gson = new Gson();
 
+//        TextView cpuText = findViewById(R.id.main_text_cpuabout);
+//        displayCpuData(cpuText);
 
-        /* Display CPU data
-
-        List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
-        List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
-        List<String> features = new ArrayList<>(cpuSummary.get(0));
-        List<String> implementers = new ArrayList<>(cpuSummary.get(1));
-        StringBuffer sb = new StringBuffer();
-        for (String feature : features.subList(0, features.size()-1)) {
-            sb.append(feature);
-            sb.append(", ");
-        }
-        sb.append(features.get(features.size()-1));
-        String displayFeatures = sb.toString();
-
-        StringBuffer sb_impl = new StringBuffer();
-        for (String implementer : implementers.subList(0, implementers.size()-1)) {
-            sb_impl.append(implementer);
-            sb_impl.append(", ");
-        }
-        sb_impl.append(implementers.get(implementers.size()-1));
-        String displayImplementers = sb_impl.toString();
-
-        int cores = Cpu.getCoresNumber();
-
-//        String cpuData = gson.toJson(cpuSummary);
-//        Utils.largeLog("CPU_ABOUT", displayFeatures);
-//        Utils.largeLog("CPU_ABOUT", displayImplementers);
-
-        TextView cpuText = findViewById(R.id.main_text_cpuabout);
-        String cpuData = "Number of Cores: " + cores + "\n" +
-                         "Available Features: " + displayFeatures + "\n" +
-                         "Implementers: " + displayImplementers + "\n";
-        cpuText.setText(cpuData);
-        */
-
-        /* Display NETWORK data */
-
-//        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
-//        String ssid = network.getSsid();
-//        String ip = network.getIp();
-//        String mac = network.getmacAddress();
 //        TextView networkText = findViewById(R.id.main_text_net);
-//        String text = "SSID: "+ ssid + "\n" +
-//                      "IP: " + ip + "\n" +
-//                      "MAC: " + mac;
-//        networkText.setText(text);
-
-        /* Some other ideas:
-            IP, MAC, Network ID (?), not SSID (known)
-            Connectivity status
-            Speed (provisional);
-
-            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
-        */
-
-
-        /* Log all data for debugging */
-//        List<Object> data = getAllData();
-//        String jsonData = gson.toJson(data);
-//        Utils.largeLog(DATA_TAG, jsonData);
-
-        /* consider dynamic (changing, real-time) vs static (constant, once-off) data
-            Different UI views for each type?
-        */
+//        displayNetworkData(networkText);
 
 //        CardView systemCard = (CardView) findViewById(R.id.main_card_system);
 //        systemCard.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //                openSystemActivity();
 //            }
 //        });
+
+        /* Log all data for debugging */
+//        Gson gson = new Gson();
+//        List<Object> data = getAllData();
+//        String jsonData = gson.toJson(data);
+//        Utils.largeLog(DATA_TAG, jsonData);
     }
 
     @Override
@@ -183,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Battery.getBatteryStatus(this);
         displaySystemData();
     }
-
 
     public void refreshStorage(View view){
         getStorage();
@@ -211,38 +154,37 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             //Display the respective storage in UI
             TextView internalText = findViewById(R.id.main_text_internal_storage);
-            double internal_used = Utils.convertBytes(intStorage.get(2));
-            double internal_total = Utils.convertBytes(intStorage.get(0));
-            internalText.setText(String.format("%.2f of %.2f free", internal_used, internal_total));
+            double internalUsed = Utils.convertBytes(intStorage.get(2));
+            double internalTotal = Utils.convertBytes(intStorage.get(0));
+            internalText.setText(String.format("%.2fGB used of %.2fGB", internalTotal-internalUsed, internalTotal));
 
             //Vector UI thingy majigga
-            int percentage = Utils.convertToPercentage(internal_used,internal_total);
+            int percentage = Utils.convertToPercentage(internalTotal-internalUsed,internalTotal);
 
 
-            VectorMasterView internal_ui = findViewById(R.id.main_vector_internal);
-            PathModel internal_path = internal_ui.getPathModelByName("internal");
+            VectorMasterView internalUi = findViewById(R.id.main_vector_internal);
+            PathModel internalPath = internalUi.getPathModelByName("internal");
             float trimEnd = (float) percentage/100;
-            internal_path.setTrimPathEnd(trimEnd);
-//            internal_ui.update();
+            internalPath.setTrimPathEnd(trimEnd);
             TextView externalText = findViewById(R.id.main_text_external_storage);
 
 
-            VectorMasterView external_ui = findViewById(R.id.main_vector_external);
-            PathModel external_path = external_ui.getPathModelByName("internal");
+            VectorMasterView externalUi = findViewById(R.id.main_vector_external);
+            PathModel externalPath = externalUi.getPathModelByName("internal");
 
             if (extStorage == null){
-                external_path.setStrokeColor(Color.RED);
+                externalPath.setStrokeColor(Color.RED);
                 externalText.setText("No sd card.");
             } else {
 
-                double external_used = Utils.convertBytes(extStorage.get(1));
-                double external_total = Utils.convertBytes(extStorage.get(0));
+                double externalUsed = Utils.convertBytes(extStorage.get(1));
+                double externalTotal = Utils.convertBytes(extStorage.get(0));
+                int percentageInternal = Utils.convertToPercentage(externalTotal-externalUsed,externalTotal);
+                float trimEndExternal = (float) percentageInternal/100;
+                externalPath.setTrimPathEnd(trimEndExternal);
 
-                float trimEndExternal = (float) percentage/100;
-                external_path.setTrimPathEnd(trimEndExternal);
 
-
-                externalText.setText(String.format("%.2f of %.2f free",external_used ,external_total ));
+                externalText.setText(String.format("%.2fGB used of %.2fGB",externalTotal-externalUsed ,externalTotal ));
             }
 
 
@@ -309,6 +251,60 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //        }
         return data;
     }
+
+    public void displayNetworkData(TextView networkText) {
+        /* Display network fields */
+        /*
+            TODO: Some ideas for fields:
+            IP, MAC, Network ID (?), not SSID (known)
+            Connectivity status
+            Speed (provisional);
+        */
+        /* TODO:
+            Consider icons indicating approximate speed, kind (mobile, wifi), etc.
+        */
+
+        Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+        String ssid = network.getSsid();
+        String ip = network.getIp();
+        String mac = network.getmacAddress();
+        String text = "SSID: "+ ssid + "\n" +
+                      "IP: " + ip + "\n" +
+                      "MAC: " + mac;
+        networkText.setText(text);
+    }
+
+    public void displayCpuData(TextView cpuText) {
+        /* Display facts about CPU */
+
+        List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
+        List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
+        List<String> features = new ArrayList<>(cpuSummary.get(0));
+        List<String> implementers = new ArrayList<>(cpuSummary.get(1));
+        StringBuffer sb = new StringBuffer();
+        for (String feature : features.subList(0, features.size()-1)) {
+            sb.append(feature);
+            sb.append(", ");
+        }
+        sb.append(features.get(features.size()-1));
+        String displayFeatures = sb.toString();
+
+        StringBuffer sb_impl = new StringBuffer();
+        for (String implementer : implementers.subList(0, implementers.size()-1)) {
+            sb_impl.append(implementer);
+            sb_impl.append(", ");
+        }
+        sb_impl.append(implementers.get(implementers.size()-1));
+        String displayImplementers = sb_impl.toString();
+
+        int cores = Cpu.getCoresNumber();
+
+        String cpuData = "Number of Cores: " + cores + "\n" +
+                         "Available Features: " + displayFeatures + "\n" +
+                         "Implementers: " + displayImplementers + "\n";
+        cpuText.setText(cpuData);
+    }
+
     public void displaySystemData(){
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
         Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
@@ -319,6 +315,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 "Version Codename "+systemData.get("version_codename"));
 
     }
+    /*
+
+    ########################Disabled indefinitely, unstable#################################################
+
+
+
+
     public void getDownloadSpeed(View view){
         Log.d(TAG,"getDownloadSpeed : Commencing Internet download speed ");
         TextView test = findViewById(R.id.main_text_netspeed);
@@ -331,6 +334,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             test.setText("Something went wrong!");
         }
     }
+    */
     public void openSystemActivity(View view){
         Intent intent = new Intent(this, SystemActivity.class);
         startActivity(intent);
