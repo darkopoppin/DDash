@@ -21,14 +21,16 @@ A user-friendly Android app to collect information about your Android device, wi
 
 Requires Android version 5.0, Lollipop (release 21).
 
-insert screenshots here...
+..insert screenshots here
 
 ### Data that we can get
 * RAM usage.
 * System or build information.
-* Battery status.
+  * (Tap on the card for more data).
 * Network information.
+  * (Tap on the card for more data).
 * Internet connection speed.
+* Battery status.
 * Secondary storage usage (internal and SD card).
 
 ### Known issues or TODO's
