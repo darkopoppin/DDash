@@ -21,7 +21,10 @@ A user-friendly Android app to collect information about your Android device, wi
 
 Requires Android version 5.0, Lollipop (release 21).
 
-..insert screenshots here
+[!App home](/screenshots/device-2019-07-17-homepage.png?raw=true)
+[!App system window](/screenshots/device-2019-07-17-system-extra.png?raw=true)
+[!App network window](/screenshots/device-2019-07-17-network-extra.png?raw=true)
+
 
 ### Data that we can get
 * RAM usage.
