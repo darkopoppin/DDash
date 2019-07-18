@@ -29,6 +29,7 @@ import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.BatteryBroadcastReceiver;
 import com.ddash.android_client.Data.Cpu;
 import com.ddash.android_client.Data.InternetSpeedTest;
+import com.ddash.android_client.Data.LocationBroadcastReceiver;
 import com.ddash.android_client.Data.LocationService;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.Data.Network;
@@ -125,6 +126,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         this.registerReceiver(batteryBR, filter);
         Battery.getBatteryStatus(this);
+
+        BroadcastReceiver locationBR = new LocationBroadcastReceiver();
+        IntentFilter locationFilter = new IntentFilter();
+        locationFilter.addAction("com.google.android.gms.location.locationupdatespendingintent.action.PROCESS_UPDATES");
+
         displaySystemData();
     }
 
