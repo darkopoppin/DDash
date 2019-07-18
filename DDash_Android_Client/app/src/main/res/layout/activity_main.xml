@@ -167,34 +167,18 @@
             android:layout_width="match_parent"
             android:layout_height="100sp">
 
-            <!--<TextView-->
-            <!--TODO: Find a better way to implement a download speed checker-->
-            <!--android:id="@+id/main_text_net"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:text="NET HERE"-->
-            <!--android:textSize="14sp"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-            <!-- TODO: good idea to make textSize relative, i.e. fill the whole box
-                based on screensize,
-                instead of setting predefined measurements. -->
 
-            <!--<TextView-->
-                <!--android:id="@+id/main_text_netspeed"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:layout_marginLeft="8dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginEnd="8dp"-->
-                <!--android:layout_marginRight="8dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Internet Speed"-->
-                <!--android:textSize="15sp"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toTopOf="parent" />-->
+            <TextView
+                android:id="@+id/main_text_networkStats"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:text="NETWORK INFO HERE"
+                android:onClick="openNetworkActivity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!--<Button-->
                 <!--android:id="@+id/main_button_netspeed"-->

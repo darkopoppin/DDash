@@ -3,7 +3,15 @@ package com.ddash.android_client.Data;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 /*
@@ -34,20 +42,10 @@ public class Network {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 
         ip = convertIPtoString(wifiInfo);
-
-
         speed = wifiInfo.getLinkSpeed();
-
-
         networkId = wifiInfo.getNetworkId();
-
-
         macAddress = wifiInfo.getMacAddress();
-
-
         ssid = wifiInfo.getSSID();
-
-
     }
     /*
     Converts the IP from (int) numerical value to IPv4 format.
@@ -96,13 +94,14 @@ public class Network {
     /*
     Returns all the network information in a List in the order: [ip address, Download speed (Mbps), Network ID, Mac Address, Network SSID]
     */
-    public ArrayList getAllWifiDetails(){
-        ArrayList networkInfo = new ArrayList();
-        networkInfo.add(ip);
-        networkInfo.add(Integer.toString(speed));
-        networkInfo.add(Integer.toString(networkId));
-        networkInfo.add(macAddress);
-        networkInfo.add(ssid);
+    public Map<String, Object> getAllWifiDetails(){
+        Map<String,Object> networkInfo = new HashMap<>();
+
+        networkInfo.put("IP Address",ip);
+        networkInfo.put("Link Speed",speed + "GB/s");
+        networkInfo.put("Network ID",Integer.toString(networkId));
+        networkInfo.put("MAC Address",macAddress);
+        networkInfo.put("SSID",ssid);
 
         return networkInfo;
     }
