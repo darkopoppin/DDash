@@ -2,54 +2,37 @@ package com.ddash.android_client;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.BatteryManager;
 import android.os.Build;
-
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-
-
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.BatteryBroadcastReceiver;
 import com.ddash.android_client.Data.Cpu;
-import com.ddash.android_client.Data.InternetSpeedTest;
 import com.ddash.android_client.Data.LocationBroadcastReceiver;
-import com.ddash.android_client.Data.LocationService;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
-import com.ddash.android_client.Data.Connectivity;
 import com.ddash.android_client.Data.SystemData;
 import com.ddash.android_client.Threading.ThreadManager;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -57,13 +40,15 @@ import com.google.gson.Gson;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
-import static android.graphics.Color.rgb;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
     public static final String FETCHED_DATA = "com.ddash.android_client.FETCHED_DATA";
-    public static final String DATA_TAG = "FETCHED_DATA";
     private final int PERMISSION_REQUEST_CODE = 0;
     private final int REQUEST_CHECK_SETTINGS = 0;
 
@@ -95,12 +80,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         googleApiClient.connect();
 
-//        TextView cpuText = findViewById(R.id.main_text_cpuabout);
-//        displayCpuData(cpuText);
-
-//        TextView networkText = findViewById(R.id.main_text_net);
-//        displayNetworkData(networkText);
-
 //        CardView systemCard = (CardView) findViewById(R.id.main_card_system);
 //        systemCard.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -108,12 +87,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 //                openSystemActivity();
 //            }
 //        });
-
-        /* Log all data for debugging */
-//        Gson gson = new Gson();
-//        List<Object> data = getAllData();
-//        String jsonData = gson.toJson(data);
-//        Utils.largeLog(DATA_TAG, jsonData);
     }
 
     @Override
@@ -138,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         displayNetworkData();
     }
 
-
     public void getStorage(){
         Storage phoneStorage = new Storage(getExternalFilesDirs(null));
 
@@ -161,13 +133,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             //Vector UI thingy majigga
             int percentage = Utils.convertToPercentage(internalTotal-internalUsed,internalTotal);
 
-
             VectorMasterView internalUi = findViewById(R.id.main_vector_internal);
             PathModel internalPath = internalUi.getPathModelByName("internal");
             float trimEnd = (float) percentage/100;
             internalPath.setTrimPathEnd(trimEnd);
             TextView externalText = findViewById(R.id.main_text_external_storage);
-
 
             VectorMasterView externalUi = findViewById(R.id.main_vector_external);
             PathModel externalPath = externalUi.getPathModelByName("internal");
@@ -186,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
                 externalText.setText(String.format("%.2fGB used of %.2fGB",externalTotal-externalUsed ,externalTotal ));
             }
-
 
             internal.start();
             sdCard.start();
@@ -209,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onDestroy();
         googleApiClient.disconnect();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         //final LocationSettingsStates states = LocationSettingsStates.fromIntent(intent);
@@ -226,17 +196,22 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
-    public List<Object> getAllData() {
+    /** Log all data for debugging **/
+    void logAll(String tag) {
         List<Object> data = new ArrayList<>();
-
         data.add(SystemData.getSystemData(getApplicationContext()));
         data.add(Cpu.getCpu());
         data.add(Memory.getMemory(getApplicationContext()));
         data.add(Battery.getBattery(getApplicationContext()));
 
-        return data;
+        /* we use JSON serialization because it can show values
+        of nested data */
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(data);
+        Utils.largeLog(tag, jsonData);
     }
 
+    /** Show some network information **/
     public void displayNetworkData() {
         TextView netText = findViewById(R.id.main_text_networkStats);
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
@@ -249,9 +224,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         netText.setText(text);
     }
 
+    /** Show facts about CPU **/
     public void displayCpuData(TextView cpuText) {
-        /* Display facts about CPU */
-
         List<Map<String, Object>> cpuAbout = Cpu.getCpuAbout();
         List<Set<String>> cpuSummary = Cpu.getCpuAboutSummary(cpuAbout);
         List<String> features = new ArrayList<>(cpuSummary.get(0));
@@ -280,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         cpuText.setText(cpuData);
     }
 
+    /** Show a summary of system information **/
     public void displaySystemData(){
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
         Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
@@ -288,14 +263,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 "API Level "+systemData.get("version_int")+ "\n" +
                 "Version Number "+ systemData.get("version_release")+ "\n" +
                 "Version Codename "+systemData.get("version_codename"));
-
     }
+
     /*
-
-    ########################Disabled indefinitely, unstable#################################################
-
-
-
+    //  ########################Disabled indefinitely, unstable#################################################
 
     public void getDownloadSpeed(View view){
         Log.d(TAG,"getDownloadSpeed : Commencing Internet download speed ");
@@ -310,7 +281,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
     */
-
 
     public void openSystemActivity(View view){
         Intent intent = new Intent(this, SystemActivity.class);
@@ -377,8 +347,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         else
             lessThan23SDK = true;
     }
-
-
 
     /**
      *  Callback received when a permission request is completed

@@ -1,12 +1,7 @@
 package com.ddash.android_client;
 
-import android.content.Context;
-import android.location.Location;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,13 +17,13 @@ import java.util.Map;
 
 public class Utils {
 
-    public static double convertBytes (long bytes) {
-        /**
-         * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
-         * returns double number
-         */
+    /**
+     * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
+     * returns double number
+     */
+    public static double convertBytes(long bytes) {
         double fBytes = (double) bytes;
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             if (fBytes>1000)
                 fBytes = fBytes / 1024;
         }
@@ -38,9 +33,9 @@ public class Utils {
     /**
      * Converts KB to GB
      */
-    public static double convertKB(long bytes){
+    public static double convertKB(long bytes) {
         double fBytes = (double) bytes;
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             fBytes = fBytes / 1024;
         }
         return fBytes;
@@ -49,8 +44,8 @@ public class Utils {
     /**
      * Returns the percentage of number1 of number2
      */
-    public static int convertToPercentage(double number1, double number2){
-        return (int)Math.round((number1*100)/number2);
+    public static int convertToPercentage(double number1, double number2) {
+        return (int) Math.round((number1*100)/number2);
     }
 
     /*static void setLocationUpdatesResult(Context context, List<Location> locations) {
@@ -61,6 +56,13 @@ public class Utils {
                 .apply();
     }*/
 
+    /** Return the "inversion" of a map.
+     * That is, given a map from key to value,
+     * return another map that maps from value to key.
+     * Example:
+     *  The inversion of {'a':2, 'b':3} is {2:'a', 3:'b'}.
+     *  The map is assumed to have unique values.
+     * **/
     public static <K, V> Map<V, K> invertMap(Map<K, V> m) {
         Map<V, K> inverted = new HashMap<>();
         for (Map.Entry<K, V> entry : m.entrySet()) {
@@ -69,6 +71,7 @@ public class Utils {
         return inverted;
     }
 
+    /** Read the lines of a file into a list. **/
     public static List<String> readLines(String filename) {
         List<String> lines = new ArrayList<>();
         try {
@@ -97,12 +100,13 @@ public class Utils {
         return lines;
     }
 
+    /** Log a large message, breaking it up into smaller log messages if needed. **/
     public static void largeLog(String tag, String content) {
-        /** Log messages have a maximum length.
+        /* Log messages have a maximum length.
          * This is a recursive method for breaking a message up,
          * taken from here:
          * https://stackoverflow.com/a/25734136/11555448
-         */
+        */
         if (content.length() > 4000) {
             Log.d(tag, content.substring(0, 4000));
             largeLog(tag, content.substring(4000));
@@ -111,6 +115,7 @@ public class Utils {
         }
     }
 
+    /** Use reflection to access class values at runtime. **/
     public static class Introspective {
 
         public String cls_name;
@@ -137,6 +142,7 @@ public class Utils {
             }
         }
 
+        /** Get all field values for an object. **/
         public HashMap<String, Object> getFields() {
             Field cls_fields[] = cls_obj.getDeclaredFields();
             HashMap<String, Object> field_values = new HashMap<>();
@@ -150,6 +156,7 @@ public class Utils {
             return field_values;
         }
 
+        /** Get all method return values for an object. **/
         public HashMap<String, Object> getMethods() {
             Method cls_methods[] = cls_obj.getDeclaredMethods();
             HashMap<String, Object> method_values = new HashMap<String, Object>();
@@ -161,10 +168,8 @@ public class Utils {
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 }
-
             }
             return method_values;
         }
-
     }
 }

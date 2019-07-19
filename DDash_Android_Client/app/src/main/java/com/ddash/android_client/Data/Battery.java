@@ -5,22 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ddash.MyApplication;
 import com.ddash.android_client.R;
-import com.ddash.android_client.Threading.BatteryTask;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Battery{
 
-    /*
-    returns map with battery level, battery charging state and the time to full charge
-     */
+    /** Get battery status.
+    Returns map with battery level, battery charging state and the time to full charge
+    **/
     public static Map<String, Object> getBattery(Context context) {
         Map<String, Object> batteryInfo = new HashMap<>();
         BatteryManager battery = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
@@ -37,9 +35,9 @@ public class Battery{
         return batteryInfo;
     }
 
-    /*
-    initially sets the battery icon and text in main activity
-     */
+    /**
+    Initially sets the battery icon and text in main activity
+     **/
     public static void setBatteryStatus(Activity activity){
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = MyApplication.getAppContext().registerReceiver(null, intentFilter);

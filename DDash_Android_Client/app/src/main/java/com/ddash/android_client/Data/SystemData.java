@@ -19,6 +19,8 @@ import java.util.Properties;
 import static android.content.ContentValues.TAG;
 
 public class SystemData {
+
+    /** Get all device system and build data. **/
     public static Map<String, Object> getSystemData(Context context) {
         Map<String, Object> systemInfo = new HashMap<>();
 
@@ -82,6 +84,7 @@ public class SystemData {
         return systemInfo;
     }
 
+    /** Get a map from version codename (string) to version code (integer). **/
     public static Map<String, Integer> getAndroidVersionCodesMap() {
         Utils.Introspective build_version_codes_introspective = new Utils.Introspective("android.os.Build$VERSION_CODES");
         Map<String, Object> versions = build_version_codes_introspective.getFields();
