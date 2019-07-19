@@ -1,4 +1,4 @@
-[Imgur](https://imgur.com/eirbIpm)[Imgur](https://imgur.com/eirbIpm)# DDash
+# DDash
 
 insert icon here...
 
