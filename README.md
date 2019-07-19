@@ -41,7 +41,7 @@ Requires Android version 5.0, Lollipop (release 21).
 <p align="center">
 *Insert system activity image here*
 </p>
-*Network information.
+* Network information.
 <p align="center">
 *Insert network activity image here*
 </p>
