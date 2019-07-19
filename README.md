@@ -28,13 +28,22 @@ Requires Android version 5.0, Lollipop (release 21).
 
 ### Data that we can get
 * RAM usage.
-* System or build information.
-  * (Tap on the card for more data).
-* Network information.
-  * (Tap on the card for more data).
+* Secondary storage usage (internal and SD card).
 * Internet connection speed.
 * Battery status.
-* Secondary storage usage (internal and SD card).
+<p align="center">
+  *Insert home screen image here*
+</p>
+* System/build information.
+<p align="center">
+  *Insert system activity image here*
+</p>
+* Network information.
+<p align="center">
+  *Insert network activity image here*
+</p>
+
+
 
 ### Known issues or TODO's
 * CPU usage information can not be retrieved (OS limitation).
