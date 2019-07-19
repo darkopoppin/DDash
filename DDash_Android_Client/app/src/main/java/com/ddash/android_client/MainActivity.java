@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         ThreadManager threadPool = ThreadManager.getManagerInstance();
         threadPool.runTasks(this);
 
+        // initiation of google play services
         googlePlayServices = checkPlayServices();
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -119,14 +120,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void onStart(){
         super.onStart();
         getStorage();
+        //creates broadcast receiver for changes in the battery state
         BroadcastReceiver batteryBR = new BatteryBroadcastReceiver(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         this.registerReceiver(batteryBR, filter);
-        Battery.getBatteryStatus(this);
+        Battery.setBatteryStatus(this);
 
+        //broadcast receiver for location updates
         BroadcastReceiver locationBR = new LocationBroadcastReceiver();
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction("com.google.android.gms.location.locationupdatespendingintent.action.PROCESS_UPDATES");
@@ -137,14 +140,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
     public void getStorage(){
-        Storage phoneStorage = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            phoneStorage = new Storage(getExternalFilesDirs(null));
-        }
-        else{
-            File [] array = {getExternalFilesDir(null), null};
-            phoneStorage = new Storage(array);
-        }
+        Storage phoneStorage = new Storage(getExternalFilesDirs(null));
 
         Thread internal = new ScanStorage(phoneStorage.getInternal());
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());

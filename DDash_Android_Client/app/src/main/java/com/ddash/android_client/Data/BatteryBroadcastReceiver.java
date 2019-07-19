@@ -43,7 +43,10 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
                     if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P){
                         TextView batteryTime = activity.findViewById(R.id.main_text_time);
                         long time = (long)batteryData.get("remainingChargeTime");
-                        batteryTime.setText(Long.toString(time));
+                        if (time != -1)
+                            batteryTime.setText(Long.toString(time));
+                        else
+                            batteryTime.setText("Calculating");
                     }
                     break;
                 case(BATTERY_DISCHARGING):

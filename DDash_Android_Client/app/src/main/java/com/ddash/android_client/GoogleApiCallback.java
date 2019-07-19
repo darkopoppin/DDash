@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 
 import com.ddash.MyApplication;
+import com.ddash.android_client.Data.LocationBroadcastReceiver;
 import com.ddash.android_client.Data.LocationService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,7 +32,8 @@ public class GoogleApiCallback implements GoogleApiClient.ConnectionCallbacks, G
         LocationService locationService = new LocationService(activity);
         LocationRequest locationRequest = locationService.createLocationRequest();
         locationService.checkLocationSettings(MyApplication.getAppContext());
-        Intent intentTest = new Intent(activity, LocationService.class);
+        Intent intentTest = new Intent(activity, LocationBroadcastReceiver.class);
+        intentTest.setAction(LocationBroadcastReceiver.ACTION_PROCESS_UPDATES);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.getAppContext(),
                 LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_UPDATE_CURRENT);
         if (ContextCompat.checkSelfPermission(MyApplication.getAppContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)

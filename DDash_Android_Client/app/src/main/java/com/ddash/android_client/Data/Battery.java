@@ -18,6 +18,9 @@ import java.util.Map;
 
 public class Battery{
 
+    /*
+    returns map with battery level, battery charging state and the time to full charge
+     */
     public static Map<String, Object> getBattery(Context context) {
         Map<String, Object> batteryInfo = new HashMap<>();
         BatteryManager battery = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
@@ -34,7 +37,10 @@ public class Battery{
         return batteryInfo;
     }
 
-    public static void getBatteryStatus(Activity activity){
+    /*
+    initially sets the battery icon and text in main activity
+     */
+    public static void setBatteryStatus(Activity activity){
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = MyApplication.getAppContext().registerReceiver(null, intentFilter);
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
@@ -45,7 +51,10 @@ public class Battery{
             if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P){
                 TextView batteryTime = activity.findViewById(R.id.main_text_time);
                 long time = (long)Battery.getBattery(MyApplication.getAppContext()).get("remainingChargeTime");
-                batteryTime.setText(Long.toString(time));
+                if (time != -1)
+                    batteryTime.setText(Long.toString(time));
+                else
+                    batteryTime.setText("Calculating");
             }
         }
         else {
