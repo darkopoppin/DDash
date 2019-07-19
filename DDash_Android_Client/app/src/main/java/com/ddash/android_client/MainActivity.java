@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             if (extStorage == null){
                 externalPath.setStrokeColor(Color.RED);
-                externalText.setText("No sd card.");
+                externalText.setText("No SD card.");
             } else {
 
                 double externalUsed = Utils.convertBytes(extStorage.get(1));
