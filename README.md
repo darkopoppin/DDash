@@ -1,4 +1,4 @@
-# DDash
+[Imgur](https://imgur.com/eirbIpm)[Imgur](https://imgur.com/eirbIpm)# DDash
 
 insert icon here...
 
@@ -31,16 +31,19 @@ Requires Android version 5.0, Lollipop (release 21).
 * Secondary storage usage (internal and SD card).
 * Internet connection speed.
 * Battery status.
+
 <p align="center">
   *Insert home screen image here*
 </p>
+
 * System/build information.
+
 <p align="center">
-  *Insert system activity image here*
+*Insert system activity image here*
 </p>
-* Network information.
+*Network information.
 <p align="center">
-  *Insert network activity image here*
+*Insert network activity image here*
 </p>
 
 
