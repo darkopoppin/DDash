@@ -26,18 +26,18 @@ Requires Android version 5.0, Lollipop (release 21).
 
 * **Battery status.**
 <p align="center">
-  <img width="460" height="700" src=/screenshots/device-2019-07-17-homepage.png>
+  <img src=/screenshots/device-2019-07-17-homepage.png>
 </p>
 
 * **System/build information.**
 <p align="center">
-  <img width="460" height="700" src=/screenshots/device-2019-07-17-system-extra.png>
+  <img src=/screenshots/device-2019-07-17-system-extra.png>
 </p>
 
 
 * **Network information.**
 <p align="center">
-  <img width="460" height="700" src=/screenshots/device-2019-07-17-network-extra.png>
+  <img src=/screenshots/device-2019-07-17-network-extra.png>
 </p>
 
 
