@@ -4,20 +4,18 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ddash.MyApplication;
+import com.ddash.android_client.Helpers.TimeConvertor;
 import com.ddash.android_client.R;
-import com.sdsmdg.harjot.vectormaster.VectorMasterView;
-import com.sdsmdg.harjot.vectormaster.models.GroupModel;
-import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
-import java.util.ArrayList;
 import java.util.Map;
+
+/**
+ * handles the following battery broadcast messages:
+ * ACTION_POWER_CONNECTED, ACTION_POWER_DISCONNECTED, ACTION_BATTERY_CHANGED
+ */
 
 public class BatteryBroadcastReceiver extends BroadcastReceiver {
 
@@ -42,9 +40,11 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
                     batteryCharging.setText("Charging");
                     if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P){
                         TextView batteryTime = activity.findViewById(R.id.main_text_time);
-                        long time = (long)batteryData.get("remainingChargeTime");
-                        if (time != -1)
-                            batteryTime.setText(Long.toString(time));
+                        long remainingChargeTime = (long)batteryData.get("remainingChargeTime");
+                        if (remainingChargeTime != -1){
+                            TimeConvertor time = new TimeConvertor(remainingChargeTime);
+                            time.displayTime(batteryTime);
+                        }
                         else
                             batteryTime.setText("Calculating");
                     }
