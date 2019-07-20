@@ -2,6 +2,7 @@ package com.ddash.android_client;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,6 +14,8 @@ import com.ddash.android_client.Data.Network;
 import java.util.Map;
 
 public class NetworkActivity extends AppCompatActivity {
+
+    private static final String TAG = "NetworkActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,10 @@ public class NetworkActivity extends AppCompatActivity {
             l1.setText(key);
             TextView l2 = rowview.findViewById(R.id.contents);
             l2.setText(connectivityData.get(key).toString() + "\n\n");
+
             linLayout.addView(rowview);
-        }
+            }
+
+
     }
 }
