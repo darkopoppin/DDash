@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.BatteryBroadcastReceiver;
+import com.ddash.android_client.Data.Connectivity;
 import com.ddash.android_client.Data.Cpu;
 import com.ddash.android_client.Data.LocationBroadcastReceiver;
 import com.ddash.android_client.Data.Memory;
@@ -213,14 +214,24 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     /** Show some network information **/
     public void displayNetworkData() {
+        String text = "";
+
         TextView netText = findViewById(R.id.main_text_networkStats);
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
+        Connectivity conn = new Connectivity(getApplicationContext());
+        boolean connectionType = conn.isConnected();
+        TextView disconnected = findViewById(R.id.main_text_networkDisconnect);
+        if (connectionType == false){
+            disconnected.setText("DISCONNECTED");
+        } else {
+            disconnected.setText("");
+        }
         String ssid = network.getSsid();
         String ip = network.getIp();
         String mac = network.getmacAddress();
-        String text = "SSID: "+ ssid + "\n" +
-                      "IP: " + ip + "\n" +
-                      "MAC: " + mac;
+        text = text+ "SSID: "+ ssid + "\n" +
+                "IP: " + ip + "\n" +
+                "MAC: " + mac;
         netText.setText(text);
     }
 
