@@ -23,6 +23,7 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 * **Battery status.**
 * **System/build information.**
 * **Network information.**
+* **Location.**
 
 ### Screenshots
 <p>App home window with summary information:</p>
