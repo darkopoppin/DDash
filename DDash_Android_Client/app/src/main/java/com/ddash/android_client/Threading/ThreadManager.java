@@ -7,10 +7,9 @@ import android.util.Log;
 import android.os.Handler;
 import android.widget.TextView;
 
-import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.R;
-import com.ddash.android_client.Utils;
+import com.ddash.android_client.Helpers.Utils;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 

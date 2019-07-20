@@ -1,12 +1,7 @@
-package com.ddash.android_client;
+package com.ddash.android_client.Helpers;
 
-import android.content.Context;
-import android.location.Location;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public class Utils {
 
@@ -52,6 +46,7 @@ public class Utils {
     public static int convertToPercentage(double number1, double number2){
         return (int)Math.round((number1*100)/number2);
     }
+
 
     /*static void setLocationUpdatesResult(Context context, List<Location> locations) {
         PreferenceManager.getDefaultSharedPreferences(context)

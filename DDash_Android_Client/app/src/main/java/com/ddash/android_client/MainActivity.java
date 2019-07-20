@@ -2,17 +2,14 @@ package com.ddash.android_client;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.BatteryManager;
 import android.os.Build;
 
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,26 +18,22 @@ import android.util.Log;
 
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.BatteryBroadcastReceiver;
 import com.ddash.android_client.Data.Cpu;
-import com.ddash.android_client.Data.InternetSpeedTest;
 import com.ddash.android_client.Data.LocationBroadcastReceiver;
-import com.ddash.android_client.Data.LocationService;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
-import com.ddash.android_client.Data.Connectivity;
 import com.ddash.android_client.Data.SystemData;
 import com.ddash.android_client.Threading.ThreadManager;
+import com.ddash.android_client.Helpers.Utils;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +42,9 @@ import java.util.Set;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 

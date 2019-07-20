@@ -2,7 +2,7 @@ package com.ddash.android_client.Threading;
 
 import android.util.Log;
 
-import com.ddash.android_client.Utils;
+import com.ddash.android_client.Helpers.Utils;
 
 import java.util.Map;
 

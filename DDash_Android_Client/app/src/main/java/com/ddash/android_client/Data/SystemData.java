@@ -1,7 +1,6 @@
 package com.ddash.android_client.Data;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -9,7 +8,7 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
-import com.ddash.android_client.Utils;
+import com.ddash.android_client.Helpers.Utils;
 
 import java.util.Enumeration;
 import java.util.HashMap;

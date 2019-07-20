@@ -4,12 +4,10 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 
-import com.ddash.android_client.Utils;
+import com.ddash.android_client.Helpers.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 //External storage is not always SdCard

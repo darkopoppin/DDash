@@ -2,7 +2,7 @@ package com.ddash.android_client.Data;
 
 import android.util.Log;
 
-import com.ddash.android_client.Utils;
+import com.ddash.android_client.Helpers.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
