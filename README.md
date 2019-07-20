@@ -26,13 +26,13 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 
 ### Screenshots
 <p>App home window with summary information:</p>
-<img alt="app home window" src=/screenshots/device-2019-07-17-homepage.png>
+<img alt="app home window" src=/images/device-2019-07-17-homepage.png>
 
 <p>Extra network information:</p>
-<img alt="extra network info window" src=/screenshots/device-2019-07-17-network-extra.png>
+<img alt="extra network info window" src=/images/device-2019-07-17-network-extra.png>
 
 <p>Extra system information:</p>
-<img alt="extra system info window" src=/screenshots/device-2019-07-17-system-extra.png>
+<img alt="extra system info window" src=/images/device-2019-07-17-system-extra.png>
 
 ### Known issues or TODO's
 * **CPU** usage information can not be retrieved (Android OS limitation).
