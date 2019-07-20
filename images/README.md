@@ -1,1 +1,1 @@
-# This folder contains the images used on the repo and/or project.
+# Screenshots of the working apps

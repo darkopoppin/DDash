@@ -19,6 +19,7 @@ public class Memory implements Runnable{
         memoryTask = new MemoryTask();
     }
 
+    /** Get memory usage and status. **/
     public static Map<String, Object> getMemory(Context context) {
         // FIXME: Should Context or Activity be taken as an argument?
         Map<String, Object> memory = new HashMap<>();

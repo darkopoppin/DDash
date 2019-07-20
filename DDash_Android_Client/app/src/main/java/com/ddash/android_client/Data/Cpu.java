@@ -22,6 +22,7 @@ import java.util.Set;
 
 public class Cpu {
 
+    /** Retrieve all CPU information. **/
     public static Map<String, Object> getCpu() {
         Map<String, Object> map = new HashMap<>();
         map.put("about", getCpuAbout());
@@ -32,9 +33,10 @@ public class Cpu {
         return map;
     }
 
+    /** Retrieve metadata about each CPU core **/
     public static List<Map<String, Object>> getCpuAbout() {
         /*
-             in this file we can find information about cores
+             in the /proc/cpuinfo file we can find information about cores
              https://www.thegeekdiary.com/proccpuinfo-file-explained/
          */
         String file = "/proc/cpuinfo";
@@ -71,7 +73,8 @@ public class Cpu {
                     String key = tokens[0].trim().toLowerCase();
                     Object value = null;
                     if (tokens.length == 2) {
-                        value = String.valueOf(tokens[1]).trim(); // TODO: Change type of value to match what is being parsed
+                        // TODO: Change type of value to match what is being parsed
+                        value = String.valueOf(tokens[1]).trim();
                     }
                     // add info to map
                     procInfo.put(key, value);
@@ -83,6 +86,7 @@ public class Cpu {
         return cpuInfo;
     }
 
+    /** Makes a summary of CPU metadata [implementers and CPU features]. **/
     public static List<Set<String>> getCpuAboutSummary(List<Map<String, Object>> cpuInfo) {
         // list of all implementers of any core
         Set<String> implementersUnion = new HashSet<>();
@@ -111,27 +115,26 @@ public class Cpu {
     }
 
 
-
+    /** Gets CPU utilization **/
     public static List<String> getCpuUse() {
-        /** Also check https://github.com/AntonioRedondo/AnotherMonitor
-         *  and https://github.com/souch/AndroidCPU/blob/master/app/src/main/java/souch/androidcpu/CpuInfo.java
-         *
-         * **/
+        // FIXME: NOT WORKING, returns empty list (permission denied)
         /* This is no longer accessible
             https://issuetracker.google.com/issues/37140047
             https://github.com/Manabu-GT/DebugOverlay-Android/issues/11
             https://stackoverflow.com/questions/52782894/error-reading-cpu-usage-proc-stat-permission-denied
          */
+        /* Also check https://github.com/AntonioRedondo/AnotherMonitor
+         *  and https://github.com/souch/AndroidCPU/blob/master/app/src/main/java/souch/androidcpu/CpuInfo.java
+         */
         String cpustatFilename = "/proc/stat";
         List<String> cpustatLines = Utils.readLines(cpustatFilename);
         return cpustatLines;
-        // FIXME: this returns an empty list
     }
 
+    /** Reads CPU utilization from the 'top' command. **/
     public static String getCpuUseTop() {
-        /** Idea from http://notesbyanerd.com/2014/12/05/how-to-check-android-applications-cpu-usage/
-         *
-         * **/
+        // FIXME: not working (returns null)
+        // Idea from http://notesbyanerd.com/2014/12/05/how-to-check-android-applications-cpu-usage/
         String output;
         String[] cmd = {
                     "sh",
@@ -152,16 +155,18 @@ public class Cpu {
             output = null;
         }
         return output;
-        // FIXME: this might return null
     }
 
+    /** Get CPU utilization for each running process. **/
     public static List<String> getCpuUseProc() {
+        // TODO: read other process files, not just the current process
         int pid = android.os.Process.myPid();
         String filename = "/proc/" + String.valueOf(pid) + "/stat";
         List<String> lines = Utils.readLines(filename);
         return lines;
     }
 
+    /** Gets the number of CPU cores on the device. **/
     public static int getCoresNumber() {
         /* See
             https://stackoverflow.com/questions/30119604/how-to-get-the-number-of-cores-of-an-android-device
@@ -169,13 +174,16 @@ public class Cpu {
         return Runtime.getRuntime().availableProcessors();
     }
 
+    /** Gets the CPU frequency. **/
     public static List<String> getFrequency() {
         String filename = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq";
         List<String> lines = Utils.readLines(filename);
         return lines;
     }
 
+    /** Gets CPU temperature from a sensor. **/
     public static int getCpuTemperature(Context context) {
+        // FIXME: not working
         SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         Sensor TempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 
@@ -206,8 +214,10 @@ public class Cpu {
         return -1;
     }
 
+    /** Gets CPU temperature from a file. **/
     public static double getCpuTemperatureFile() {
-        /* Attempted files (n=not found, p=no permission)
+        // FIXME: not working (permission error / not found)
+        /* Attempted with the following files (n=not found, p=no permission)
             n    "/sys/devices/system/cpu/cpu0/cpufreq/cpu_temp"
             n    "/sys/devices/system/cpu/cpu0/cpufreq/FakeShmoo_cpu_temp"
             p    "/sys/class/thermal/thermal_zone1/temp"
