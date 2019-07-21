@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
         Utils.largeLog(tag, jsonData);
+        //Added sample comment
     }
 
     /** Show some network information **/
