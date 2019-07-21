@@ -47,4 +47,7 @@ dependencies {
     //vectors
     implementation 'com.sdsmdg.harjot:vectormaster:1.1.3'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    //Firebase SDK
+    implementation 'com.google.firebase:firebase-core:17.0.0'
 }
+apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "712424983395",
+    "firebase_url": "https://ddash-test-project.firebaseio.com",
+    "project_id": "ddash-test-project",
+    "storage_bucket": "ddash-test-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712424983395:android:671d7c1a87446470",
+        "android_client_info": {
+          "package_name": "com.ddash.android_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712424983395-0573mamt34ogdu28uicvpmd9kjdq0ne8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrIF3StFcrG0nZXCJYJHUB0UUoiZbE0iM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712424983395-0573mamt34ogdu28uicvpmd9kjdq0ne8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
