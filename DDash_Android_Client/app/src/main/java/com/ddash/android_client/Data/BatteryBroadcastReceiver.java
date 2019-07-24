@@ -23,7 +23,7 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
     private static final String BATTERY_DISCHARGING = "android.intent.action.ACTION_POWER_DISCONNECTED";
     private static final String BATTERY_CHANGED = "android.intent.action.BATTERY_CHANGED";
     private Activity activity;
-
+    public BatteryBroadcastReceiver(){}
     public BatteryBroadcastReceiver(Activity activity){
         this.activity = activity;
 
