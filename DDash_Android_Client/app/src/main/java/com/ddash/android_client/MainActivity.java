@@ -10,13 +10,16 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.BatteryBroadcastReceiver;
@@ -30,9 +33,12 @@ import com.ddash.android_client.Data.Storage;
 import com.ddash.android_client.Data.SystemData;
 import com.ddash.android_client.Threading.ThreadManager;
 import com.ddash.android_client.Helpers.Utils;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +50,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
@@ -54,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public static final String FETCHED_DATA = "com.ddash.android_client.FETCHED_DATA";
     private final int PERMISSION_REQUEST_CODE = 0;
     private final int REQUEST_CHECK_SETTINGS = 0;
-
+    private static final int RC_SIGN_IN = 123;
     private boolean googlePlayServices = false;
     private GoogleApiClient googleApiClient;
     private GoogleApiCallback googleApiCallback = new GoogleApiCallback(this);
@@ -67,6 +75,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+//                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+//                new AuthUI.IdpConfig.FacebookBuilder().build(),
+//                new AuthUI.IdpConfig.TwitterBuilder().build());
+        );
+
         setContentView(R.layout.activity_main);
         checkRequestPermissions();
 
@@ -83,13 +100,34 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         googleApiClient.connect();
 
-//        CardView systemCard = (CardView) findViewById(R.id.main_card_system);
-//        systemCard.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openSystemActivity();
-//            }
-//        });
+        final Button authentication = findViewById(R.id.main_button_authentication);
+        authentication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setAvailableProviders(providers)
+                                .build(),
+                        RC_SIGN_IN);
+            }
+        });
+
+        final Button logout = findViewById(R.id.main_button_logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(MainActivity.this, "SUCCESSFULLY SIGNED OUT!", Toast.LENGTH_SHORT).show();
+                //Remove logout button since the user just logged out
+                Button logout = findViewById(R.id.main_button_logout);
+                logout.setVisibility(View.GONE);
+                //Re-display the sign in button
+                Button signin = findViewById(R.id.main_button_authentication);
+                signin.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     @Override
@@ -112,6 +150,35 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         displaySystemData();
         displayNetworkData();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Toast.makeText(this, "Successfully logged in: "+ user.toString(), Toast.LENGTH_SHORT).show();
+
+                //Remove the sign in button
+                Button authentication = findViewById(R.id.main_button_authentication);
+                authentication.setVisibility(View.GONE);
+
+                //Display the log out button
+                Button logout = findViewById(R.id.main_button_logout);
+                logout.setVisibility(View.VISIBLE);
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+                Toast.makeText(this, "Cancelled!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void getStorage(){
@@ -182,22 +249,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         googleApiClient.disconnect();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-        //final LocationSettingsStates states = LocationSettingsStates.fromIntent(intent);
-        switch(requestCode){
-            case REQUEST_CHECK_SETTINGS:
-                switch ((resultCode)){
-                    case Activity.RESULT_OK:
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-        }
-    }
+
 
     /** Log all data for debugging **/
     void logAll(String tag) {

@@ -308,7 +308,7 @@
                 app:layout_constraintHorizontal_bias="0.442"
                 app:layout_constraintStart_toStartOf="@+id/main_vector_external"
                 app:layout_constraintTop_toTopOf="@+id/main_vector_external"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.6" />
 
             <TextView
                 android:id="@+id/main_label_storage_internal"
@@ -414,6 +414,31 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/main_button_authentication"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="Sign in / Sign up"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_card_system" />
+    <Button
+        android:id="@+id/main_button_logout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="LOG OUT"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_card_system" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
