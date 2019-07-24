@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         // Authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build()
 //                new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build()
+//                new AuthUI.IdpConfig.GoogleBuilder().build()
 //                new AuthUI.IdpConfig.FacebookBuilder().build(),
 //                new AuthUI.IdpConfig.TwitterBuilder().build());
         );
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         googleApiClient.connect();
 
-        final Button authentication = findViewById(R.id.main_button_authentication);
+        final Button authentication = findViewById(R.id.main_button_signin);
         authentication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 Button logout = findViewById(R.id.main_button_logout);
                 logout.setVisibility(View.GONE);
                 //Re-display the sign in button
-                Button signin = findViewById(R.id.main_button_authentication);
+                Button signin = findViewById(R.id.main_button_signin);
                 signin.setVisibility(View.VISIBLE);
             }
         });
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 Toast.makeText(this, "Successfully logged in: "+ user.toString(), Toast.LENGTH_SHORT).show();
 
                 //Remove the sign in button
-                Button authentication = findViewById(R.id.main_button_authentication);
+                Button authentication = findViewById(R.id.main_button_signin);
                 authentication.setVisibility(View.GONE);
 
                 //Display the log out button
@@ -354,6 +353,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
     public void openNetworkActivity(View view){
         Intent intent = new Intent(this, NetworkActivity.class);
+        startActivity(intent);
+    }
+    public void openSignUpActivity(View view){
+//        setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this,SignUp.class);
         startActivity(intent);
     }
 

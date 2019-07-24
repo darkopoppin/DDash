@@ -26,6 +26,7 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
 
     public BatteryBroadcastReceiver(Activity activity){
         this.activity = activity;
+
     }
     @Override
     public void onReceive(Context context, Intent intent){
