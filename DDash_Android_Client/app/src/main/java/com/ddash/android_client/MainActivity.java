@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         // Authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build()
@@ -126,6 +128,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 signin.setVisibility(View.VISIBLE);
             }
         });
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            // already signed in
+            authentication.setVisibility(View.GONE);
+
+            Toast.makeText(this, "Pasok na", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, auth.getCurrentUser().toString(), Toast.LENGTH_SHORT).show();
+        } else {
+            // not signed in
+            Toast.makeText(this, "Login ka muna", Toast.LENGTH_SHORT).show();
+            logout.setVisibility(View.GONE);
+        }
 
     }
 
@@ -169,13 +183,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 //Display the log out button
                 Button logout = findViewById(R.id.main_button_logout);
                 logout.setVisibility(View.VISIBLE);
-                // ...
+                //
+                Button signup = findViewById(R.id.main_button_signup);
+                signup.setVisibility(View.GONE);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 // ...
                 Toast.makeText(this, "Cancelled!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, response.getError().toString(), Toast.LENGTH_SHORT).show();
             }
         }
     }
