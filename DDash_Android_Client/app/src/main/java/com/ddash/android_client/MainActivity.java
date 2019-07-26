@@ -13,6 +13,11 @@ import android.os.Build;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +35,7 @@ import com.ddash.android_client.Data.Network;
 import com.ddash.android_client.Data.ScanStorage;
 import com.ddash.android_client.Data.Storage;
 import com.ddash.android_client.Data.SystemData;
+import com.ddash.android_client.Threading.BackgroundWorker;
 import com.ddash.android_client.Threading.ThreadManager;
 import com.ddash.android_client.Helpers.Utils;
 import com.firebase.ui.auth.AuthUI;
@@ -41,6 +47,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -149,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         displaySystemData();
         displayNetworkData();
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,6 +173,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 //Remove the sign in button
                 Button authentication = findViewById(R.id.main_button_signin);
                 authentication.setVisibility(View.GONE);
+
+
+                Constraints constraints = new Constraints.Builder()
+                        .setRequiresBatteryNotLow(true)
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build();
+
+                PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(BackgroundWorker.class, 3, TimeUnit.SECONDS)
+                        .setConstraints(constraints)
+                        .build();
+                WorkManager workManager = WorkManager.getInstance(getApplicationContext());
+                workManager.enqueue(workRequest);
 
                 //Display the log out button
                 Button logout = findViewById(R.id.main_button_logout);
