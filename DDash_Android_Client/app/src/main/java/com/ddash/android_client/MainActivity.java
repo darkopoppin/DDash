@@ -163,6 +163,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         this.registerReceiver(batteryBR, filter);
         Battery.setBatteryStatus(this);
 
+        Constraints constraints = new Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(BackgroundWorker.class, 15, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build();
+        WorkManager workManager = WorkManager.getInstance(getApplicationContext());
+        workManager.enqueue(workRequest);
+
         //broadcast receiver for location updates
         BroadcastReceiver locationBR = new LocationBroadcastReceiver();
         IntentFilter locationFilter = new IntentFilter();
@@ -194,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                         .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build();
 
-                PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(BackgroundWorker.class, 3, TimeUnit.SECONDS)
+                PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(BackgroundWorker.class, 15, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .build();
                 WorkManager workManager = WorkManager.getInstance(getApplicationContext());
