@@ -43,10 +43,7 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 
 ## Project timeline
 
-* 2019 July/August: release Android Client app on Google Play Store
-* In the future, need to implement:
-  * Database for storing device data.
-  * Login system.
+* Currently working on Firebase.
+* Next steps in the project: 
   * Web-based dashboard.
-  * Desktop device support.
-  * iOS device support.
+  * Desktop device support (maybe). 
