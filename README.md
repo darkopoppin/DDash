@@ -5,7 +5,7 @@
 
 DDash is a system that collects data from each of your devices, and reports it to a central dashboard. 
 
-Our native software, specifically created for each platform, runs on Android and sends device information (system metadata, resource usage, etc.) to a central server that you can query through any web browser.
+Our native software, specifically created for Android and sends device information (system metadata, resource usage, etc.) to a central server that you can query through any web browser.
 
 *This is a Work In Progress. Currently we only have an Android app that runs on Android devices and displays device data through the app's UI. See the project timeline for a list of future updates.*
 
