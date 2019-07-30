@@ -1,7 +1,6 @@
 package com.ddash.android_client;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ddash.android_client.Data.Battery;
 import com.ddash.android_client.Data.BatteryBroadcastReceiver;
 import com.ddash.android_client.Data.Connectivity;
@@ -35,14 +33,11 @@ import com.ddash.android_client.Helpers.Utils;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -66,10 +61,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private GoogleApiClient googleApiClient;
     private GoogleApiCallback googleApiCallback = new GoogleApiCallback(this);
     private boolean lessThan23SDK = false;
+
     String [] appPermissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION};
     private String TAG =  "MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             VectorMasterView internalUi = findViewById(R.id.main_vector_internal);
             PathModel internalPath = internalUi.getPathModelByName("internal");
+
             float trimEnd = (float) percentage/100;
             internalPath.setTrimPathEnd(trimEnd);
             TextView externalText = findViewById(R.id.main_text_external_storage);
@@ -230,8 +228,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             PathModel externalPath = externalUi.getPathModelByName("internal");
 
             if (extStorage == null){
+
                 externalPath.setStrokeColor(Color.RED);
                 externalText.setText("No SD card.");
+
             } else {
 
                 double externalUsed = Utils.convertBytes(extStorage.get(1));
@@ -247,13 +247,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             internal.start();
             sdCard.start();
             try {
+
                 sdCard.join();
+
             }
             catch (InterruptedException e){
 
             }
             ((ScanStorage) sdCard).printFiles();
-        }//if storage permission is not granted
+        }
+        //if storage permission is not granted
         else {
             phoneStorage.getInternalStorage();
             internal.start();
@@ -291,14 +294,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         TextView netText = findViewById(R.id.main_text_networkStats);
         Network network = new Network(getApplicationContext().getSystemService(WIFI_SERVICE));
         Connectivity conn = new Connectivity(getApplicationContext());
+
         boolean connectionType = conn.isConnected();
         TextView disconnected = findViewById(R.id.main_text_networkDisconnect);
-        if (connectionType == false){
-            disconnected.setText("DISCONNECTED");
-        } else {
-            disconnected.setText("");
+
+        if (connectionType == false){               //If not connected to internet:
+            disconnected.setText("DISCONNECTED");   //Display Disconnected on the Network card UI
+        } else {                                    //If connected:
+            disconnected.setText("");               //Don't display anything on the widget
         }
-        String ssid = network.getSsid();
+
+        String ssid = network.getSsid();            //Hardcoded fields used in the Network card UI
         String ip = network.getIp();
         String mac = network.getmacAddress();
         text = text+ "SSID: "+ ssid + "\n" +
@@ -340,12 +346,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     /** Show a summary of system information **/
     public void displaySystemData(){
         Map<String, Object> systemData = SystemData.getSystemData(getApplicationContext());
-        Log.d(TAG, "getSystemData: The following are the system data" + systemData.toString());
         TextView systemView = findViewById(R.id.main_text_system);
-        systemView.setText("Summary:\n" +
+
+        String systemDataText = "Summary:\n" +
                 "API Level "+systemData.get("version_int")+ "\n" +
                 "Version Number "+ systemData.get("version_release")+ "\n" +
-                "Version Codename "+systemData.get("version_codename"));
+                "Version Codename "+systemData.get("version_codename");
+
+        systemView.setText(systemDataText);
     }
 
     /*
