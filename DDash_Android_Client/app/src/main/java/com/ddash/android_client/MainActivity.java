@@ -132,12 +132,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (auth.getCurrentUser() != null) {
             // already signed in
             authentication.setVisibility(View.GONE);
+            Toast.makeText(this, "Welcome "+auth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
+            /*
+            * To get the display name (First name and last name used on sign up) of the current user:
+            *           auth.getCurrentUser().getDisplayName()
+            * */
 
-            Toast.makeText(this, "Pasok na", Toast.LENGTH_SHORT).show();
+
             Toast.makeText(this, auth.getCurrentUser().toString(), Toast.LENGTH_SHORT).show();
         } else {
             // not signed in
-            Toast.makeText(this, "Login ka muna", Toast.LENGTH_SHORT).show();
             logout.setVisibility(View.GONE);
         }
 
@@ -183,9 +187,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 //Display the log out button
                 Button logout = findViewById(R.id.main_button_logout);
                 logout.setVisibility(View.VISIBLE);
-                //
-                Button signup = findViewById(R.id.main_button_signup);
-                signup.setVisibility(View.GONE);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
         Utils.largeLog(tag, jsonData);
-        //Added sample comment
+
     }
 
     /** Show some network information **/
@@ -372,11 +373,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Intent intent = new Intent(this, NetworkActivity.class);
         startActivity(intent);
     }
-    public void openSignUpActivity(View view){
-//        setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this,SignUp.class);
-        startActivity(intent);
-    }
 
     /**
      * last known location might use it later
@@ -439,22 +435,4 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             lessThan23SDK = true;
     }
 
-    /**
-     *  Callback received when a permission request is completed
-     */
- /*   @Override
-    public void onRequestPermissionsResult(int requestCode, String [] permissions, int [] grantResults){
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            Log.i("TagInfo", "Response for storage permission is received");
-
-            //permission granted
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.i("TagInfo", "Permmission Granted");
-            }
-            //permission denied
-            else{
-                Log.i("TagInfo", "Permmission Denied");
-            }
-        }
-    }*/
 }
