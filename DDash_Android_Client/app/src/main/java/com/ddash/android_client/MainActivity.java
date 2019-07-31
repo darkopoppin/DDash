@@ -1,13 +1,15 @@
 package com.ddash.android_client;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
@@ -15,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -52,10 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private boolean lessThan23SDK = false;
     String [] appPermissions = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION};
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.FOREGROUND_SERVICE};
     private String TAG =  "MainActivity";
 
     @Override
@@ -179,6 +180,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction("com.google.android.gms.location.locationupdatespendingintent.action.PROCESS_UPDATES");
 
+        Intent notificationIntent = new Intent(this, BatteryBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle("test")
+                .setContentText("testing")
+                .setContentIntent(pendingIntent)
+                .build();
         displaySystemData();
         displayNetworkData();
 
@@ -208,7 +216,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(BackgroundWorker.class, 15, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .build();
+
+                OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(BackgroundWorker.class).build();
                 WorkManager workManager = WorkManager.getInstance(getApplicationContext());
+                workManager.enqueue(oneTimeWorkRequest);
                 workManager.enqueue(workRequest);
 
                 //Display the log out button
@@ -238,17 +249,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
             //ArrayLists containing the general info of the storage internal[total, os total, free, used] | external[total, free, used]
-            List<Long> intStorage = phoneStorage.getInternalStorage();
-            List<Long> extStorage = phoneStorage.getSdCardStorage();
+            Map<String, Long> intStorage = phoneStorage.getInternalStorage();
+            Map<String, Long> extStorage = phoneStorage.getSdCardStorage();
 
             //Display the respective storage in UI
             TextView internalText = findViewById(R.id.main_text_internal_storage);
-            double internalUsed = Utils.convertBytes(intStorage.get(2));
-            double internalTotal = Utils.convertBytes(intStorage.get(0));
-            internalText.setText(String.format("%.2fGB used of %.2fGB", internalTotal-internalUsed, internalTotal));
+            double internalFree= Utils.convertBytes(intStorage.get("internalAvailable"));
+            double internalTotal = Utils.convertBytes(intStorage.get("internalTotal"));
+            internalText.setText(String.format("%.2fGB used of %.2fGB", internalTotal-internalFree, internalTotal));
 
             //Vector UI thingy majigga
-            int percentage = Utils.convertToPercentage(internalTotal-internalUsed,internalTotal);
+            int percentage = Utils.convertToPercentage(internalTotal-internalFree,internalTotal);
 
             VectorMasterView internalUi = findViewById(R.id.main_vector_internal);
             PathModel internalPath = internalUi.getPathModelByName("internal");
@@ -264,14 +275,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 externalText.setText("No SD card.");
             } else {
 
-                double externalUsed = Utils.convertBytes(extStorage.get(1));
-                double externalTotal = Utils.convertBytes(extStorage.get(0));
-                int percentageInternal = Utils.convertToPercentage(externalTotal-externalUsed,externalTotal);
+                double externalFree = Utils.convertBytes(extStorage.get("sdAvailable"));
+                double externalTotal = Utils.convertBytes(extStorage.get("sdTotal"));
+                int percentageInternal = Utils.convertToPercentage(externalTotal-externalFree,externalTotal);
                 float trimEndExternal = (float) percentageInternal/100;
                 externalPath.setTrimPathEnd(trimEndExternal);
 
 
-                externalText.setText(String.format("%.2fGB used of %.2fGB",externalTotal-externalUsed ,externalTotal ));
+                externalText.setText(String.format("%.2fGB used of %.2fGB",externalTotal-externalFree ,externalTotal ));
             }
 
             internal.start();
@@ -409,25 +420,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         startActivity(intent);
     }
 
-    /**
-     * last known location might use it later
-     */
-    public  void getLastKnownLocation(){
-        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(Task<Location> task) {
-                    if (task.isSuccessful()) {
-                        Log.d("myLocation", task.getResult().toString());
-                    } else {
-                        // when permission is denied, location is turned off
-                        Log.d("myLocation", "false");
-                    }
-                }
-            });
-        }
-    }
+
     /**
      * Checks if Google Play Services is available, provided that they are not,
      * it attempts to make them available.

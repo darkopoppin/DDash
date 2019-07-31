@@ -1,6 +1,7 @@
 package com.ddash.android_client.Threading;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,9 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.ddash.android_client.Data.Battery;
+import com.ddash.android_client.Data.LocationService;
 import com.ddash.android_client.Data.Memory;
+import com.ddash.android_client.Data.SystemData;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,10 +24,12 @@ import java.util.Map;
 public class BackgroundWorker extends Worker {
 
     private Context context;
-
+    private FirebaseFirestore firebase;
+    private String user;
     public BackgroundWorker(Context context, WorkerParameters parameters){
         super(context, parameters);
         this.context = context;
+        this.firebase = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -32,12 +37,12 @@ public class BackgroundWorker extends Worker {
     public Result doWork() {
         Map memory = Memory.getMemory(context);
         Map battery = Battery.getBattery(context);
-        FirebaseFirestore firebase = FirebaseFirestore.getInstance();
-        String user = FirebaseAuth.getInstance().addAuthStateListener();
-        DocumentReference device = FirebaseFirestore.getInstance()
-                .document("users/" + user + "/Devices/LG-D852");
-        device.set(memory);
-        device.set(battery, SetOptions.merge());
+        LocationService.getLastKnownLocation(context);
+        String user = FirebaseAuth.getInstance().getUid();
+        DocumentReference document = firebase
+                .document("users/" + user + "/Devices/" + Build.DEVICE);
+        document.set(memory, SetOptions.merge());
+        document.set(battery, SetOptions.merge());
         return Result.success();
     }
 }

@@ -64,4 +64,5 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+    public
 }

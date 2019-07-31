@@ -8,7 +8,9 @@ import com.ddash.android_client.Helpers.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //External storage is not always SdCard
 public class Storage {
@@ -33,7 +35,7 @@ public class Storage {
     /**
      * Simply gets the free and used space in the Internal storage
      */
-    public List<Long> getInternalStorage(){
+    public Map<String,Long> getInternalStorage(){
         StatFs stat = new StatFs(Environment.getDataDirectory().getAbsolutePath());
         Log.d("myInternal", Environment.getExternalStorageDirectory().getAbsolutePath());
         long available = stat.getAvailableBytes();
@@ -48,16 +50,16 @@ public class Storage {
                 break;}
         }
 
-        List <Long> internal = new ArrayList<>();
+        Map<String, Long> internal = new HashMap<>();
 
         Log.d("myInternalTotal", Double.toString(Utils.convertBytes(total+osSize)));
-        internal.add(total + osSize);
+        internal.put("internalTotal" ,total + osSize);
         Log.d("myInternalOS", Double.toString(Utils.convertBytes(osSize)));
-        internal.add(osSize);
+        internal.put("internalOS",osSize);
         Log.d("myInternalFree", Double.toString(Utils.convertBytes(available)));
-        internal.add((available));
+        internal.put("internalAvailable",available);
         Log.d("myInternalUsed", Double.toString(Utils.convertBytes(total - available)));
-        internal.add(total - available);
+        internal.put("internalUsed", total - available);
 
         return internal;
     }
@@ -65,20 +67,20 @@ public class Storage {
     /**
      * Simply gets the free and used space in the SdCard
      */
-    public List<Long> getSdCardStorage() {
+    public Map<String,Long> getSdCardStorage() {
         if (sdCard != null) {
             StatFs stat = new StatFs(sdCard);
             long available = stat.getAvailableBytes();
             long total = stat.getTotalBytes();
 
-            List<Long> sdCard = new ArrayList<>();
+            Map<String,Long> sdCard = new HashMap<>();
 
             Log.d("mySdTotal", Double.toString(Utils.convertBytes(total)));
-            sdCard.add(total);
+            sdCard.put("sdTotal",total);
             Log.d("mySdAvailable", Double.toString(Utils.convertBytes(available)));
-            sdCard.add(available);
+            sdCard.put("sdAvailable",available);
             Log.d("mySdUsed", Double.toString(Utils.convertBytes(total - available)));
-            sdCard.add(total - available);
+            sdCard.put("sdUsed",total - available);
             return sdCard;
         }
         return null;

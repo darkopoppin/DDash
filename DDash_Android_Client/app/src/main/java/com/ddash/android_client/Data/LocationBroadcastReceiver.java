@@ -4,11 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.location.LocationResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LocationBroadcastReceiver extends BroadcastReceiver {
 
@@ -23,6 +30,12 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
                 if (result != null){
                     List<Location> locations = result.getLocations();
                     for (Location l : locations){
+                        String user = FirebaseAuth.getInstance().getUid();
+                        DocumentReference document = FirebaseFirestore.getInstance()
+                                .document("users/" + user + "/Devices/" + Build.DEVICE);
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("location", l);
+                        document.set(map, SetOptions.merge());
                         Log.d("myLocation", l.toString());
                     }
                 }

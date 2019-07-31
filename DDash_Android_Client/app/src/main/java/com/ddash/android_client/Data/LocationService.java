@@ -1,12 +1,20 @@
 package com.ddash.android_client.Data;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
@@ -15,6 +23,13 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LocationService {
@@ -86,6 +101,28 @@ public class LocationService {
                 }
             }
         });
+    }
+
+    public static void getLastKnownLocation(Context context){
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(context);
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(Task<Location> task) {
+                    if (task.isSuccessful()) {
+                        String user = FirebaseAuth.getInstance().getUid();
+                        DocumentReference device = FirebaseFirestore.getInstance()
+                                .document("users/" + user + "/Devices/" + Build.DEVICE);
+                        Map <String, Object> map = new HashMap<>();
+                        map.put("location", task.getResult().toString());
+                        device.set(map, SetOptions.merge());
+                    } else {
+                        // when permission is denied, location is turned off
+                        Log.d("myLocation", "false");
+                    }
+                }
+            });
+        }
     }
 
 
