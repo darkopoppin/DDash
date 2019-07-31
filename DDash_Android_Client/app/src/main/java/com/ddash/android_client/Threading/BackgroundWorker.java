@@ -35,12 +35,14 @@ public class BackgroundWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        FirebaseAuth fireAuth = FirebaseAuth.getInstance();
         Map memory = Memory.getMemory(context);
         Map battery = Battery.getBattery(context);
         LocationService.getLastKnownLocation(context);
-        String user = FirebaseAuth.getInstance().getUid();
+        String userId = fireAuth.getUid();
+        String userNames = fireAuth.getCurrentUser().getDisplayName();
         DocumentReference document = firebase
-                .document("users/" + user + "/Devices/" + Build.DEVICE);
+                .document("users/" + userId + "/Devices/" + Build.DEVICE);
         document.set(memory, SetOptions.merge());
         document.set(battery, SetOptions.merge());
         return Result.success();

@@ -199,32 +199,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Toast.makeText(this, "Successfully logged in: "+ user.toString(), Toast.LENGTH_SHORT).show();
+                String userNames = user.getDisplayName();
+                Toast.makeText(this, "Successfully logged in: "+ userNames, Toast.LENGTH_SHORT).show();
 
                 //Remove the sign in button
                 Button authentication = findViewById(R.id.main_button_signin);
                 authentication.setVisibility(View.GONE);
-
 
                 Constraints constraints = new Constraints.Builder()
                         .setRequiresBatteryNotLow(true)
                         .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build();
 
-                PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(BackgroundWorker.class, 15, TimeUnit.MINUTES)
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BackgroundWorker.class)
                         .setConstraints(constraints)
                         .build();
 
-                OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(BackgroundWorker.class).build();
                 WorkManager workManager = WorkManager.getInstance(getApplicationContext());
-                workManager.enqueue(oneTimeWorkRequest);
                 workManager.enqueue(workRequest);
 
                 //Display the log out button
