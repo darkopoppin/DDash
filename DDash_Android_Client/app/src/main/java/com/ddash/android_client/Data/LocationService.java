@@ -114,7 +114,9 @@ public class LocationService {
                         DocumentReference device = FirebaseFirestore.getInstance()
                                 .document("users/" + user + "/Devices/" + Build.DEVICE);
                         Map <String, Object> map = new HashMap<>();
-                        map.put("location", task.getResult().toString());
+                        try {
+                            map.put("location", task.getResult().toString());
+                        }catch(Exception e){;}
                         device.set(map, SetOptions.merge());
                     } else {
                         // when permission is denied, location is turned off

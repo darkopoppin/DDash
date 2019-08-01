@@ -21,6 +21,8 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -141,14 +143,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         if (auth.getCurrentUser() != null) {
             // already signed in
             authentication.setVisibility(View.GONE);
-            Toast.makeText(this, "Welcome "+auth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
+
             /*
             * To get the display name (First name and last name used on sign up) of the current user:
             *           auth.getCurrentUser().getDisplayName()
             * */
+            Toast.makeText(this, "Welcome "+auth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
 
-
-            Toast.makeText(this, auth.getCurrentUser().toString(), Toast.LENGTH_SHORT).show();
         } else {
             // not signed in
             logout.setVisibility(View.GONE);
@@ -204,8 +205,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String userNames = user.getDisplayName();
+                FirebaseAuth user = FirebaseAuth.getInstance();
+                String userNames = user.getCurrentUser().getDisplayName();
                 Toast.makeText(this, "Successfully logged in: "+ userNames, Toast.LENGTH_SHORT).show();
 
                 //Remove the sign in button
