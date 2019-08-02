@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +46,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,8 +57,12 @@ import java.util.concurrent.TimeUnit;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             // already signed in
+            String name = auth.getCurrentUser().getEmail();
             authentication.setVisibility(View.GONE);
             Toast.makeText(this, "Welcome "+auth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
             /*
@@ -204,9 +211,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String userNames = user.getDisplayName();
-                Toast.makeText(this, "Successfully logged in: "+ userNames, Toast.LENGTH_SHORT).show();
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseFirestore firebase = FirebaseFirestore.getInstance();
+                Map<String,Object> map = new HashMap<>();
+
+                String userID = auth.getUid();
+                String email = auth.getCurrentUser().getEmail();
+                map.put("email", email);
+                firebase.collection("users").document(userID).set(map, SetOptions.merge());
+                Toast.makeText(this, "Successfully logged in: "+ email, Toast.LENGTH_SHORT).show();
 
                 //Remove the sign in button
                 Button authentication = findViewById(R.id.main_button_signin);
