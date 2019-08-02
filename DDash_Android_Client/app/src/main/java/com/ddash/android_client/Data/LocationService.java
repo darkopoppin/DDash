@@ -36,4 +36,78 @@ public class LocationService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+
+    /**
+     * Checks if the device's location settings meet the requirements of
+     * the app location settings
+     */
+    public void checkLocationSettings(Context context){
+        //specifies the types of location services the client is interested in using
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        //get the device's location settings
+        SettingsClient client = LocationServices.getSettingsClient(context);
+        //checks if the current device's settings satisfy app's location needs
+        Task<LocationSettingsResponse> result = client.checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try{
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    //App's location needs are satisfied. Do your thing here:
+                }
+                //ApiException is an exception to be returned by a Task when a call to Google Play services has failed
+                catch(ApiException exception){
+                    switch (exception.getStatusCode()){
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            //App's location needs are not satisfied. But it could be fixed by showing the user a dialog
+                            try{
+                                //ApiException but with a possible resolution
+                                ResolvableApiException resolvable = (ResolvableApiException) exception;
+                                //starts an intent to resolve the failure
+                                //the result is returned in onActivityResult()
+                                resolvable.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS);
+                            }
+                            catch(IntentSender.SendIntentException e){
+                                //Ignore
+                            }
+                            catch(ClassCastException e){
+                                //Ignore
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            //App's location needs are not satisfied and it cannot be fixed
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    public static void getLastKnownLocation(Context context){
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(context);
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(Task<Location> task) {
+                    if (task.isSuccessful()) {
+                        String user = FirebaseAuth.getInstance().getUid();
+                        DocumentReference device = FirebaseFirestore.getInstance()
+                                .document("users/" + user + "/Devices/" + Build.DEVICE);
+                        Map <String, Object> map = new HashMap<>();
+                        try {
+                            map.put("location", task.getResult().toString());
+                        }catch(Exception e){;}
+                        device.set(map, SetOptions.merge());
+                    } else {
+                        // when permission is denied, location is turned off
+                        Log.d("myLocation", "false");
+                    }
+                }
+            });
+        }
+    }
+
+
 }

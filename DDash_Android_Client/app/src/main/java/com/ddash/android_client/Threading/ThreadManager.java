@@ -67,6 +67,7 @@ public class ThreadManager {
         mainActivity = activity;
         //runnable object, initial delay, delay, time unit
         EXECUTOR.scheduleWithFixedDelay(new Memory(), 3, 3, TimeUnit.SECONDS);
+
     }
 
     //the task object containing all the data (see MemoryTask), taskID (memory - 1, CPU - 2)
