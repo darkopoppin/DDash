@@ -1,18 +1,17 @@
 # DDash
 
 
-## Device Dashboard - centralized view of your device data
+## Device Dashboard - centralized view of your devices data
 
 DDash is a system that collects data from each of your devices, and reports it to a central dashboard. 
 
 Our native software, specifically created for Android and sends device information (system metadata, resource usage, etc.) to a central server that you can query through any web browser.
 
-*This is a Work In Progress. Currently we only have an Android app that runs on Android devices and displays device data through the app's UI. See the project timeline for a list of future updates.*
-
+*This is a Work In Progress. See the project timeline for a list of future updates.*
 
 ## DDash Android Client
 
-A user-friendly Android app to collect information about your Android device, with a built-in UI.
+A user-friendly Android app which collects information about your Android device, with a built-in UI. The data is kept on our Cloud Firestore Firebase in individual user accounts and each account can have multiple devices. The dynamic data like RAM, Battery status and Location is updated in the database in an interval of 15 minutes. 
 
 Requires **Android version 5.0, Lollipop (release 21)**.
 
@@ -37,13 +36,13 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 
 ### Known issues or TODO's
 * **CPU** usage information can not be retrieved (Android OS limitation).
-* The app does not report device information anywhere yet. All data is kept **local**.
-* The app does not run in the **background**.
+* Send regular location updates (every 5 mins) to the Firebase.
+* 2 memory leaks 
 
 
 ## Project timeline
 
-* Currently working on Firebase.
+* Currently working on Firebase and fixing bugs and memory leaks.
 * Next steps in the project: 
   * Web-based dashboard.
   * Desktop device support (maybe). 
