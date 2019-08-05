@@ -29,7 +29,7 @@ public class MyApplication extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel locationServiceChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    "LocationSettings",
+                    "LocationService",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             NotificationManager manager = getSystemService(NotificationManager.class);

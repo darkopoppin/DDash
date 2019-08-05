@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -31,15 +32,19 @@ public class GoogleApiCallback implements GoogleApiClient.ConnectionCallbacks, G
 
     @Override
     public void onConnected(Bundle bundle){
-        Intent intentTest = new Intent(activity, LocationBroadcastReceiver.class);
-        AlarmManager alarmManager = (AlarmManager) MyApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
-        MyApplication.getAppContext().startService(intentTest);
-        intentTest.setAction(LocationBroadcastReceiver.ACTION_PROCESS_UPDATES);
+        Intent intentTest = new Intent(activity, LocationService.class);
         LocationSettings locationSettings = new LocationSettings(activity);
         LocationRequest locationRequest = locationSettings.createLocationRequest();
         locationSettings.checkLocationSettings(MyApplication.getAppContext());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.getAppContext(),
+        PendingIntent pendingIntent;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        pendingIntent = PendingIntent.getForegroundService(MyApplication.getAppContext(),
                 LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        else{
+            pendingIntent = PendingIntent.getService(MyApplication.getAppContext(),
+                    LOCATION_REQUEST_CODE, intentTest, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         if (ContextCompat.checkSelfPermission(MyApplication.getAppContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             LocationServices.getFusedLocationProviderClient(MyApplication.getAppContext()).requestLocationUpdates(locationRequest, pendingIntent);
     }

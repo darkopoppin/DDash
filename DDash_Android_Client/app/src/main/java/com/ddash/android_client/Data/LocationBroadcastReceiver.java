@@ -29,15 +29,15 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
                 LocationResult result = LocationResult.extractResult(intent);
                 if (result != null){
                     List<Location> locations = result.getLocations();
+                    Map<String, Object> map = new HashMap<>();
                     for (Location l : locations){
-                        String user = FirebaseAuth.getInstance().getUid();
-                        DocumentReference document = FirebaseFirestore.getInstance()
-                                .document("users/" + user + "/Devices/" + Build.DEVICE);
-                        Map<String, Object> map = new HashMap<>();
                         map.put("location", l);
-                        document.set(map, SetOptions.merge());
                         Log.d("myLocation", l.toString());
                     }
+                    String user = FirebaseAuth.getInstance().getUid();
+                    DocumentReference document = FirebaseFirestore.getInstance()
+                            .document("users/" + user + "/Devices/" + Build.DEVICE);
+                    document.set(map, SetOptions.merge());
                 }
             }
         }

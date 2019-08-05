@@ -63,6 +63,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
@@ -155,7 +156,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             * To get the display name (First name and last name used on sign up) of the current user:
             *           auth.getCurrentUser().getDisplayName()
             * */
-            Toast.makeText(this, "Welcome "+auth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
+            for(UserInfo userInfo : auth.getCurrentUser().getProviderData()){
+                if (userInfo != null)
+                    name = userInfo.getDisplayName();
+            }
+            Toast.makeText(this, "Welcome "+name, Toast.LENGTH_LONG).show();
 
         } else {
             // not signed in
@@ -220,10 +225,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 String email = auth.getCurrentUser().getEmail();
                 map.put("email", email);
                 firebase.collection("users").document(userID).set(map, SetOptions.merge());
-                Toast.makeText(this, "Successfully logged in: "+ email, Toast.LENGTH_SHORT).show();
 
-                FirebaseAuth user = FirebaseAuth.getInstance();
-                String userNames = user.getCurrentUser().getDisplayName();
+                String userNames = auth.getCurrentUser().getDisplayName();
                 Toast.makeText(this, "Successfully logged in: "+ userNames, Toast.LENGTH_SHORT).show();
 
 
