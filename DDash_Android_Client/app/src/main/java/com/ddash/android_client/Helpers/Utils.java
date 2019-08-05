@@ -22,8 +22,7 @@ public class Utils {
      */
     public static double convertBytes(long bytes) {
         double fBytes = (double) bytes;
-        for (int i = 0; i < 4; i++) {
-            if (fBytes>1000)
+        for (int i = 0; i < 3; i++) {
                 fBytes = fBytes / 1024;
         }
         return fBytes;
