@@ -17,7 +17,7 @@ import java.util.Map;
 public class Utils {
 
     /**
-     * Converts bytes to GB if the value is > 1000 MB otherwise it converts to MB
+     * Converts bytes to GB
      * returns double number
      */
     public static double convertBytes(long bytes) {
