@@ -11,7 +11,7 @@ Our native software, specifically created for Android and sends device informati
 
 ## DDash Android Client
 
-A user-friendly Android app which collects information about your Android device, with a built-in UI. The data is kept on our Cloud Firestore Firebase in individual user accounts and each account can have multiple devices. The dynamic data like RAM, Battery status and Location is updated in the database in an interval of 15 minutes. 
+A user-friendly Android app which collects information about your Android device, with a built-in UI. The data is kept on our Cloud Firestore Firebase in individual user accounts and each account can have multiple devices. The dynamic data like RAM, battery status is updated in the database in an interval of 15 minutes, but the location is more frequently. 
 
 Requires **Android version 5.0, Lollipop (release 21)**.
 
@@ -26,7 +26,7 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 
 ### Screenshots
 <p>App home window with summary information:</p>
-<img alt="app home window" src=/images/homepage.png width=300>
+<img alt="app home window" src=/images/main_activity.png width=300>
 
 <p>Extra network information:</p>
 <img alt="extra network info window" src=/images/device-2019-07-17-network-extra.png>
