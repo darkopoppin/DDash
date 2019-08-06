@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     public static final String FETCHED_DATA = "com.ddash.android_client.FETCHED_DATA";
     private final int PERMISSION_REQUEST_CODE = 0;
+    private final int READ_EXTERNAL_STORAGE = 0;
+    private final int ACCESS_FINE_LOCATION = 1;
     private final int REQUEST_CHECK_SETTINGS = 0;
     private static final int RC_SIGN_IN = 123;
     private boolean googlePlayServices = false;
@@ -266,25 +268,31 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Thread internal = new ScanStorage(phoneStorage.getInternal());
         Thread sdCard = new ScanStorage(phoneStorage.getSdCard());
 
-        //if storage permission has been granted
+        //ArrayLists containing the general info of the storage internal[total, os total, free, used]
+        Map<String, Long> intStorage = phoneStorage.getInternalStorage();
+
+        //Display the internal storage in UI
+        TextView internalText = findViewById(R.id.main_text_internal_storage);
+        double internalFree= Utils.convertBytes(intStorage.get("internalAvailable"));
+        double internalTotal = Utils.convertBytes(intStorage.get("internalTotal"));
+        internalText.setText(String.format("%.2fGB used of %.2fGB", internalTotal-internalFree, internalTotal));
+
+        //Vector UI thingy majigga
+        int percentage = Utils.convertToPercentage(internalTotal-internalFree,internalTotal);
+
+        VectorMasterView internalUi = findViewById(R.id.main_vector_internal);
+        PathModel internalPath = internalUi.getPathModelByName("internal");
+
+        //scan internal storage
+        internal.start();
+
+        //if read external storage permission has been granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
             //ArrayLists containing the general info of the storage internal[total, os total, free, used] | external[total, free, used]
-            Map<String, Long> intStorage = phoneStorage.getInternalStorage();
             Map<String, Long> extStorage = phoneStorage.getSdCardStorage();
 
-            //Display the respective storage in UI
-            TextView internalText = findViewById(R.id.main_text_internal_storage);
-            double internalFree= Utils.convertBytes(intStorage.get("internalAvailable"));
-            double internalTotal = Utils.convertBytes(intStorage.get("internalTotal"));
-            internalText.setText(String.format("%.2fGB used of %.2fGB", internalTotal-internalFree, internalTotal));
-
-            //Vector UI thingy majigga
-            int percentage = Utils.convertToPercentage(internalTotal-internalFree,internalTotal);
-
-            VectorMasterView internalUi = findViewById(R.id.main_vector_internal);
-            PathModel internalPath = internalUi.getPathModelByName("internal");
-
+            //Display the external storage in UI
             float trimEnd = (float) percentage/100;
             internalPath.setTrimPathEnd(trimEnd);
             TextView externalText = findViewById(R.id.main_text_external_storage);
@@ -293,38 +301,29 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             PathModel externalPath = externalUi.getPathModelByName("internal");
 
             if (extStorage == null){
-
                 externalPath.setStrokeColor(Color.RED);
                 externalText.setText("No SD card.");
-
             } else {
-
                 double externalFree = Utils.convertBytes(extStorage.get("sdAvailable"));
                 double externalTotal = Utils.convertBytes(extStorage.get("sdTotal"));
                 int percentageInternal = Utils.convertToPercentage(externalTotal-externalFree,externalTotal);
                 float trimEndExternal = (float) percentageInternal/100;
                 externalPath.setTrimPathEnd(trimEndExternal);
-
-
                 externalText.setText(String.format("%.2fGB used of %.2fGB",externalTotal-externalFree ,externalTotal ));
             }
 
-            internal.start();
             sdCard.start();
             try {
-
                 sdCard.join();
-
             }
             catch (InterruptedException e){
 
             }
-            ((ScanStorage) sdCard).printFiles();
         }
         //if storage permission is not granted
         else {
-            phoneStorage.getInternalStorage();
-            internal.start();
+            TextView internalStorage = findViewById(R.id.main_text_external_storage);
+            internalStorage.setText(getString(R.string.storage_permission_denied));
         }
     }
 
@@ -369,7 +368,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             disconnected.setText("");               //Don't display anything on the widget
         }
 
-        String ssid = network.getSsid();            //Hardcoded fields used in the Network card UI
+        String ssid;
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            ssid = network.getSsid();            //Hardcoded fields used in the Network card UI
+        else
+            ssid = "Location permission denied";
         String ip = network.getIp();
         String mac = network.getmacAddress();
         text = text+ "SSID: "+ ssid + "\n" +
@@ -490,4 +493,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             lessThan23SDK = true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        for(int i : grantResults){
+            switch (i){
+                case READ_EXTERNAL_STORAGE:
+                    if(grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                        getStorage();
+                case ACCESS_FINE_LOCATION:
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                        displayNetworkData();
+            }
+        }
+    }
 }
