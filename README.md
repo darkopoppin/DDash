@@ -25,14 +25,18 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 * **Location.**
 
 ### Screenshots
+
 <p>App home window with summary information:</p>
-<img alt="app home window" src=/images/main_activity.png width=300>
+<img alt="app home window" src=/images/main-activity.png width=300>
 
 <p>Extra network information:</p>
 <img alt="extra network info window" src=/images/device-2019-07-17-network-extra.png>
 
 <p>Extra system information:</p>
 <img alt="extra system info window" src=/images/device-2019-07-17-system-extra.png>
+
+<p>Sign in/Signup functionality to access database</p>
+<img alt="Sign in / Sign up activity" src=/images/sign_in_intent.png width=300>
 
 ### Known issues or TODO's
 * **CPU** usage information can not be retrieved (Android OS limitation).
@@ -42,7 +46,7 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 
 ## Project timeline
 
-* Currently working on Firebase and fixing bugs and memory leaks.
+* Currently working on Firebase database and fixing bugs and memory leaks.
 * Next steps in the project: 
   * Web-based dashboard.
   * Desktop device support (maybe). 
