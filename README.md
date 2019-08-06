@@ -26,7 +26,7 @@ Requires **Android version 5.0, Lollipop (release 21)**.
 
 ### Screenshots
 <p>App home window with summary information:</p>
-<img alt="app home window" src=/images/homepage.png width=300>
+<img alt="app home window" src=/images/main_activity.png width=300>
 
 <p>Extra network information:</p>
 <img alt="extra network info window" src=/images/device-2019-07-17-network-extra.png>
