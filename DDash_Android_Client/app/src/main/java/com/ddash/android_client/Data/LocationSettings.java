@@ -12,6 +12,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.ddash.MyApplication;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,19 +29,20 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class LocationSettings {
 
-    private Activity activity;
+    private WeakReference activity;
     private LocationRequest locationRequest;
     private final int REQUEST_CHECK_SETTINGS = 0;
 
 
     public LocationSettings(Activity activity){
-        this.activity = activity;
+        this.activity = new WeakReference(activity);
     }
 
 
@@ -85,7 +87,12 @@ public class LocationSettings {
                                 ResolvableApiException resolvable = (ResolvableApiException) exception;
                                 //starts an intent to resolve the failure
                                 //the result is returned in onActivityResult()
-                                resolvable.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS);
+                                Activity mainActivity = (Activity) activity.get();
+                                if (mainActivity == null){
+                                    activity = new WeakReference(MyApplication.getAppContext());
+                                    mainActivity = (Activity) activity.get();
+                                }
+                                resolvable.startResolutionForResult(mainActivity, REQUEST_CHECK_SETTINGS);
                             }
                             catch(IntentSender.SendIntentException e){
                                 //Ignore

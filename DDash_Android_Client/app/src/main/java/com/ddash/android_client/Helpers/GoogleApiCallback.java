@@ -1,10 +1,8 @@
-package com.ddash.android_client;
+package com.ddash.android_client.Helpers;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -13,7 +11,6 @@ import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 
 import com.ddash.MyApplication;
-import com.ddash.android_client.Data.LocationBroadcastReceiver;
 import com.ddash.android_client.Data.LocationService;
 import com.ddash.android_client.Data.LocationSettings;
 import com.google.android.gms.common.ConnectionResult;

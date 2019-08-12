@@ -7,6 +7,7 @@ import android.util.Log;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.ddash.MyApplication;
 import com.ddash.android_client.Data.Memory;
 import com.ddash.android_client.R;
 import com.ddash.android_client.Helpers.Utils;
@@ -14,6 +15,7 @@ import com.sdsmdg.harjot.vectormaster.VectorMasterView;
 import com.sdsmdg.harjot.vectormaster.models.PathModel;
 
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +23,7 @@ public class ThreadManager {
     private static ThreadManager managerInstance;
     private final ScheduledThreadPoolExecutor EXECUTOR;
     Handler handler;
-    private Activity mainActivity;
+    private WeakReference mainActivity;
 
     private final int MEMORY = 1;
 
@@ -38,33 +40,36 @@ public class ThreadManager {
         handler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message inputMessage){
-                Log.d("myHandler", "inside");
-                switch (inputMessage.what){
-                    case(MEMORY):
-                        MemoryTask memoryTask =(MemoryTask) inputMessage.obj;
-                        TextView memoryText = mainActivity.findViewById(R.id.main_text_ram);
-                        double totalM = memoryTask.getTotalMemory();
-                        Log.d("myMemoryTotal", Double.toString(totalM));
-                        double usedM = memoryTask.getUsedMemory();
-                        Log.d("myMemoryUsed", Double.toString(usedM));
-                        int percentage = Utils.convertToPercentage(usedM, totalM);
-                        //setting the text
-                        memoryText.setText(String.format("RAM\n%d%%", percentage));
-                        //changing the size of the vector to match the used memory
-                        VectorMasterView ramVector = mainActivity.findViewById(R.id.main_vector_ram);
-                        PathModel path = ramVector.getPathModelByName("path");
-                        float trimEnd = (float) percentage / 100;
-                        path.setTrimPathEnd(trimEnd);
-                        ramVector.update();
+                Activity activity = (Activity) mainActivity.get();
+                if(activity==null)
+                    mainActivity = new WeakReference(MyApplication.getContext());
+                else {
+                    switch (inputMessage.what) {
+                        case (MEMORY):
+                            MemoryTask memoryTask = (MemoryTask) inputMessage.obj;
+                            TextView memoryText = activity.findViewById(R.id.main_text_ram);
+                            double totalM = memoryTask.getTotalMemory();
+                            Log.d("myMemoryTotal", Double.toString(totalM));
+                            double usedM = memoryTask.getUsedMemory();
+                            Log.d("myMemoryUsed", Double.toString(usedM));
+                            int percentage = Utils.convertToPercentage(usedM, totalM);
+                            //setting the text
+                            memoryText.setText(String.format("RAM\n%d%%", percentage));
+                            //changing the size of the vector to match the used memory
+                            VectorMasterView ramVector = activity.findViewById(R.id.main_vector_ram);
+                            PathModel path = ramVector.getPathModelByName("path");
+                            float trimEnd = (float) percentage / 100;
+                            path.setTrimPathEnd(trimEnd);
+                            ramVector.update();
 
+                    }
                 }
-
             }
         };
     }
 
     public void runTasks(Activity activity){
-        mainActivity = activity;
+        mainActivity = new WeakReference<Activity>(activity);
         //runnable object, initial delay, delay, time unit
         EXECUTOR.scheduleWithFixedDelay(new Memory(), 3, 3, TimeUnit.SECONDS);
 

@@ -3,4 +3,5 @@
     <string name="sample_data_text">Failed to replace sample text with actual data</string>
     <string name="ram">RAM\n</string>
     <string name="storage_permission_denied">No storage permission</string>
+    <string name="calculating">"Calculating charging time</string>
 </resources>

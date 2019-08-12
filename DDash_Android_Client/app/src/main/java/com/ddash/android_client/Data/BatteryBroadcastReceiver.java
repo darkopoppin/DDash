@@ -51,7 +51,7 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
                     batteryData.put("test", "inside");
                     document.set(batteryData, SetOptions.merge());
                     batteryImage.setImageResource(R.drawable.battery_charging);
-                    batteryCharging.setText("Charging");
+                    batteryCharging.setText(R.string.calculating);
 
                     if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P){
                         TextView batteryTime = activity.findViewById(R.id.main_text_time);
@@ -61,7 +61,7 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
                             time.displayTime(batteryTime);
                         }
                         else
-                            batteryTime.setText("Calculating");
+                            batteryTime.setText(R.string.calculating);
                     }
                     break;
                 case(BATTERY_DISCHARGING):
